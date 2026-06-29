@@ -1,0 +1,570 @@
+<div id="page-type" data-page="dashboard"></div>
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — Test Platforma</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+  :root {
+    --primary: #06BBCC;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    --border-radius: 15px;
+  }
+
+  body {
+    background-color: var(--light-bg);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    overflow-x: hidden; /* Sahifani o'ngga-chapga surilishini taqiqlaydi */
+    width: 100%;
+  }
+
+  /* SIDEBAR - Umumiy stili */
+  .sidebar {
+    width: 260px;
+    background: var(--primary);
+    min-height: 100vh;
+    transition: all 0.3s ease-in-out;
+    position: fixed;
+    z-index: 1050;
+    left: -260px; /* Mobilda yashirin */
+    color: white;
+  }
+
+  .sidebar.show { left: 0; }
+
+  .sidebar a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    padding: 12px 15px;
+    margin: 5px 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.2s;
+  }
+
+  .sidebar a:hover, .sidebar a.active {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    transform: translateX(4px);
+  }
+
+  /* MAIN CONTENT */
+  main {
+    margin-left: 0;
+    padding: 15px;
+    /* width: 100%; */
+    box-sizing: border-box; /* Paddingni kenglik ichiga kiritadi, tashqariga emas */
+    overflow-x: hidden;
+    transition: margin-left 0.3s ease;
+  }
+
+  /* KOMPYUTER UCHUN MAXSUS */
+  @media (min-width: 992px) {
+    .sidebar { left: 0; position: fixed; }
+    main { 
+      margin-left: 260px !important; 
+      width: calc(100% - 260px); 
+    }
+    .sidebar-overlay { display: none !important; }
+  }
+
+  /* KARTALAR VA BOSHQA ELEMENTLAR */
+  .card-stats {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #fff;
+    transition: 0.3s;
+  }
+
+  .card-stats:hover { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0,0,0,.15); }
+
+  .stat-icon {
+    width: 55px; height: 55px;
+    border-radius: 12px;
+    background: var(--light-bg);
+    color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+
+  .sidebar-overlay {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1040; display: none;
+  }
+  .sidebar-overlay.show { display: block; }
+
+  /* Sidebar ochilganda orqa fonni xira qilish */
+.sidebar-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); /* 50% qora fon */
+    z-index: 1040;
+    display: none; /* Odatiy holatda yashirin */
+}
+
+.sidebar-overlay.show {
+    display: block; /* Sidebar ochilganda ko'rinadi */
+}
+
+/* Mobil menyuni silliq ochilishi */
+@media (max-width: 991px) {
+    .sidebar {
+        position: fixed;
+        left: -260px; /* Yashirin */
+        z-index: 1050;
+        transition: 0.3s ease;
+    }
+    .sidebar.show {
+        left: 0; /* Ochilgan */
+    }
+}
+.badge-status-real {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.status-active { background: #e6f6ec; color: #038d3d; border: 1px solid #c2e7cf; }
+.status-closed { background: #f8f9fa; color: #6c757d; border: 1px solid #dee2e6; }
+
+/* Profil avatarining stili */
+.user-avatar-circle {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #00b5ad 0%, #00827f 100%);
+    color: white;
+    border-radius: 12px; /* To'rtburchak-yumaloq shakl */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* Strelkani yo'qotish */
+.user-profile-trigger::after {
+    display: none !important;
+}
+
+/* Dropdown menyu chiroyli chiqishi uchun */
+.dropdown-menu {
+    min-width: 180px;
+    border-radius: 12px !important;
+    padding: 8px;
+}
+
+.dropdown-item {
+    border-radius: 8px !important;
+    transition: 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f5f9 !important;
+}
+
+@media (max-width: 576px) {
+    /* 1. Jadval va asosiy matnlar */
+    .table td { 
+        padding: 10px 5px !important; 
+    }
+    .fw-bold { 
+        font-size: 13px !important; 
+        line-height: 1.2; 
+    }
+    .small { 
+        font-size: 11px !important; 
+    }
+
+    /* 2. Profil blokini yuqori o'ng burchakka qotirish */
+    .dropdown {
+        position: absolute !important;
+        top: 8px !important; 
+        right: 8px !important; 
+        z-index: 2000; 
+    }
+
+    /* 3. Ism va "Foydalanuvchi" yozuvlarini ustma-ust joylash */
+    .dropdown .text-end.me-3 {
+        display: flex !important;
+        flex-direction: column !important; 
+        justify-content: center;
+        margin-right: 8px !important;
+        line-height: 1.0 !important; 
+    }
+
+    .dropdown .text-end.me-3 .fw-bold {
+        font-size: 10px !important;
+        max-width: 85px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #333;
+        margin-bottom: 2px !important;
+    }
+
+    .dropdown .text-end.me-3 .text-muted {
+        display: block !important;
+        font-size: 9px !important;
+        color: #6c757d !important;
+        margin-top: 0 !important;
+    }
+
+    /* 4. Avatar doirasi */
+    .user-avatar-circle {
+        width: 30px !important; 
+        height: 30px !important;
+        font-size: 10px !important;
+        border-radius: 6px !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 5. KARTOCHKANI (DROPDOWN) MATNNING AYNI OSTIGA KO'TARISH */
+    .dropdown-menu {
+        position: absolute !important;
+        /* Qiymat 28px dan 20px ga tushirildi - bu menyuni ism va logoning tagiga qadaydi */
+        top: 10px !important;    
+        right: 0 !important; 
+        left: auto !important;
+        min-width: 140px !important;
+        margin-top: 0 !important;
+        padding: 4px !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        border: 1px solid #eee !important;
+        background-color: #ffffff !important;
+    }
+
+    .dropdown-item {
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+        border-radius: 5px !important;
+    }
+}
+
+</style>
+</head>
+<body>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar p-3">
+    <div class="d-flex align-items-center mb-4">
+      <div class="me-2">
+        <div class="rounded-circle bg-white text-dark d-flex align-items-center justify-content-center" style="width:46px;height:46px;font-weight:700">TP</div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:1.1rem">Test Platforma</div>
+      </div>
+    </div>
+
+    <nav class="nav flex-column gap-1">
+      <a class="nav-link active" href="#"><i class="bi bi-speedometer2"></i> Dashboard  </a>
+  
+    <a class="nav-link" href="{% url 'tests' %}">
+  <i class="bi bi-list-task"></i> Testlar
+</a>
+<a class="nav-link" href="{% url 'kazus_tests' %}">
+  <i class="bi bi-file-text"></i> Kazus testlar
+</a>
+<a class="nav-link" href="{% url 'closed_tests' %}">
+  <i class="bi bi-lock"></i> Yopiq testlar
+</a>
+<a href="{% url 'search_tests_page' %}" class="dash-card">
+  <div class="icon-wrapper color-search">
+    <i class="bi bi-search-heart"></i>
+  </div>
+  <span>Testlarni qidirish</span>
+</a>
+<a class="nav-link" href="{% url 'ranking' %}">
+  <i class="bi bi-bar-chart"></i> Reyting
+</a>
+  <a class="nav-link" href="{% url 'group-page' %}">
+    <i class="bi bi-people"></i> Guruhlar
+</a>
+
+    <a class="nav-link" href="{% url 'olympiad-page' %}">
+    <i class="bi bi-trophy"></i> Olimpiadalar
+</a>
+      <!-- <a class="nav-link" href="#users"><i class="bi bi-person"></i> Foydalanuvchilar</a>
+      <a class="nav-link" href="#payments"><i class="bi bi-credit-card"></i> To‘lovlar</a> -->
+      <a class="nav-link" href="{% url 'profile-page' %}">
+    <i class="bi bi-person-circle"></i> Profil
+</a>
+      <hr class="text-light">
+     
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow-1 p-4" style="margin-left:10px">
+    <!-- TOPBAR -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-outline-primary d-lg-none me-2" id="btnToggleSidebar"><i class="bi bi-list"></i></button>
+        <h1 class="mb-0 text-primary">Dashboard</h1>
+      </div>
+      <div class="d-flex align-items-center">
+        <div class="me-3 small-muted text-end">
+      <div class="d-flex justify-content-end align-items-center mb-4 p-2">
+  
+  <div class="dropdown">
+    <a class="d-flex align-items-center text-decoration-none dropdown-toggle user-profile-trigger" 
+       href="#" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+      
+      <div class="text-end me-3">
+        <div class="fw-bold text-dark" style="font-size: 0.9rem;">{{ user.first_name }} {{ user.last_name }}</div>
+        <div class="text-muted" style="font-size: 11px;">Foydalanuvchi</div>
+      </div>
+
+      <div class="user-avatar-circle shadow-sm">
+        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+      </div>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="userMenu">
+      <li>
+        <a class="dropdown-item py-2" href="{% url 'profile-page' %}">
+          <i class="bi bi-person me-2 text-primary"></i> Profil
+        </a>
+      </li>
+      <li><hr class="dropdown-divider"></li>
+      <li>
+        <a class="dropdown-item py-2 text-danger fw-bold" href="{% url 'logout' %}">
+          <i class="bi bi-box-arrow-right me-2"></i> Chiqish
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-md-3">
+        <div class="card card-stats p-3">
+          <div class="d-flex align-items-center">
+            <div class="stat-icon me-3"><i class="bi bi-journal-text"></i></div>
+            <div>
+              <div class="small-muted">Umumiy testlar</div>
+              <h4 id="statTests">—</h4>
+              <div class="small-muted">Aktiv <span id="statActiveTests">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="card card-stats p-3">
+          <div class="d-flex align-items-center">
+            <div class="stat-icon me-3"><i class="bi bi-people"></i></div>
+            <div>
+              <div class="small-muted">Foydalanuvchilar</div>
+              <h4 id="statUsers">—</h4>
+              <div class="small-muted">Yangi (kun) <span id="statNewUsers">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="card card-stats p-3">
+          <div class="d-flex align-items-center">
+            <div class="stat-icon me-3"><i class="bi bi-collection"></i></div>
+            <div>
+              <div class="small-muted">Guruhlar</div>
+              <h4 id="statGroups">—</h4>
+              <div class="small-muted">Olimpiada guruhlari <span id="statOlympGroups">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="card card-stats p-3">
+          <div class="d-flex align-items-center">
+            <div class="stat-icon me-3"><i class="bi bi-trophy"></i></div>
+            <div>
+              <div class="small-muted">Olimpiadalar</div>
+              <h4 id="statOlympiads">—</h4>
+              <div class="small-muted">Yaqinlashayotgan <span id="statUpcomingOlymp">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN PANELS -->
+    <div class="row">
+      <div class="col-12 col-lg-8 mb-4">
+        <div class="card p-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0 text-primary"><i class="bi bi-list-check"></i> Testlarga oid ma'lumotlar</h5>
+            <!-- <div>
+              <button class="btn btn-sm btn-primary me-2" id="btnCreateTest"><i class="bi bi-plus-lg"></i> Yaratish</button>
+              <button class="btn btn-sm btn-outline-primary" id="btnRefreshTests"><i class="bi bi-arrow-clockwise"></i></button>
+            </div> -->
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+               <div class="table-responsive border-0">
+  <table class="table align-middle mb-0" style="min-width: 400px;">
+    <thead>
+      <tr class="text-secondary small fw-bold">
+        <th class="border-0 ps-3">TEST NOMLANISHI</th>
+        <th class="border-0 text-center d-none d-md-table-cell">SAVOLLAR/VAQT</th>
+        <th class="border-0 text-end pe-3">HOLATI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-bottom">
+        <td class="ps-3 py-3">
+          <div class="fw-bold text-dark">Yakuniy nazorat: 1-bosqich</div>
+          <div class="small text-muted">
+             Kategoriya: <span class="text-dark">Umumiy fanlar</span> 
+             <span class="d-md-none ms-1">• 20 ta / 30 min</span>
+          </div>
+        </td>
+        <td class="text-center d-none d-md-table-cell text-muted small">
+            <div>20 ta savol</div>
+            <div>30 daqiqa</div>
+        </td>
+        <td class="text-end pe-3">
+          <span class="badge-status-real status-active">OCHIQ</span>
+        </td>
+      </tr>
+      <tr class="border-bottom">
+        <td class="ps-3 py-3">
+          <div class="fw-bold text-dark">Saralash imtihoni (Demo)</div>
+          <div class="text-muted small">
+             Kategoriya: <span class="text-dark">Kirish testlari</span>
+             <span class="d-md-none ms-1">• 50 ta / 60 min</span>
+          </div>
+        </td>
+        <td class="text-center d-none d-md-table-cell text-muted small">
+            <div>50 ta savol</div>
+            <div>60 daqiqa</div>
+        </td>
+        <td class="text-end pe-3">
+          <span class="badge-status-real status-closed">YOPILGAN</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+              </thead>
+              <tbody id="testsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-4 mb-4">
+        <div class="card p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0 text-primary"><i class="bi bi-people"></i> Guruhlar</h6>
+            <!-- <button class="btn btn-sm btn-outline-primary" id="btnCreateGroup"><i class="bi bi-plus"></i></button> -->
+          </div>
+          <ul class="list-group" id="groupsList"></ul>
+        </div>
+        <div class="card p-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0 text-primary"><i class="bi bi-trophy"></i> Olimpiadalar</h6>
+            <!-- <button class="btn btn-sm btn-outline-primary" id="btnCreateOlymp"><i class="bi bi-plus"></i></button> -->
+          </div>
+          <ul class="list-group" id="olympiadsList"></ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- JS -->
+<script>
+// 2. SIDEBAR KODLARI (O'ZGARISHSIZ QOLADI)
+const btnToggle = document.getElementById("btnToggleSidebar");
+const sidebar = document.querySelector(".sidebar");
+
+if (btnToggle) {
+    btnToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        sidebar.classList.toggle("show");
+    });
+}
+
+document.addEventListener("click", (e) => {
+    if (sidebar.classList.contains("show") && !sidebar.contains(e.target)) {
+        sidebar.classList.remove("show");
+    }
+});
+
+  // Vaqtni yangilab turish funksiyasi (o'zingizniki)
+  function updateTime(){
+    const timeEl = document.getElementById("currentTime");
+    if(timeEl) {
+      const now = new Date();
+      timeEl.textContent = now.toLocaleString("uz-UZ");
+    }
+  }
+  setInterval(updateTime, 1000); 
+  updateTime();
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // API-dan ma'lumotlarni yuklab olish
+    fetch('/api/dashboard/stats/')
+        .then(response => {
+            if (!response.ok) throw new Error("API xatolik yuz berdi");
+            return response.json();
+        })
+        .then(data => {
+            // Umumiy testlar
+            document.getElementById('statTests').innerText = data.total_tests;
+            document.getElementById('statActiveTests').innerText = data.active_tests;
+
+            // Foydalanuvchilar
+            document.getElementById('statUsers').innerText = data.total_users;
+            document.getElementById('statNewUsers').innerText = data.new_users;
+
+            // Guruhlar
+            document.getElementById('statGroups').innerText = data.total_groups;
+            document.getElementById('statOlympGroups').innerText = data.olympiad_groups;
+
+            // Olimpiadalar
+            document.getElementById('statOlympiads').innerText = data.total_olympiads;
+            document.getElementById('statUpcomingOlymp').innerText = data.upcoming_olympiads;
+        })
+        .catch(error => {
+            console.error("Xatolik:", error);
+        });
+});
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

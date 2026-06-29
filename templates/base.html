@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Online Test Platformasi{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body { background:#06BBCC; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; padding:20px; }
+        
+        /* Toast bildirishnomasi har bir sahifada ishlashi uchun base'ga qo'shamiz */
+        #toast {
+            visibility:hidden;
+            min-width:250px;
+            background:#333;
+            color:#fff;
+            text-align:center;
+            border-radius:6px;
+            padding:14px;
+            position:fixed;
+            left:50%;
+            bottom:40px;
+            transform:translateX(-50%);
+            z-index:99999;
+            font-size:16px;
+            opacity:0;
+            transition: opacity .4s, bottom .4s;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div id="toast"></div>
+
+    {% block content %}
+    {% endblock %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

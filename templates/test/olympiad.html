@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olimpiada Platformasi</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+    font-family: "Nunito", sans-serif;
+    background: #f7f2ff;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* ===== SIDEBAR (Kahoot style) ===== */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: linear-gradient(180deg, #7b2ff7, #333  );
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 28px 20px;
+    color: white;
+    text-align: center;
+    border-right: 3px solid rgba(255,255,255,0.18);
+    box-shadow: 5px 0 20px rgba(0,0,0,0.2);
+}
+
+.sidebar h2 {
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+}
+
+/* ===== MENU BUTTON ===== */
+.menu-btn {
+    width: 100%;
+    border: none;
+    padding: 14px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 18px;
+    margin-bottom: 12px;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.menu-btn:hover {
+    background: rgba(255,255,255,0.32);
+    transform: scale(1.04);
+}
+
+.menu-btn.active {
+    background: white;
+    color: #7a14ff;
+    font-weight: 800;
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(255,255,255,0.55);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    margin-left: 260px;
+    padding: 40px;
+}
+
+/* ===== CARD (kahoot soft box) ===== */
+.card {
+    background: white;
+    border-radius: 24px;
+    padding: 25px;
+    border: none;
+    box-shadow: 0 6px 25px rgba(123, 47, 247, 0.15);
+    transition: 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 28px rgba(123, 47, 247, 0.25);
+}
+
+/* ===== TABLE ===== */
+table {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    font-size: 16px;
+}
+
+table thead {
+    background: #f3e6ff;
+    color: #7a14ff;
+    font-weight: 800;
+}
+
+table tbody tr {
+    transition: 0.2s;
+}
+
+table tbody tr:hover {
+    background: #faf3ff;
+    transform: scale(1.01);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    font-weight: 700;
+    font-size: 16px;
+    border-radius: 16px !important;
+    padding: 10px 18px !important;
+}
+
+/* Kahoot style colors */
+.btn-success {
+    background: #00d26a;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,210,106,0.4);
+}
+.btn-success:hover { transform: scale(1.05); }
+
+.btn-primary {
+    background: #7b2ff7;
+    border: none;
+    box-shadow: 0 4px 12px rgba(123,47,247,0.4);
+}
+.btn-primary:hover { transform: scale(1.05); }
+
+.btn-info {
+    background: #ff2fdc;
+    border: none;
+    color: white;
+    box-shadow: 0 4px 12px rgba(255,47,220,0.4);
+}
+.btn-info:hover { transform: scale(1.05); }
+
+.btn-outline-primary {
+    border-radius: 14px;
+    border-color: #7b2ff7;
+    color: #7b2ff7;
+    font-weight: 700;
+}
+.btn-outline-primary:hover {
+    background: #7b2ff7;
+    color: white;
+    transform: scale(1.04);
+}
+
+/* ===== INPUTS ===== */
+input.form-control {
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 2px solid #d6baff;
+    font-size: 16px;
+}
+
+input.form-control:focus {
+    border-color: #7b2ff7;
+    box-shadow: 0 0 5px rgba(123,47,247,0.4);
+}
+
+/* ===== QUESTIONS ===== */
+.answer-btn {
+    border-radius: 14px !important;
+    padding: 12px 18px !important;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.answer-btn:hover {
+    transform: scale(1.05);
+}
+
+/* ===== TOAST ===== */
+#toast-container {
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    z-index: 99999;
+}
+
+/* ===== HIDDEN ===== */
+.hidden {
+    display: none !important;
+}
+
+#options-container button {
+    width: 100%;
+    text-align: left;
+}
+
+/* ===== ZAMONAVIY MOBIL DASHBOARD DIZAYNI ===== */
+@media (max-width: 768px) {
+    /* Sidebarni oddiy qatordan Dashboardga aylantiramiz */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important; /* Endi u tepada turadi */
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Tugmalar 2 qator bo'lib chiqadi */
+        gap: 12px !important;
+        padding: 20px !important;
+        background: #f7f2ff !important;
+        border: none !important;
+        box-shadow: none !important;
+
+        @media (max-width: 768px) {
+    /* Sidebarni Dashboard (katakcha) uslubida saqlaymiz */
+    .sidebar {
+        width: 100% !important;
+        position: relative !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        padding: 15px !important;
+        height: auto !important;
+        background: #f7f2ff !important;
+    }
+
+    .sidebar h2 { grid-column: span 2; display: block !important; margin-bottom: 10px; }
+    .sidebar .menu-btn { height: 80px !important; margin: 0 !important; border-radius: 15px !important; }
+
+    /* JADVALNI YAXLIT (CHETGA CHIQMAYDIGAN) QILISH */
+    .card { padding: 8px !important; overflow: hidden !important; }
+
+    .table {
+        display: table !important; /* Jadval shakli buzilmaydi */
+        width: 100% !important;
+        margin: 0 !important;
+        font-size: 11px !important; /* Shrift ixcham, hamma narsa sig'ishi uchun */
+    }
+
+    .table th, .table td {
+        padding: 8px 3px !important; /* Chetki bo'shliqlarni minimal qildik */
+        text-align: center !important;
+        vertical-align: middle !important;
+        word-break: break-word !important; /* Uzun so'zlar pastga tushadi */
+    }
+
+    /* Tugmani jadval ichida ixcham qilish */
+    .join-btn, .btn-sm {
+        padding: 4px 6px !important;
+        font-size: 10px !important;
+        width: 100% !important;
+        white-space: nowrap !important;
+    }
+
+}
+    }
+
+    /* Sidebardagi sarlavhani chiroyli qilish */
+    .sidebar h2 {
+        grid-column: span 2 !important; /* Sarlavha butun enini egallaydi */
+        display: block !important;
+        color: #7b2ff7 !important;
+        font-size: 24px !important;
+        margin-bottom: 10px !important;
+        text-align: left !important;
+    }
+
+    .sidebar hr { display: none !important; }
+
+    /* Tugmalarni chiroyli kartochkalarga aylantiramiz */
+    .sidebar .menu-btn {
+        background: white !important;
+        color: #7b2ff7 !important;
+        height: 100px !important; /* Balandroq tugmalar */
+        border-radius: 20px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        box-shadow: 0 4px 15px rgba(123, 47, 247, 0.1) !important;
+        border: 2px solid transparent !important;
+        transition: 0.3s !important;
+    }
+
+    /* Bosilgan holati */
+    .sidebar .menu-btn.active {
+        background: #7b2ff7 !important;
+        color: white !important;
+        box-shadow: 0 8px 20px rgba(123, 47, 247, 0.3) !important;
+    }
+
+    /* Tugma ichidagi ikonkalarni kattalashtirish */
+    .sidebar .menu-btn i, .sidebar .menu-btn span:first-child {
+        font-size: 28px !important;
+        margin-bottom: 8px !important;
+    }
+
+    /* Asosiy kontent maydoni */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 20px !important;
+        background: #f7f2ff !important;
+    }
+
+    /* Jadvallar va kartochkalar */
+    .card {
+        border-radius: 20px !important;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05) !important;
+        border: none !important;
+    }
+
+    /* Inputlarni chiroyli qilish */
+    input.form-control {
+        border-radius: 12px !important;
+        padding: 12px !important;
+        font-size: 16px !important;
+    }
+
+    /* Pastki qismda bo'shliq qolmasligi uchun */
+    body { padding-bottom: 50px !important; }
+}
+
+/* Mobil qurilmalar uchun Toastni pastga tushirish */
+@media (max-width: 768px) {
+    #toast-container {
+        top: auto !important;          /* Tepani bekor qilish */
+        bottom: 20px !important;       /* Pastdan joy */
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        padding: 0 15px !important;    /* Yonlardan biroz masofa */
+        position: fixed !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        z-index: 999999 !important;
+    }
+
+    .toast {
+        width: 100% !important;
+        max-width: 500px !important;   /* Juda keng bo'lib ketmasligi uchun */
+        background: #28a745  !important;
+        color: white !important;
+        border-radius: 15px !important;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.2) !important;
+        margin-bottom: 10px !important;
+        animation: slideUpMobile 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+}
+
+/* Animatsiya */
+@keyframes slideUpMobile {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>🏆 Olimpiada</h2>
+
+    <button class="menu-btn tab-btn" data-tab="user-olympiads">📋 Olimpiadalar</button>
+    <button class="menu-btn tab-btn" data-tab="add-question">➕ Savol qo‘shish</button>
+    <button class="menu-btn tab-btn" data-tab="user-test">📝 Mening Testim</button>
+    <button class="menu-btn tab-btn" data-tab="leaderboard">🏅 Reyting</button>
+
+
+    <hr style="border-color:white">
+
+    <button class="menu-btn tab-btn" data-tab="create">➕ Guruh yaratish</button>
+    <button class="menu-btn tab-btn" data-tab="list">📄 Guruhlar ro‘yxati</button>
+    <button class="menu-btn tab-btn" data-tab="detail">ℹ️ Guruh tafsiloti</button>
+</div>
+
+<div class="main-content">
+
+<!-- ================= USER: Olympiad List =================== -->
+<div id="tab-user-olympiads" class="card p-4 hidden">
+    <h4 class="fw-bold">📋 Mavjud Olimpiadalar</h4>
+    <table class="table mt-3 table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nomi</th>
+                <th>Boshlanish</th>
+                <th>Tugash</th>
+                <th>Harakat</th>
+            </tr>
+        </thead>
+        <tbody id="user-olympiad-list"></tbody>
+    </table>
+</div>
+
+<!-- ================= USER: Start Test =================== -->
+<div id="tab-user-test" class="card p-4 hidden">
+    <h4 class="fw-bold">📝 Test</h4>
+    <p id="test-info">Testni boshlash uchun guruhga qo‘shiling.</p>
+    <button id="user-start-test" class="btn btn-success mb-3" disabled>Testni Boshlash</button>
+    <div id="question-box"></div>
+    <button id="finish-test-btn"
+        class="btn btn-danger mt-4 w-100 hidden">
+    ✅ Testni yakunlash
+   </button>
+    <div id="test-progress" class="mt-3"></div>
+</div>
+
+<!-- ================= USER: Leaderboard =================== -->
+<div id="tab-leaderboard" class="card p-4 hidden">
+    <h4 class="fw-bold">🏅 Realtime Reyting</h4>
+    <table class="table mt-3 table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Foydalanuvchi</th>
+                <th>Ball</th>
+            </tr>
+        </thead>
+        <tbody id="leaderboard-table"></tbody>
+    </table>
+</div>
+
+<!-- ================= ADMIN: Create Group =================== -->
+<div id="tab-create" class="card p-4 hidden">
+    <h4 class="fw-bold">➕ Guruh yaratish</h4>
+    <form id="create-form">
+        <label class="fw-semibold">Guruh nomi</label>
+        <input id="group-name" class="form-control mb-3" required>
+        <label class="fw-semibold">Boshlanish</label>
+        <input type="datetime-local" id="start-time" class="form-control mb-3" required>
+        <label class="fw-semibold">Tugash</label>
+        <input type="datetime-local" id="end-time" class="form-control mb-3" required>
+        <label class="fw-semibold">Max. ishtirokchi</label>
+        <input type="number" id="max-participants" class="form-control mb-3" required>
+        <button class="btn btn-primary w-100">Yaratish</button>
+    </form>
+</div>
+
+<!-- ================= ADMIN: Group List =================== -->
+<div id="tab-list" class="card p-4 hidden">
+    <h4 class="fw-bold">📄 Guruhlar ro‘yxati</h4>
+    <table class="table mt-3 table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nomi</th>
+                <th>Boshlanish</th>
+                <th>Tugash</th>
+                <th>Maks</th>
+            </tr>
+        </thead>
+        <tbody id="groups-list"></tbody>
+    </table>
+</div>
+
+<!-- ================= ADMIN: Group Detail =================== -->
+<div id="tab-detail" class="card p-4 hidden">
+    <h4 class="fw-bold">ℹ️ Guruh Tafsiloti</h4>
+    <form id="detail-form" class="d-flex gap-2 mb-3">
+        <input id="detail-id" class="form-control" placeholder="ID kiriting">
+        <button type="button" id="view-group-btn" class="btn btn-info">Ko‘rish</button>
+    </form>
+    <div id="group-detail"></div>
+    <h5 class="mt-3 fw-bold">Ishtirokchilar</h5>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Ball</th>
+            </tr>
+        </thead>
+        <tbody id="participants-table"></tbody>
+    </table>
+</div>
+
+
+<!-- ================= ADMIN: Add Question =================== -->
+<div id="tab-add-question" class="card p-4 hidden">
+    <h4 class="fw-bold">➕ Savol qo‘shish</h4>
+    <form id="add-question-form">
+        <label class="fw-semibold">Guruh</label>
+        <select id="question-group" class="form-control mb-3" required>
+            <option value="">Guruhni tanlang</option>
+        </select>
+
+        <label class="fw-semibold">Savol matni</label>
+        <textarea id="question-text" class="form-control mb-3" rows="3" required placeholder="Savol matnini kiriting"></textarea>
+
+        <label class="fw-semibold">Variantlar (vergul bilan ajratilsin, masalan: A,B,C,D)</label>
+        <input id="question-options" class="form-control mb-3" placeholder="A,B,C,D" required>
+
+        <label class="fw-semibold">To‘g‘ri javob</label>
+        <input id="question-answer" class="form-control mb-3" placeholder="Masalan: D" required>
+
+        <label class="fw-semibold">Qiyinchilik darajasi (1-5)</label>
+        <input type="number" id="question-difficulty" class="form-control mb-3" min="1" max="5" value="1">
+
+        <button type="submit" class="btn btn-primary w-100">Savol qo‘shish</button>
+    </form>
+</div>
+
+
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* --- CSRF & API --- */
+    function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? match[2] : null;
+    }
+    const csrftoken = getCookie("csrftoken");
+
+   async function api(url, method = "GET", body = null) {
+    // 1. LocalStorage'dan tokenni qidiramiz
+    const token = localStorage.getItem("token");
+
+    const headers = { 
+        "Content-Type": "application/json", 
+        "Accept": "application/json" 
+    };
+
+    
+    if (token) {
+        headers["Authorization"] = `Token ${token}`;
+    }
+
+    if (csrftoken && method !== "GET") headers["X-CSRFToken"] = csrftoken;
+
+    try {
+       
+        const res = await fetch(url, { 
+            method, 
+            headers, 
+            body: body ? JSON.stringify(body) : null 
+        });
+
+        let data;
+        try { data = await res.json(); } catch(e) { data = {}; }
+        
+        if (!res.ok) throw data;
+        return data;
+    } catch (error) {
+        if (error instanceof TypeError) throw { detail: "Tarmoq xatosi yoki serverga ulanish imkonsiz." };
+        throw error;
+    }
+}
+
+    /* --- TOAST --- */
+    const toastContainer = document.getElementById("toast-container");
+    function showToast(msg, type = "info") {
+        if (!toastContainer) return;
+        const toast = document.createElement("div");
+        toast.className = `toast align-items-center text-bg-${type} border-0`;
+        toast.setAttribute("role","alert");
+        toast.setAttribute("aria-live","assertive");
+        toast.setAttribute("aria-atomic","true");
+        toast.innerHTML = `<div class="d-flex">
+            <div class="toast-body">${msg}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>`;
+        toastContainer.appendChild(toast);
+        const bsToast = new bootstrap.Toast(toast, { delay: 4000 });
+        bsToast.show();
+        toast.addEventListener('hidden.bs.toast', () => toast.remove());
+    }
+
+    /* --- GLOBAL STATE --- */
+    let selectedGroupId = null;
+    let score = 0;
+    let answeredQuestions = 0;
+    let totalQuestions = 0;
+
+    const startTestBtn = document.getElementById("user-start-test");
+    const questionBox = document.getElementById("question-box");
+    const finishBtn = document.getElementById("finish-test-btn");
+
+/* --- TAB MANAGEMENT (Tuzatilgan versiya) --- */
+    
+    // 1. Funksiya shakliga keltiramiz, shunda uni "orqaga" tugmasi bosilganda ham chaqira olamiz
+    function switchTab(tabId, saveHistory = true) {
+        const targetTab = document.getElementById("tab-" + tabId);
+        if (!targetTab) return;
+
+        // Hammasini yashirish
+        document.querySelectorAll("[id^='tab-']").forEach(x => x.classList.add("hidden"));
+        document.querySelectorAll(".tab-btn").forEach(x => x.classList.remove("active"));
+
+        // Tanlanganini ko'rsatish
+        targetTab.classList.remove("hidden");
+        const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+        if (activeBtn) activeBtn.classList.add("active");
+
+        // Ma'lumotlarni yuklash
+        if (tabId === "user-olympiads") loadUserOlympiads();
+        if (tabId === "list") loadGroups();
+        if (tabId === "add-question") loadQuestionGroups();
+
+        // MUHIM: Brauzer tarixiga yozish
+        if (saveHistory) {
+            history.pushState({ tab: tabId }, "", "#" + tabId);
+        }
+    }
+
+    // Tugmalarga hodisani bog'lash
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            switchTab(btn.dataset.tab);
+        });
+    });
+
+    // 2. MOBILE ORQAGA QAYTISHNI BOSHQARISH
+    window.addEventListener("popstate", (event) => {
+        if (event.state && event.state.tab) {
+            // Agar tarixda saqlangan tab bo'lsa, o'shanga o'tamiz (lekin qayta tarixga yozmaymiz)
+            switchTab(event.state.tab, false);
+        } else {
+            // Agar tarix tugasa, asosiy sahifaga qaytamiz
+            switchTab("user-olympiads", false);
+        }
+    });
+
+    /* --- USER: JOIN OLYMPIADS --- */
+    async function loadUserOlympiads() {
+        try {
+            const groups = await api("/api/olympiads/groups/");
+            const html = groups.map(g => `<tr>
+                <td>${g.id}</td>
+                <td>${g.name}</td>
+                <td>${g.start_time || '-'}</td>
+                <td>${g.end_time || '-'}</td>
+                <td><button class="btn btn-success btn-sm join-btn" data-group-id="${g.id}">Qo‘shilish</button></td>
+            </tr>`).join("");
+            document.getElementById("user-olympiad-list").innerHTML = html;
+            document.querySelectorAll('.join-btn').forEach(btn => {
+                btn.onclick = () => joinGroup(parseInt(btn.dataset.groupId));
+            });
+        } catch (e) {
+            console.error(e);
+            showToast("Olimpiadalarni yuklashda xato!", "danger");
+        }
+    }
+
+    async function joinGroup(id) {
+        try {
+            await api(`/api/olympiads/groups/${id}/join/`, "POST");
+            selectedGroupId = id;
+            if (startTestBtn) startTestBtn.disabled = false;
+            showToast("Guruhga qo‘shildingiz!", "success");
+            loadQuestionGroups();
+        } catch(e) {
+            if (e.status === 400 && e.detail?.includes("allaqachon")) {
+                selectedGroupId = id;
+                if (startTestBtn) startTestBtn.disabled = false;
+                showToast("Siz allaqachon guruhdasiz", "info");
+                loadQuestionGroups();
+            } else {
+                console.error(e);
+                showToast(e.detail || "Guruhga qo‘shishda xato!", "danger");
+            }
+        }
+    }
+
+    /* --- TEST: START --- */
+    if (startTestBtn) {
+        startTestBtn.onclick = async () => {
+            if (!selectedGroupId) return showToast("Guruh tanlanmagan!", "warning");
+            try {
+                const data = await api(`/api/olympiads/${selectedGroupId}/start/`, "POST");
+                const questions = data.questions || [];
+                if (!questions.length) {
+                    questionBox.innerHTML = "<b>Hozircha savollar mavjud emas!</b>";
+                    return;
+                }
+                renderAllQuestions(questions);
+            } catch (e) {
+                console.error(e);
+                showToast(e.detail || "Testni boshlashda xato!", "danger");
+            }
+        };
+    }
+
+    function renderAllQuestions(questions){
+        score = 0;
+        answeredQuestions = 0;
+        totalQuestions = questions.length;
+        if(finishBtn) finishBtn.classList.add("hidden");
+
+        questionBox.innerHTML = questions.map(q => {
+            let html = `<div class="card p-3 mb-3" id="q-card-${q.id}"><h5>${q.text}</h5>`;
+            if(q.options && q.options.length){
+                html += `<div>`;
+                q.options.forEach(o=>{
+                    html += `<button class="btn btn-outline-primary m-1 answer-btn" data-qid="${q.id}" data-option="${o}">${o}</button>`;
+                });
+                html += `</div>`;
+            } else {
+                html += `<input type="text" class="form-control mb-2 text-answer" data-qid="${q.id}" placeholder="Javobni kiriting">`;
+                html += `<button class="btn btn-success submit-text-answer" data-qid="${q.id}">Yuborish</button>`;
+            }
+            html += `</div>`;
+            return html;
+        }).join("");
+
+        // Variant tugmalari
+        document.querySelectorAll('.answer-btn').forEach(btn=>{
+            btn.onclick = async () => {
+                const qid = btn.dataset.qid;
+                const answer = btn.dataset.option;
+                await submitAnswer(qid,answer);
+                btn.disabled = true;
+                checkFinishButton();
+            };
+        });
+
+        // Text javob tugmalari
+        document.querySelectorAll('.submit-text-answer').forEach(btn=>{
+            btn.onclick = async () => {
+                const qid = btn.dataset.qid;
+                const input = document.querySelector(`.text-answer[data-qid="${qid}"]`);
+                const ans = input.value.trim();
+                if(!ans) return showToast("Javob kiriting!","warning");
+                await submitAnswer(qid,ans);
+                btn.disabled = true; input.disabled = true;
+                checkFinishButton();
+            };
+        });
+
+        // Finish tugmasi onclick
+        if(finishBtn){
+            finishBtn.onclick = async () => {
+                try {
+                    await api(`/api/olympiads/${selectedGroupId}/finish/`, "POST");
+                    showToast("Test yakunlandi!", "success");
+                    await updateLeaderboard();
+                    questionBox.innerHTML = "";
+                    document.getElementById("test-progress").innerText = `Ball: ${score}`;
+                    updateLeaderboard();
+                    finishBtn.classList.add("hidden");
+                } catch(e){
+                    console.error(e);
+                    showToast(e.detail || "Testni yakunlashda xato!", "danger");
+                }
+            };
+        }
+    }
+
+    function checkFinishButton(){
+        answeredQuestions++;
+        if(answeredQuestions >= totalQuestions){
+            if(finishBtn) finishBtn.classList.remove("hidden");
+        }
+    }
+
+    async function submitAnswer(qid, answer){
+        try{
+            const data = await api(`/api/olympiads/${selectedGroupId}/submit/`,"POST",{
+                question_id: qid,
+                selected: answer
+            });
+            // Ballni yangilash va progressni ko‘rsatish
+            score = data.score ?? score;
+            document.getElementById("test-progress").innerText = 
+                `Ball: ${score} | To‘g‘ri: ${data.correct_answers} | Xato: ${data.wrong_answers}`;
+            updateLeaderboard();
+        }catch(e){
+            console.error(e); 
+            showToast(e.detail || "Javob yuborishda xato!","danger");
+        }
+    }
+
+/* --- LEADERBOARD (Tog'rilangan versiya) --- */
+async function updateLeaderboard() {
+    if (!selectedGroupId) return;
+
+    try {
+        // Keshni oldini olish uchun URL oxiriga vaqt qo'shamiz
+        const resp = await api(`/api/olympiads/${selectedGroupId}/leaderboard/?t=${new Date().getTime()}`);
+        const tableBody = document.getElementById("leaderboard-table");
+        if (!tableBody) return;
+
+        tableBody.innerHTML = ""; 
+
+        if (resp.leaderboard && resp.leaderboard.length > 0) {
+            resp.leaderboard.forEach((user, index) => {
+                let row = document.createElement("tr");
+
+                // Ismni serverdan kelganidek olamiz
+                let nameToShow = user.full_name || user.username || "Noma'lum";
+
+                // Agar bu foydalanuvchi hozirgi kirgan odam bo'lsa
+                if (user.is_me) { 
+                    row.className = "table-success fw-bold";
+                }
+
+                row.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td>${nameToShow}</td>
+                    <td class="text-end"><span class="badge bg-primary">${user.score || 0} </span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        } else {
+            tableBody.innerHTML = "<tr><td colspan='3' class='text-center'>Hozircha natijalar yo'q.</td></tr>";
+        }
+    } catch (e) {
+        console.error("Reyting xatosi:", e);
+    }
+}
+
+// Har 10 soniyada reytingni yangilab turish
+setInterval(() => {
+    if (selectedGroupId && document.getElementById("tab-leaderboard").classList.contains("hidden") === false) {
+        updateLeaderboard();
+    }
+}, 10000);
+
+    /* --- ADMIN: SAVOL QO‘SHISH --- */
+    const groupSelect = document.getElementById("question-group");
+    const addQuestionForm = document.getElementById("add-question-form");
+
+    async function loadQuestionGroups() {
+        try {
+            const groups = await api("/api/olympiads/groups/");
+            if (groupSelect) {
+                groupSelect.innerHTML =
+                    '<option value="">Guruhni tanlang</option>' +
+                    groups.map(g => `<option value="${g.id}">${g.name}</option>`).join("");
+            }
+        } catch (e) { showToast("Guruhlarni yuklashda xato!", "danger"); }
+    }
+
+    if (addQuestionForm) {
+        addQuestionForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const opts = document.getElementById("question-options").value
+                .split(",").map(x => x.trim()).filter(Boolean);
+            const payload = {
+                group: parseInt(groupSelect.value),
+                question: document.getElementById("question-text").value,
+                answers: opts,
+                correct_answer: document.getElementById("question-answer").value.trim(),
+                difficulty: parseInt(document.getElementById("question-difficulty").value) || 1
+            };
+            try {
+                await api("/api/olympiads/questions/", "POST", payload);
+                showToast("Savol qo‘shildi!", "success");
+                addQuestionForm.reset();
+                loadQuestionGroups();
+            } catch (e) {
+                console.error(e);
+                showToast(e.detail || "Savol qo‘shishda xato!", "danger");
+            }
+        });
+    }
+
+    /* --- ADMIN: CREATE GROUP --- */
+    const createForm = document.getElementById("create-form");
+    if (createForm) {
+        createForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            try {
+                await api("/api/olympiads/groups/", "POST", {
+                    name: document.getElementById("group-name").value,
+                    start_time: new Date(document.getElementById("start-time").value).toISOString(),
+                    end_time: new Date(document.getElementById("end-time").value).toISOString(),
+                    max_participants: parseInt(document.getElementById("max-participants").value) || 0
+                });
+                showToast("Guruh yaratildi!", "success");
+                createForm.reset();
+                loadGroups();
+                loadQuestionGroups();
+            } catch (e) {
+                console.error(e);
+                showToast(e.detail || "Guruh yaratishda xato!", "danger");
+            }
+        });
+    }
+
+    /* --- ADMIN: GROUP LIST --- */
+    async function loadGroups() {
+        try {
+            const groups = await api("/api/olympiads/groups/");
+            document.getElementById("groups-list").innerHTML =
+                groups.map(g => `<tr><td>${g.id}</td><td>${g.name}</td><td>${g.start_time||'-'}</td><td>${g.end_time||'-'}</td><td>${g.max_participants}</td></tr>`).join("");
+        } catch(e) {
+            showToast("Guruhlarni yuklashda xato!", "danger");
+        }
+    }
+
+    /* --- GURUH TAFSILOTI --- */
+    const viewGroupBtn = document.getElementById("view-group-btn");
+    if (viewGroupBtn) {
+        viewGroupBtn.addEventListener("click", async () => {
+            const groupId = document.getElementById("detail-id").value.trim();
+            if (!groupId) return showToast("Guruh ID kiriting!", "warning");
+            try {
+                const data = await api(`/api/olympiads/groups/${groupId}/`);
+                document.getElementById("group-detail").innerHTML = `
+                    <p><b>Guruh nomi:</b> ${data.name}</p>
+                    <p><b>Boshlanish vaqti:</b> ${data.start_time || '-'}</p>
+                    <p><b>Tugash vaqti:</b> ${data.end_time || '-'}</p>
+                    <p><b>Ishtirokchilar soni:</b> ${data.participants_count || 0}</p>
+                `;
+                const participants = data.participants || [];
+                const tbody = document.getElementById("participants-table");
+                tbody.innerHTML = participants.map((p, i) => `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${p.username}</td>
+                        <td>${p.score ?? 0}</td>
+                    </tr>
+                `).join("");
+            } catch (e) {
+                console.error(e);
+                showToast(e.detail || "Guruhni yuklashda xato!", "danger");
+            }
+        });
+    }
+
+    /* --- INITIAL LOAD --- */
+    loadGroups();
+    loadQuestionGroups();
+    loadUserOlympiads();
+
+});
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

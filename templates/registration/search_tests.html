@@ -1,0 +1,2249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testlar Kutubxonasi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root { 
+    --primary: #4a90e2; 
+    --accent: #b721ff;
+    --bg: #f8f9fa; 
+    --text: #2d3436; 
+}
+
+body { 
+    font-family: 'Segoe UI', system-ui, sans-serif; 
+    background: var(--bg); 
+    color: var(--text); 
+    margin: 0; 
+}
+
+/* Yuqori qism - Asl gradient saqlandi */
+.header { 
+    background: linear-gradient(135deg, #21d4fd 0%, var(--accent) 100%);
+    padding: 40px 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.container { 
+    max-width: 1100px; 
+    margin: 0 auto 50px; /* Manfiy marginni olib tashladik */
+    padding: 0 20px; 
+}
+
+/* Qidiruv va Filtr - Mobil uchun moslashuvchan qilindi */
+.search-container {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap; /* Mobil ekranda elementlarni pastga tushiradi */
+}
+
+.search-box {
+    grid-column: 1 / -1; /* To'liq kenglikni egallashi uchun */
+    position: relative; /* Ikonkani ichkarida joylashtirish uchun shart */
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.search-box input {
+    width: 100% !important;
+    height: 55px; /* Balandlikni biroz kichraytirdik */
+    padding: 12px 20px 12px 50px !important; /* Chapdan 50px joy ikonka uchun */
+    font-size: 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    outline: none;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Padding kenglikka ta'sir qilmasligi uchun */
+}
+
+.search-box input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
+}
+
+.search-box i {
+    position: absolute;
+    left: 18px; /* Chapdan masofa */
+    top: 50%;
+    transform: translateY(-50%); /* Vertikal markazlash */
+    font-size: 18px;
+    color: #94a3b8;
+    z-index: 10; /* Inputning ustida ko'rinishi uchun */
+    pointer-events: none; /* Ikonkani bosganda ham input ishlashi uchun */
+}
+
+.search-box i, .filter-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 16px;
+    z-index: 2;
+}
+
+/* Har bir filtrga alohida rang berish */
+.search-box i { color: #64748b; background: #f1f5f9; } /* Qidiruv - Kulrang */
+
+.filter-group:nth-of-type(2) i { background: #f3e8ff; color: #a855f7; } /* Turlar - Binafsha */
+.filter-group:nth-of-type(3) i { background: #e0f2fe; color: #0ea5e9; } /* Fan - Ko'k */
+.filter-group:nth-of-type(4) i { background: #fee2e2; color: #ef4444; } /* Vaqt - Qizil */
+.filter-group:nth-of-type(5) i { background: #dcfce7; color: #22c55e; } /* Savollar - Yashil */
+
+.search-box input:focus, .filter-group select:focus, .filter-group input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.filter-box { 
+    flex: 1; 
+    min-width: 200px; 
+}
+
+.filter-box select { 
+    width: 100%; 
+    padding: 12px; 
+    border: 2px solid #eee; 
+    border-radius: 12px; 
+    outline: none; 
+    cursor: pointer; 
+    font-size: 16px; 
+    background: white;
+}
+
+/* Test Kartochkalari - Grid tizimi */
+/* Test Grid */
+.test-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 25px; 
+    margin-top: 40px; /* Qidiruv blokidan masofa tashlaydi */
+    padding-bottom: 50px;
+}
+
+/* Premium Interaktiv Kartochka - To'g'rilangan variant */
+.test-card { 
+    background: #ffffff; 
+    padding: 30px; 
+    border-radius: 28px; 
+    
+    /* 1. Chetki chiziqni biroz quyuqroq va aniqroq qildik */
+    border: 1px solid rgba(0, 0, 0, 0.1); 
+    
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    /* 2. Oq fondan ajratish uchun qorong'uroq va chuqurroq soya */
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.08), 
+        0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Kartochka orqasidagi glow effekti saqlandi */
+.test-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.03) 0%, transparent 70%);
+    z-index: -1;
+    transition: 0.5s;
+}
+
+/* Hover holatida kartochka yanada ko'zga tashlanadi */
+.test-card:hover { 
+    transform: translateY(-15px) scale(1.02); 
+    
+    /* Hoverda chetki chiziq ko'k rang bilan qorong'ulashadi */
+    border-color: rgba(74, 144, 226, 0.5);
+    
+    /* Soya ancha quyuqlashadi, bu "qorong'ulik" effektini beradi */
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+}
+
+.test-card:hover::before {
+    background: radial-gradient(circle, rgba(74, 144, 226, 0.08) 0%, transparent 70%);
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.card-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 18px;
+    /* Ikonka foni ham fondan ajralib turishi uchun biroz kontrast */
+    background: #f1f5f9; 
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    transition: 0.3s;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.test-card:hover .card-icon {
+    transform: rotate(10deg) scale(1.1);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+}
+
+.test-card h3 { 
+    margin: 5px 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111; /* Matnni qop-qora qildik */
+    line-height: 1.3;
+}
+
+/* Ma'lumot qatorlari uchun kontrastli fon */
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+    padding: 8px 12px;
+    background: #f8fafc; /* Ichki qismlar ajralib turishi uchun */
+    border-radius: 10px;
+}
+
+.info-row i { color: var(--primary); font-size: 16px; }
+
+/* Savollar soni badge - Endi ko'k fonda yaqqol ko'rinadi */
+.q-count-badge {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background: var(--primary);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+}
+
+/* Tugma */
+.btn-solve {
+    margin-top: 10px;
+    height: 50px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    border: none;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-solve::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+    z-index: -1;
+}
+
+.btn-solve:hover::after { left: 100%; }
+
+/* Test jarayoni uchun yangi stillar */
+.quiz-status-bar { 
+    display: flex; justify-content: space-between; align-items: center; 
+    margin-bottom: 20px; background: #fff; padding: 15px; 
+    border-radius: 15px; border: 1px solid #eee; 
+}
+.timer-badge { 
+    background: #ff4757; color: white; padding: 8px 15px; 
+    border-radius: 50px; font-weight: bold; font-size: 14px; 
+}
+
+/* Sidebar va Savollar Grid tizimi */
+.quiz-sidebar {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid #edf2f7;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* 30 ta savolni bir qatorga tizish va scroll qilish */
+#dotsContainer {
+    display: flex !important;    /* Qat'iy bir qator */
+    flex-wrap: nowrap !important; /* Pastga tushishni taqiqlash */
+    overflow-x: auto;             /* Gorizontal scroll */
+    gap: 10px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 12px;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbarni chiroyli qilish */
+#dotsContainer::-webkit-scrollbar {
+    height: 5px;
+}
+#dotsContainer::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* Savol raqamlarining stili */
+.q-dot {
+    flex: 0 0 auto;               /* Dumaloqlar siqilib ketmasligi uchun shart */
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+/* HOLATLAR BO'YICHA RANGLAR */
+.q-dot.unsolved {
+    background-color: #e2e8f0;    /* Belgilanmagan - kulrang */
+    color: #64748b;
+}
+
+.q-dot.active {
+    background-color: #3b82f6;    /* Hozirgi savol - ko'k */
+    color: white;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.q-dot.solved {
+    background-color: #22c55e !important; /* Javob berilgan - yashil */
+    color: white !important;
+}
+
+/* Pastki Navigatsiya tugmalari */
+.quiz-footer-nav {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #f8f9fa;
+}
+
+.btn-control {
+    flex: 1;
+    height: 50px;
+    border-radius: 12px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-prev { background: #e2e8f0; color: #475569; }
+.btn-next { background: var(--primary); color: white; }
+.btn-finish { background: #00b894; color: white; }
+.btn-exit { background: white; color: #ff7675; border: 1px solid #ff7675; flex: 0.5; }
+
+/* Progress Bar */
+.progress-container {
+    margin-top: 25px;
+}
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2d3436;
+}
+.progress-bar-bg {
+    height: 10px;
+    background: #edf2f7;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%;
+    background: #00b894;
+    transition: 0.5s width ease;
+}
+
+/* Mobil qurilmalar uchun */
+@media (max-width: 600px) {
+    .test-card { padding: 25px; border-radius: 24px; }
+    .test-grid { gap: 25px; padding: 15px; }
+}
+
+.btn-solve { 
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; 
+    border: none; 
+    padding: 14px; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    font-weight: 600; 
+    font-size: 16px; 
+    transition: 0.3s;
+    width: 100%;
+}
+
+.btn-solve:hover { opacity: 0.9; box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4); }
+
+/* Quiz Sahifasi - Asl ko'rinish */
+/* --- YANGI ZAMONAVIY QUIZ INTERFEYSI --- */
+
+:root {
+    --blue: #3b82f6;
+    --green: #22c55e;
+    --red: #ef4444;
+    --border-color: #e5e7eb;
+    --text-dark: #111827;
+    --bg-page: #f8fafc;
+}
+
+#quiz-page {
+    background: #ffffff !important;
+    max-width: 1000px;
+    min-height: 600px; /* Desktopda vertikal cho'zilish */
+    margin: 40px auto;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* Header sozlamalari */
+.quiz-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.progress-center { flex: 1; max-width: 300px; text-align: center; }
+.progress-bar-small {
+    height: 8px; background: #f1f5f9;
+    border-radius: 10px; overflow: hidden; margin-bottom: 5px;
+}
+.progress-fill-blue { height: 100%; background: var(--blue); transition: 0.5s; }
+.progress-sub { font-size: 12px; color: #64748b; font-weight: 500; }
+
+.timer-right { text-align: right; }
+.timer-val { font-size: 18px; font-weight: 700; color: var(--text-dark); }
+.timer-sub { font-size: 11px; color: #94a3b8; text-transform: uppercase; }
+
+/* Navigator (Nuqtalar) */
+.quiz-sidebar {
+    padding: 15px 30px !important;
+    border-bottom: 1px solid var(--border-color);
+}
+.dots-grid { display: flex !important; flex-wrap: wrap; gap: 10px; }
+
+.q-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #64748b;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px;
+}
+.q-dot.solved { background: var(--green) !important; color: white !important; }
+.q-dot.active { background: var(--blue) !important; color: white !important; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+
+/* Savol va Variantlar (Asl rasm dizayni) */
+.quiz-main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.question-box { width: 100%; max-width: 600px; }
+.question-box p { 
+    font-size: 22px; font-weight: 700; color: #1e293b; 
+    margin-bottom: 30px; text-align: left;
+}
+
+.option-label {
+    display: flex; align-items: center;
+    padding: 16px 20px !important;
+    margin-bottom: 12px !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option-label:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+/* Rasmda ko'ringan tanlangan variant (C) */
+.option-label.active-option {
+    border: 2px solid var(--blue) !important;
+    background: #eff6ff !important;
+}
+
+.option-label input[type="radio"] {
+    width: 20px; height: 20px; margin-right: 15px;
+    accent-color: var(--blue);
+}
+
+/* Footer (Desktop Tugmalar Joylashuvi) */
+/* FOOTER KONTEYNERI */
+.quiz-footer-nav {
+    display: flex !important;
+    flex-direction: row !important; /* Desktopda yonma-yon */
+    justify-content: space-between !important;
+    align-items: center !important; /* TUGMALARNI VERTIKAL CHO'ZILISHINI TO'XTATADI */
+    padding: 20px 30px !important;
+    background: #ffffff !important;
+    border-top: 1px solid var(--border-color) !important;
+    min-height: 90px !important;
+    box-sizing: border-box !important;
+}
+
+/* O'NG TOMONDAGI TUGMALAR (Oldinga/Tugatish) */
+.footer-right-btns {
+    display: flex !important;
+    gap: 15px !important;
+    align-items: center !important;
+}
+
+/* BARCHA TUGMALAR UCHUN UMUMIY STIL */
+.btn-control {
+    /* Bir xil o'lcham desktop uchun */
+    width: 160px !important; 
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+
+    /* Ichidagi matnni markazlash */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+}
+
+/* RANGALR */
+.btn-prev { background: #f1f5f9 !important; color: #475569 !important; }
+.btn-next { background: var(--blue) !important; color: white !important; border: none !important; }
+.btn-finish { background: var(--red) !important; color: white !important; border: none !important; }
+
+/* NATIJA SAHIFASIDAGI TUGMALARNI HAM BIR XIL QILISH */
+#result-page .btn-control {
+    width: 220px !important; /* Natija oynasida biroz kengroq */
+    margin: 0 auto !important;
+}
+
+/* Tugatish tugmasi uchun maxsus qizil dizayn */
+#finishBtn {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+#finishBtn:hover {
+    background: linear-gradient(135deg, #f87171 0%, #ef4444 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4) !important;
+}
+
+/* Tugma "btn-control" klassi bilan bir xil o'lchamda bo'lishini ta'minlash */
+#finishBtn.btn-control {
+    width: 160px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+}
+
+@media (max-width: 640px) {
+    /* Header qismini to'g'rilash */
+    .quiz-header-top {
+        display: block !important;
+        position: relative !important; /* Ichki elementlar uchun tayanch */
+        padding: 10px 15px !important;
+        height: auto !important;
+        overflow: hidden !important; /* Elementlar chiqib ketmasligi uchun */
+    }
+
+    /* Test nomi tepada to'liq qator */
+    .quiz-title-text {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 10px !important;
+        text-align: left !important;
+    }
+
+    /* Diagramma (Progress Bar) */
+    .progress-center {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 5px !important;
+    }
+
+    /* --- ASOSIY O'ZGARISH SHU YERDA --- */
+    
+    /* Yechildi qismi - Chapga qat'iy taqaladi */
+    .progress-sub {
+        display: block !important;
+        float: left !important; /* Majburiy chapga surish */
+        width: auto !important;
+        text-align: left !important;
+        margin: 0 !important;
+    }
+
+    /* Vaqt (Timer) qismi - O'ngga qat'iy taqaladi */
+    .timer-right {
+        display: block !important;
+        float: right !important; /* Majburiy o'ngga surish */
+        width: auto !important;
+        text-align: right !important;
+        margin: 0 !important;
+    }
+
+    /* Float-ni tozalash (Layout buzilmasligi uchun) */
+    .quiz-header-top::after {
+        content: "" !important;
+        display: table !important;
+        clear: both !important;
+    }
+
+    /* Footer tugmalari (Rasmdagidek) */
+    .quiz-footer-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding: 15px !important;
+    }
+
+    .footer-right-btns {
+        display: flex !important;
+        flex-direction: row !important; /* Orqaga va Oldinga yonma-yon */
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .btn-prev, #nextBtn {
+        flex: 1 !important;
+        height: 45px !important;
+    }
+
+    #finishBtn {
+        width: 100% !important;
+        height: 45px !important;
+        margin-top: 5px !important;
+        color: #dc2626 !important; /* Rasmda qizil yozuvli oq tugma */
+        background: #fff !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+}
+
+/* Qidiruv bo'limi uchun umumiy fon va padding */
+.search-section {
+    padding: 0;
+    margin-top: -50px; /* Faqatgina qidiruv blokini gradient ustiga chiqaradi */
+    position: relative;
+    z-index: 10;
+}
+
+/* Oq konteynerni yanada yumshoq va soya bilan qilish */
+.search-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Pastdagi 4 ta filtr uchun */
+    gap: 20px;
+    padding: 25px;
+}
+
+/* Asosiy katta qidiruv inputi */
+.main-search {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6366f1;
+    font-size: 1.2rem;
+}
+
+.main-search input {
+    width: 100%;
+    padding: 18px 20px 18px 55px;
+    border: 2px solid #f1f5f9;
+    border-radius: 16px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+.main-search input:focus {
+    outline: none;
+    border-color: #6366f1;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* Filtrlar panjarasi (Grid) */
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+/* Har bir filtr guruhi */
+/* Har bir filtr guruhining umumiy stili */
+.filter-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Ikonkalar uchun umumiy "badge" stili */
+.filter-group i {
+    position: absolute;
+    left: 8px; /* Input ichidagi joylashuvi */
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* 1. "Barcha turlar" - Binafsha (Gradient bilan) */
+.filter-group:nth-child(2) i {
+    background: rgba(183, 33, 255, 0.15);
+    color: #b721ff;
+}
+
+/* 2. "Fan nomi" - Ko'k */
+.filter-group:nth-child(3) i {
+    background: rgba(74, 144, 226, 0.15);
+    color: #4a90e2;
+}
+
+/* 3. "Vaqt" - To'q sariq/Qizil */
+.filter-group:nth-child(4) i {
+    background: rgba(255, 71, 87, 0.15);
+    color: #ff4757;
+}
+
+/* 4. "Savollar soni" - Yashil */
+.filter-group:nth-child(5) i {
+    background: rgba(0, 184, 148, 0.15);
+    color: #00b894;
+}
+
+/* Hover effekti - Ikonka biroz kattalashadi */
+.filter-group:focus-within i {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Inputlar ichidagi ikonka uchun joyni to'g'rilash */
+.filter-group input, 
+.filter-group select {
+    padding-left: 48px !important; /* Ikonka uchun ko'proq joy */
+    border: 2px solid #f1f5f9;
+}
+
+.filter-group input, 
+.filter-group select {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #475569;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.filter-group input:focus, 
+.filter-group select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
+}
+
+/* Header foni ekranni to'liq qoplashi uchun */
+.header {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Rangni o'zingizga moslang */
+    padding: 80px 0;
+    text-align: center;
+    color: white;
+    margin: 0;
+}
+
+/* Asosiy kontent konteyneri */
+.main-wrapper {
+    max-width: 1600px; /* Sahifa kengligi */
+    margin: 0 auto;    /* Markazga olish */
+    padding: 0 20px;   /* Telefonlarda chetga yopishmasligi uchun */
+    width: 96%;
+    box-sizing: border-box;
+}
+
+/* Qidiruv panelini fon ustiga chiqarish */
+.search-container {
+    margin-top: -40px; /* Fonning ustiga ozgina chiqib turishi uchun */
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+/* Test kartalari orasidagi masofa */
+.test-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px 0;
+}
+
+.btn-solve-purple {
+    background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+    color: white !important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    width: 100%;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(142, 45, 226, 0.3);
+}
+
+.btn-solve-purple:hover {
+    background: linear-gradient(135deg, #4A00E0, #8E2DE2);
+    transform: translateY(-1px);
+}
+
+/* Hech qanday chiziq va fonlarsiz - eng toza va sodda "Savol" stili */
+.question-number {
+    display: block;             /* Alohida qatorda turishi uchun */
+    color: #4e73df;             /* Platformangizning ko'k rangi */
+    font-weight: 700;           /* Qalin va aniq ajralib turadigan */
+    font-size: 18px;            /* Savol matni bilan deyarli bir xil, chiroyli o'lcham */
+    text-transform: capitalize;  /* Faqat bosh harfni katta qiladi: "1-Savol" */
+    margin-bottom: 8px;         /* Pastidagi savol matnidan biroz masofa */
+}
+
+/* Savol matni uchun oddiy va silliq ko'rinish */
+.question-text {
+    margin-top: 0;
+    margin-bottom: 25px;        /* Variantlardan masofa */
+    font-size: 18px;            /* O'qishga juda qulay o'lcham */
+    color: #2d3748;             /* Yumshoq to'q kulrang (ko'zni charchatmaydi) */
+    line-height: 1.5;           /* Qatorlararo ideal masofa */
+    font-weight: 500;           /* Savol matni o'ta qalin bo'lmasligi uchun */
+}
+
+/* 1. Planshetlar va kichik ekranlar (992px gacha) */
+@media screen and (max-width: 992px) {
+    .search-container { 
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    .test-grid {
+        display: grid !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        height: auto !important;
+    }
+    .test-card {
+        display: flex !important;
+    }
+}
+
+/* 2. O'rta o'lchamli qurilmalar (768px gacha) */
+@media (max-width: 768px) {
+    /* Animatsiyani tezlashtirish */
+    .test-card.animate__animated {
+        animation-duration: 0.1s !important;
+        visibility: visible !important;
+        display: flex !important;
+    }
+    /* Search container 768px da ham 2 ustunligicha qoladi (yuqoridagi qoida ishlaydi) */
+}
+
+/* 3. Mobil qurilmalar (600px gacha) */
+@media (max-width: 600px) {
+    .header h1 { font-size: 1.5rem; }
+    .container { margin-top: -20px; }
+    
+    .search-container { 
+        padding: 15px; 
+        gap: 10px; 
+        grid-template-columns: 1fr !important; /* 1 ustunga o'tkazish */
+    }
+    
+    .test-grid {
+        grid-template-columns: 1fr !important; /* 100% kenglik */
+        gap: 15px !important;
+        padding: 10px !important;
+    }
+
+    .test-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 15px !important;
+        box-sizing: border-box !important;
+    }
+
+    #quiz-page { padding: 15px; }
+}
+
+/* 4. Juda kichik ekranlar (500px va undan past) */
+/* 480px va 500px qoidalari 600px ichida qoplanib ketgan, 
+   lekin o'ziga xos 1fr mantiqini shu yerda mustahkamlaymiz */
+@media (max-width: 500px) {
+    .search-container { 
+        grid-template-columns: 1fr !important; 
+    }
+}
+
+/* Umumiy yordamchi klasslar */
+.hidden { display: none !important; }
+
+    </style>
+</head>
+<body>
+<input type="hidden" id="user-auth-status" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+<div id="search-page"> 
+    <div class="header">
+        <div class="header-content"> <h1><i class="bi bi-search-heart"></i> Testlar Kutubxonasi</h1>
+            <p>O'zingizga kerakli testni toping va bilimingizni sinab ko'ring!</p>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="search-container">
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" id="searchInput" placeholder="Test yoki muallif nomi..." oninput="fetchTests()">
+            </div>
+
+            <div class="filter-group">
+                <i class="bi bi-funnel"></i>
+                <select id="catFilter" onchange="fetchTests()">
+                    <option value="">Barcha turlar</option>
+                    <option value="word">Word testlar</option>
+                    <option value="excel">Excel testlar</option>
+                    <option value="txt">Txt testlar</option>
+                    <option value="kazus">Kazus testlar</option>
+                    <option value="yopiq">Yopiq testlar</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                 <i class="bi bi-layers"></i>
+                 <input type="text" id="catFilter" placeholder="Toifa (Yopiq, Kazus...)" oninput="fetchTests()">
+            </div>
+
+            <div class="filter-group">
+                <i class="bi bi-clock"></i>
+                <input type="number" id="durationFilter" placeholder="Vaqt (daq)..." oninput="fetchTests()">
+            </div>
+
+            <div class="filter-group">
+                <i class="bi bi-list-ol"></i>
+                <input type="number" id="qCountFilter" placeholder="Savollar soni..." oninput="fetchTests()">
+            </div>
+        </div>
+
+        <div id="testList" class="test-grid"></div>
+    </div> 
+</div> 
+
+<div id="quiz-page" class="hidden">
+    <div class="main-wrapper"> <div class="quiz-header-top">
+            <div class="quiz-title-text" id="quizTitle">Matematika Testi</div>
+            <div class="progress-center">
+                <div class="progress-bar-small">
+                    <div id="progressBarFill" class="progress-fill-blue" style="width: 0%;"></div>
+                </div>
+                <div class="progress-sub"><span id="solvedCount">0/0</span> Yechildi</div>
+            </div>
+            <div class="timer-right">
+                <div class="timer-val" id="timer">00:00</div>
+                <div class="timer-sub">Qoldi</div>
+            </div>
+        </div>
+
+        <div class="quiz-sidebar">
+            <div class="dots-grid" id="dotsContainer"></div>
+        </div>
+
+        <div class="quiz-main-content">
+            <div id="questionsArea" class="question-box"></div>
+        </div>
+
+        <div class="quiz-footer-nav">
+            <button class="btn-control btn-prev" id="prevBtn" onclick="moveQuestion(-1)">Orqaga</button>
+            <div class="footer-right-btns">
+                <button class="btn-control btn-next" id="nextBtn" onclick="moveQuestion(1)">Oldinga</button>
+                <button type="button" id="finishBtn" class="btn-control" onclick="submitQuiz(event)" style="display:none;">Tugatish</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="result-page" class="hidden">
+    <div class="main-wrapper">
+        <div style="background: white; max-width: 500px; margin: 60px auto; padding: 40px; border-radius: 20px; text-align: center; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div id="result-icon" style="font-size: 70px; margin-bottom: 20px;"></div>
+            <h2 id="result-title" style="color: var(--text-dark); margin-bottom: 10px;"></h2>
+            <p id="result-score" style="font-size: 50px; font-weight: 800; color: var(--blue); margin: 15px 0;"></p>
+            <div id="result-details" style="color: #64748b; margin-bottom: 30px; font-size: 16px;"></div>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+                <button class="btn-control btn-next" onclick="location.reload()">
+                    <i class="bi bi-arrow-clockwise"></i> Qayta topshirish
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// 1. Global o'zgaruvchilar
+let currentSessionId = null;
+let quizQuestions = []; 
+let currentIdx = 0;      
+let userAnswers = {};   
+let timerInterval = null;
+let activeTestId = null;
+
+
+function escapeHTML(str) {
+    if (!str) return "";
+    return str.toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function startTest(testId) {
+    const token = localStorage.getItem('token'); // Foydalanuvchi tokenini olamiz
+    
+    fetch('/api/start-test/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+            // Agar token bo'lsa, uni headerga qo'shish shart!
+            ...(token && { 'Authorization': `Token ${token}` })
+        },
+        body: JSON.stringify({ test_id: testId })
+    })
+    .then(res => {
+        if (!res.ok) {
+            // Agar server 401 yoki 403 bersa, bu avtorizatsiya xatosi
+            if (res.status === 401 || res.status === 403) {
+                alert("Sessiya muddati tugagan. Iltimos, qayta login qiling.");
+                window.location.href = '/login/'; 
+            }
+            return res.json().then(err => { throw err; });
+        }
+        return res.json();
+    })
+    .then(data => {
+        // Muhim: data.session_id kelayotganini qat'iy tekshiramiz
+        if (data && data.session_id) {
+            // 1. LocalStoragega yozish
+            localStorage.setItem('my_session_id', data.session_id);
+            
+            // 2. Global o'zgaruvchiga yozish
+            window.currentSessionId = data.session_id; 
+            
+            console.log("Sessiya muvaffaqiyatli boshlandi. ID:", data.session_id);
+            
+            // 3. Savollarni yuklash
+            loadQuestions(testId); 
+        } else {
+            console.error("Serverdan session_id kelmadi:", data);
+            alert("Xatolik: Server sessiya ID sini taqdim etmadi.");
+        }
+    })
+    .catch(err => {
+        console.error("Testni boshlashda xatolik:", err);
+        alert("Xatolik: " + (err.error || "Server bilan bog'lanishda xato yuz berdi."));
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+async function fetchTests() {
+    const testListContainer = document.getElementById('testList');
+    if (!testListContainer) return;
+
+    // --- 1. FILTRLARNI OLISH (HTML ID'lariga ziyon yetkazmasdan) ---
+    const q = document.getElementById('searchInput')?.value || '';
+    
+    // Ikkala id="catFilter" elementlarini topamiz
+    const catElements = document.querySelectorAll('#catFilter');
+    
+    // 1-chi element: bu har doim <select> bo'ladi
+    const selectCat = catElements[0] ? catElements[0].value : '';
+
+    // 2-chi element: bu har doim qo'lda yoziladigan <input> bo'ladi
+    const inputCat = catElements[1] ? catElements[1].value.trim().toLowerCase() : '';
+
+    const duration = document.getElementById('durationFilter')?.value || ''; 
+    const q_count = document.getElementById('qCountFilter')?.value || '';
+
+    // Avtorizatsiya statusi
+    const token = localStorage.getItem('token') || ''; 
+    const authElement = document.getElementById('user-auth-status');
+    const isLoggedIn = (authElement && authElement.value.trim() === 'true');
+
+    // API parametrlarini shakllantirish
+    const params = new URLSearchParams({
+        q: q.trim().toLowerCase(),
+        select_cat: selectCat, // Select ichidagi qiymat (word, excel, txt, kazus, yopiq)
+        input_cat: inputCat,   // Input ichiga yozilgan har qanday tekst
+        duration: duration,
+        q_count: q_count,
+        t: new Date().getTime() 
+    });
+
+    try {
+        const response = await fetch(`/api/get-tests/?${params.toString()}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Token ${token}` : ''
+            }
+        });
+        
+        if (!response.ok) throw new Error("Server xatosi");
+        const allTests = await response.json();
+
+        if (allTests.length === 0) {
+            testListContainer.innerHTML = `<p style="text-align:center; width:100%; grid-column: 1/-1; padding: 20px; color: #666;">Qidiruv bo'yicha testlar topilmadi.</p>`;
+            return;
+        }
+
+        // --- 2. RENDER QISM (Sening dizayning va tugmalaring) ---
+        testListContainer.innerHTML = allTests.map(t => {
+            const safeTitle = t.title ? t.title.replace(/'/g, "\\'").replace(/"/g, "&quot;") : "Nomsiz test";
+            
+            const typeKey = (t.type_key || '').toLowerCase();
+            const fanNomiStr = (t.fan_nomi || '').toUpperCase();
+            const muallifIsmi = t.muallif;
+
+            const isKazus = typeKey === 'kazus' || typeKey === 'case' || fanNomiStr.includes('KAZUS');
+            const isClosed = typeKey === 'closed' || fanNomiStr.includes('YOPIQ');
+            const isFromFile = fanNomiStr.includes('FAYLDAN') || (t.creation_method === 'file');
+
+            let btnClass = "btn-solve";
+            let badgeClass = "bg-primary"; 
+            let cardExtraStyle = ""; 
+            let iconClass = "bi-journal-text"; 
+            let finalLabel = t.fan_nomi || "ODDIY TEST";
+
+            if (isKazus) {
+                btnClass = "btn-solve-purple";
+                badgeClass = "bg-purple-gradient"; 
+                cardExtraStyle = "border-left: 5px solid #8E2DE2; background: linear-gradient(to right, #fdfaff, #ffffff);"; 
+                iconClass = "bi-briefcase-fill";
+            } else if (isClosed) {
+                badgeClass = "bg-danger"; 
+                iconClass = "bi-lock-fill";
+            } else if (isFromFile) {
+                badgeClass = "bg-success"; 
+                iconClass = "bi-file-earmark-word";
+            }
+
+            let actionBtn = "";
+            const questionCount = parseInt(t.q_count) || 0;
+
+            if (!isLoggedIn) {
+                actionBtn = `<button class="${btnClass}" onclick="window.location.href='/login/'"><i class="bi bi-play-fill"></i> Kirish</button>`;
+            } else if (questionCount > 0) {
+                const sendType = isKazus ? 'kazus' : (isClosed ? 'closed' : 'regular');
+                actionBtn = `<button class="${btnClass}" onclick="loadQuestions(${t.id}, '${safeTitle}', '${sendType}')">
+                                 <i class="bi bi-play-fill"></i> Hozir yechish
+                             </button>`;
+            } else {
+                actionBtn = `<button class="btn-solve btn-secondary" disabled>Savol yo'q</button>`;
+            }
+
+            let finalDuration = parseInt(t.duration);
+            if (isNaN(finalDuration) || finalDuration <= 0) {
+                finalDuration = (questionCount > 0) ? questionCount : 15;
+            }
+
+            return `
+                <div class="test-card animate__animated animate__fadeIn" style="${cardExtraStyle}">
+                    <div class="card-header">
+                        <div class="card-icon ${isKazus ? 'icon-purple' : ''}">
+                            <i class="bi ${iconClass}"></i>
+                        </div>
+                        <div>
+                            <h3 title="${safeTitle}">${t.title}</h3>
+                            <span class="badge ${badgeClass}" style="font-size:10px; padding: 5px 10px; border-radius: 12px;">
+                                ${finalLabel}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body-info">
+                        <div class="info-row">
+                            <i class="bi bi-tag"></i> <span>Toifa:</span> <b>${finalLabel}</b>
+                        </div>
+                        <div class="info-row">
+                            <i class="bi bi-person"></i> <span>Muallif:</span> <b>${muallifIsmi || "Noma'lum"}</b>
+                        </div>
+                        <div class="info-row">
+                            <i class="bi bi-clock"></i> <span>Vaqt:</span> <b>${finalDuration} min</b>
+                        </div>
+                        <div class="info-row">
+                            <i class="bi bi-list-check"></i> <span>Savollar:</span> <b>${questionCount} ta</b>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        ${actionBtn}
+                    </div>
+                </div>`;
+        }).join('');
+
+    } catch (err) {
+        console.error("Xato:", err);
+        testListContainer.innerHTML = `<p style="text-align:center; color:red;">Yuklashda xatolik yuz berdi.</p>`;
+    }
+}
+
+// Global o'zgaruvchi debouncer taymeri uchun
+let searchTimeout = null;
+
+// Qidiruv inputiga hodisani bog'laymiz
+document.getElementById('searchInput')?.addEventListener('input', () => {
+    // Har bir harf yozilganda eski taymerni o'chiramiz
+    clearTimeout(searchTimeout);
+    
+    // Yangi taymer qo'yamiz: foydalanuvchi yozishdan to'xtagach 400ms o'tib fetchTests() ishlaydi
+    searchTimeout = setTimeout(() => {
+        fetchTests();
+    }, 400); 
+});
+
+// Select filterlari o'zgarganda esa kutish shart emas, srazu chaqiraveramiz
+document.querySelectorAll('#catFilter').forEach(el => {
+    el.addEventListener('change', fetchTests);
+});
+document.getElementById('durationFilter')?.addEventListener('change', fetchTests);
+document.getElementById('qCountFilter')?.addEventListener('change', fetchTests);
+
+// Sahifa ilk bor yuklanganda testlarni bir marta avtomatik chiqarish uchun:
+document.addEventListener('DOMContentLoaded', fetchTests);
+
+function getIconByCategory(text) {
+    const label = text ? text.toLowerCase() : '';
+    if (label.includes('kazus')) return 'bi-briefcase-fill'; 
+    if (label.includes('yopiq')) return 'bi-shield-lock-fill';
+    if (label.includes('word') || label.includes('.docx')) return 'bi-file-earmark-word';
+    if (label.includes('excel') || label.includes('.xlsx')) return 'bi-file-earmark-excel';
+    if (label.includes('fayldan')) return 'bi-cloud-arrow-up-fill';
+    
+    return 'bi-journal-text'; 
+}
+
+async function uploadFileAndStart(fileInput, type) {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    // Yuklash jarayonida tugmani vaqtinchalik faolsizlantirish (ixtiyoriy)
+    console.log(`${type} toifasidagi fayl yuborilmoqda...`);
+
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    // --- 🛠️ BACKEND UCHUN MUHIM PARAMETRLAR ---
+    // 'type' argumenti 'kazus', 'closed' yoki 'regular' bo'lishi shart
+    formData.append('test_type', type); 
+    formData.append('creation_method', 'file');
+    formData.append('test_id', window.activeTestId || ''); 
+
+    // Fan tanlangan bo'lsa, uning ID sini olish (Select ID si 'subjectSelect' bo'lsa)
+    const s_id = document.getElementById('subjectSelect')?.value;
+    if (s_id) {
+        formData.append('subject', s_id);
+    }
+
+    try {
+        const response = await fetch('/api/upload-test-file/', {
+            method: 'POST',
+            headers: { 
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': `Token ${localStorage.getItem('token') || ''}`
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            
+            // 1. Kelgan test turini global saqlash (Keyingi mantiqlar uchun)
+            window.activeTestType = data.category || type;
+
+            // 2. Savollarni formatlash
+            const rawQuestions = data.questions || []; 
+            window.quizQuestions = rawQuestions.map((q, index) => ({
+                id: q.id || `file_q_${index}`,
+                text: q.text || "Savol matni yo'q",
+                options: {
+                    'A': q.answer_A || q.answer_a || (q.options ? (q.options.A || q.options.a) : '') || '',
+                    'B': q.answer_B || q.answer_b || (q.options ? (q.options.B || q.options.b) : '') || '',
+                    'C': q.answer_C || q.answer_c || (q.options ? (q.options.C || q.options.c) : '') || '',
+                    'D': q.answer_D || q.answer_d || (q.options ? (q.options.D || q.options.d) : '') || ''
+                },
+                is_multiple: q.is_multiple === true || q.type === 'multiple'
+            }));
+
+            if (window.quizQuestions.length > 0) {
+                // 3. Sessiya ma'lumotlarini saqlash
+                if (data.session_id) {
+                    window.currentSessionId = data.session_id;
+                    localStorage.setItem('my_session_id', data.session_id);
+                }
+
+                // 4. Vaqtni aniqlash (Backenddan kelmasa, savollar soniga tenglashtirish)
+                let calculatedDuration = parseInt(data.duration);
+                if (isNaN(calculatedDuration) || calculatedDuration <= 0) {
+                    calculatedDuration = window.quizQuestions.length;
+                }
+
+                // 5. UI Sarlavhasini tayyorlash
+                const typeLabels = {
+                    'kazus': 'KAZUS TEST',
+                    'closed': 'YOPIQ TEST',
+                    'regular': 'ODDIY TEST',
+                    'ordinary': 'ODDIY TEST'
+                };
+                
+                const currentLabel = data.type_label || typeLabels[type] || 'TEST';
+                const displayTitle = `${currentLabel}: ${file.name}`;
+                
+                // 6. Test interfeysini ishga tushirish
+                if (typeof startQuizUI === 'function') {
+                    startQuizUI(displayTitle, calculatedDuration);
+                }
+
+                // 7. Ro'yxatni orqafonda yangilash
+                if (typeof fetchTests === 'function') {
+                    // Backend bazaga yozib ulgurishi uchun ozgina kechikish bilan
+                    setTimeout(() => fetchTests(), 500);
+                }
+
+                console.log("Fayl muvaffaqiyatli yuklandi va test boshlandi.");
+
+            } else {
+                alert("Fayl qabul qilindi, lekin ichidan savollar topilmadi. Formatni tekshiring.");
+            }
+        } else {
+            const errorData = await response.json();
+            alert("Xatolik: " + (errorData.error || "Faylni yuklashda server xatosi yuz berdi."));
+        }
+    } catch (err) { 
+        console.error("Tarmoq xatosi:", err);
+        alert("Server bilan aloqa uzildi. Internetni tekshiring.");
+    } finally {
+        // Inputni tozalash (bir xil faylni qayta tanlay olish uchun)
+        fileInput.value = '';
+    }
+}
+
+async function loadQuestions(testId, title, type_key) {
+    // 1. TURNI ANIQLASH (BACKUP MANTIQNI TOZALASH)
+    // Sarlavhadan qidirishni to'xtatamiz, faqat uzatilgan type_key ga ishonamiz
+    let finalTypeKey = type_key || 'regular'; 
+
+    // Global o'zgaruvchini yangilaymiz (saveAnswer funksiyasi uchun kerak)
+    window.activeTestType = finalTypeKey;
+    const token = localStorage.getItem('token') || '';
+    
+    try {
+        const response = await fetch('/api/start-test/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': token ? `Token ${token}` : ''
+            },
+            body: JSON.stringify({ 
+                test_id: testId, 
+                type_key: finalTypeKey 
+            })
+        });
+        
+        const data = await response.json();
+        console.log("BACKENDDAN KELGAN DATA:", data);
+
+        if (response.ok) {
+            // Sessiya ID ni saqlash
+            window.currentSessionId = data.session_id;
+            if (data.session_id) {
+                localStorage.setItem('my_session_id', data.session_id);
+            }
+            
+            // 🛠️ SAVOLLARNI FORMATLASH (DIZAYN VA MANTIQNI SAQLAGAN HOLDA)
+            window.quizQuestions = (data.questions || []).map(q => ({
+                id: q.id,
+                text: q.text,
+                options: {
+                    // Turli xil formatlarda kelishi mumkin bo'lgan javoblarni qat'iy tekshirish
+                    'A': q.answer_A || q.answer_a || (q.options ? (q.options.A || q.options.a) : '') || '',
+                    'B': q.answer_B || q.answer_b || (q.options ? (q.options.B || q.options.b) : '') || '',
+                    'C': q.answer_C || q.answer_c || (q.options ? (q.options.C || q.options.c) : '') || '',
+                    'D': q.answer_D || q.answer_d || (q.options ? (q.options.D || q.options.d) : '') || ''
+                },
+                is_multiple: q.is_multiple === true || q.type === 'multiple'
+            }));
+
+            // --- ⏱️ VAQTNI QAT'IY HISOB-KITOB QILISH ---
+            // Backenddan kelgan duration (minutda)
+            let backendMinutes = parseInt(data.duration); 
+            let questionsCount = window.quizQuestions.length;
+
+            // Mantiq: 
+            // 1. Agar backenddan aniq minut kelsa, o'shani olamiz.
+            // 2. Agar 0 yoki xato kelsa, savollar soniga tenglaymiz (1 savol = 1 minut).
+            // 3. Agar savollar ham bo'lmasa, default 15 minut.
+            let finalDuration = (backendMinutes > 0) ? backendMinutes : (questionsCount > 0 ? questionsCount : 15);
+
+            console.log(`Test turi: ${finalTypeKey}, Savollar: ${questionsCount}, Vaqt: ${finalDuration} min`);
+
+            // --- 🎨 UI NI BOSHLASH ---
+            // Dizaynga ta'sir qiluvchi startQuizUI funksiyasini chaqirish
+            if (typeof startQuizUI === 'function') {
+                // Backenddan kelgan sarlavha bo'lmasa, uzatilgan title ni ishlatamiz
+                const displayTitle = data.test_title || title || "Test Jarayoni";
+                startQuizUI(displayTitle, finalDuration);
+            }
+
+            // Diagnostika uchun konsolga chiqarish
+            if (window.quizQuestions.length > 0) {
+                console.log("Birinchi savol yuklandi:", window.quizQuestions[0]);
+            }
+
+        } else {
+            // Xatolikni chiroyli ko'rsatish
+            alert("Xato: " + (data.message || data.error || "Yuklashda xatolik yuz berdi"));
+        }
+    } catch (err) {
+        console.error("Tarmoq xatosi:", err);
+        alert("Server bilan bog'lanishda xatolik yuz berdi. Internetni tekshiring.");
+    }
+}
+
+function showQuestion(idx) {
+    window.currentIdx = idx;
+    const q = window.quizQuestions ? window.quizQuestions[idx] : null;
+    const area = document.getElementById('questionsArea');
+    if (!area || !q) return;
+
+    let optionsHtml = '';
+    const keys = ['A', 'B', 'C', 'D'];
+
+    keys.forEach(key => {
+        // Variant matnini faqat q.options'dan olamiz
+        let val = q.options[key] || "";
+
+        if (val && val.toString().trim() !== "") {
+            const userAnswer = window.userAnswers[q.id.toString()] || window.userAnswers[q.id];
+            let isChecked = false;
+
+            if (q.is_multiple) {
+                isChecked = Array.isArray(userAnswer) && userAnswer.includes(key);
+            } else {
+                isChecked = userAnswer === key;
+            }
+
+            // TO'G'IRLANDI: ${escapeHTML(val)} ishlatildi
+            optionsHtml += `
+                <div class="option-label ${isChecked ? 'active-option' : ''}" 
+                     onclick="handleSelection(this, '${q.id}', '${key}', ${q.is_multiple})">
+                    <span class="option-marker">${key})</span>
+                    <span class="option-text">${escapeHTML(val)}</span>
+                </div>`;
+        }
+    });
+
+    // === 🚀 SAVOL RAQAMI TEPADA, MATNI ESA UNING PASTIDAN JOYLASHDI ===
+    area.innerHTML = `
+        <div class="question-container animate__animated animate__fadeIn">
+            <div class="question-number">${idx + 1}-savol</div>
+            <h4 class="question-text">${escapeHTML(q.text)}</h4>
+            <div class="options-container">${optionsHtml}</div>
+        </div>`;
+    
+    if (typeof updateNavButtons === 'function') updateNavButtons();
+}
+
+function startQuizUI(title, minutes) {
+    const searchPage = document.getElementById('search-page');
+    const quizPage = document.getElementById('quiz-page');
+    const resultPage = document.getElementById('result-page'); 
+    
+    if (!quizPage) return;
+
+    // Sahifalar almashinuvi
+    if (searchPage) searchPage.classList.add('hidden');
+    if (resultPage) resultPage.classList.add('hidden'); 
+    quizPage.classList.remove('hidden');
+
+    const titleEl = document.getElementById('quizTitle');
+    if (titleEl) titleEl.innerText = title || "Test Jarayoni";
+
+    // --- VAQTNI ANIQLASH (TUZATILDI) ---
+    const questionsCount = window.quizQuestions ? window.quizQuestions.length : 0;
+    
+    // Qat'iy tekshiruv: agar minutes 30 bo'lib kelsa-yu, savollar soni 30 bo'lmasa, 
+    // demak bu o'sha xato 30 minut. Uni savollar soniga majburan tenglaymiz.
+    let totalMinutes = parseInt(minutes);
+
+    if (isNaN(totalMinutes) || totalMinutes <= 0 || (totalMinutes === 30 && questionsCount !== 30)) {
+        totalMinutes = questionsCount > 0 ? questionsCount : 15;
+    }
+
+    console.log("Taymer uchun olingan yakuniy minut:", totalMinutes);
+
+    // Taymerni tozalash va qayta boshlash
+    if (window.timerInterval) clearInterval(window.timerInterval);
+    
+    if (typeof startTimer === 'function') {
+        const totalSeconds = totalMinutes * 60;
+        startTimer(totalSeconds);
+    }
+
+    // Holatlarni yangilash
+    window.currentIdx = 0;
+    window.userAnswers = {};
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    
+    if (typeof renderDots === 'function') renderDots();
+    if (typeof showQuestion === 'function') showQuestion(0);
+}
+
+function handleSelection(element, qId, choiceId, isMult) {
+    const finalChoice = choiceId.toUpperCase();
+    
+    if (!isMult) {
+        // Radio: Eski tanlovni o'chirib, yangisini belgilash
+        const container = element.closest('.options-container');
+        container.querySelectorAll('.option-label').forEach(el => el.classList.remove('active-option'));
+        element.classList.add('active-option');
+        window.userAnswers[qId] = finalChoice;
+    } else {
+        // Checkbox: Massiv bilan ishlash
+        if (!window.userAnswers[qId]) window.userAnswers[qId] = [];
+        const pos = window.userAnswers[qId].indexOf(finalChoice);
+        
+        if (pos === -1) {
+            window.userAnswers[qId].push(finalChoice);
+            element.classList.add('active-option');
+        } else {
+            window.userAnswers[qId].splice(pos, 1);
+            element.classList.remove('active-option');
+        }
+    }
+
+    // UI yangilash
+    renderDots();
+    updateProgressInfo();
+
+    // TO'G'IRLANGAN: To'g'ridan-to'g'ri yangi javobni yuboramiz
+    saveAnswer(qId, window.userAnswers[qId]);
+}
+
+async function saveAnswer(questionId, selectedAnswer) {
+    // 1. Sessiya ID sini olish va tekshirish
+    let sessionId = window.currentSessionId || localStorage.getItem('my_session_id');
+
+    if (!sessionId || sessionId === "undefined" || sessionId === "null") {
+        console.error("Sessiya ID topilmadi! Javob saqlanmadi.");
+        return; 
+    }
+
+    // 2. Test turiga qarab API manzilini aniqlash
+    const isClosedTest = window.activeTestType === 'closed';
+    const apiUrl = isClosedTest ? '/api/save-closed-answer/' : '/api/save-answer/';
+
+    // 3. Javobni formatlash (Massiv bo'lsa stringga, aks holda o'z holicha)
+    let formattedAnswer = selectedAnswer;
+    if (Array.isArray(selectedAnswer)) {
+        // "A,B" ko'rinishiga keltirish va bo'sh joylarni olib tashlash
+        formattedAnswer = selectedAnswer.filter(a => a).sort().join(','); 
+    }
+
+    // 4. Avtorizatsiya va Payload tayyorlash
+    const token = localStorage.getItem('token') || '';
+    const payload = {
+        session_id: sessionId,
+        question_id: questionId,
+        answer: formattedAnswer
+    };
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': token ? `Token ${token}` : ''
+            },
+            body: JSON.stringify(payload)
+        });
+        
+        if (!response.ok) {
+            const errData = await response.json();
+            console.error(`Server (${apiUrl}) xatosi:`, errData);
+            
+            // Agar sessiya eskirgan bo'lsa, konsolda ogohlantirish
+            if (response.status === 401 || response.status === 403) {
+                console.warn("Avtorizatsiya yoki sessiya muddati tugagan bo'lishi mumkin.");
+            }
+        } else {
+            // Muvaffaqiyatli saqlanganda (ixtiyoriy debug uchun)
+            // console.log(`Javob saqlandi: Savol ${questionId} -> ${formattedAnswer}`);
+        }
+    } catch (err) {
+        console.error("Tarmoq xatosi (Javobni saqlashda):", err);
+    }
+}
+
+async function saveManualTest() {
+    // 1. Elementlarni olish
+    const titleVal = document.getElementById('manualTestTitle')?.value;
+    const durationVal = document.getElementById('manualTestDuration')?.value;
+    const subjectVal = document.getElementById('manualSubjectSelect')?.value;
+    // Agar sahifada test turini tanlash bo'lsa (masalan: regular, case, closed)
+    const testTypeVal = document.getElementById('manualTestTypeSelect')?.value || 'regular'; 
+    
+    // 2. Vaqtni tekshirish
+    // Backend "test_duration" yoki "duration" kutadi. 
+    // Agar 0 yoki null yuborsak, backend "1 savol = 1 minut" mantiqini ishlatadi.
+    let finalDuration = parseInt(durationVal);
+    if (isNaN(finalDuration) || finalDuration <= 0) {
+        finalDuration = 0; 
+    }
+
+    // 3. Savollarni yig'ish
+    const questionsArr = [];
+    const questionBlocks = document.querySelectorAll('.question-block');
+    
+    questionBlocks.forEach((block, index) => {
+        const text = block.querySelector('.q-text')?.value.trim();
+        
+        if (text) {
+            questionsArr.push({
+                text: text,
+                answer_a: block.querySelector('.ans-a')?.value || "",
+                answer_b: block.querySelector('.ans-b')?.value || "",
+                answer_c: block.querySelector('.ans-c')?.value || "",
+                answer_d: block.querySelector('.ans-d')?.value || "",
+                // Backend modeliga qarab 'correct_answer' yoki 'correct_answers'
+                correct_answers: block.querySelector('.correct-select')?.value || "A"
+            });
+        }
+    });
+
+    // 4. Tekshiruv
+    if (questionsArr.length === 0) {
+        alert("Kamida bitta matni bor savol kiriting!");
+        return;
+    }
+
+    // 5. Payload - Backend kutayotgan aniq format
+    const payload = {
+        title: titleVal || "Yangi Test",
+        test_duration: finalDuration, // Backend'dagi yangi kalit nomi
+        subject: subjectVal,
+        test_type: testTypeVal,       // 'regular', 'case' yoki 'closed'
+        questions: questionsArr 
+    };
+
+    try {
+        // Yuklanish holatini ko'rsatish (Tugmani bloklash)
+        const saveBtn = document.querySelector('[onclick="saveManualTest()"]');
+        if (saveBtn) saveBtn.disabled = true;
+
+        const response = await fetch('/api/manual-tests/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Test muvaffaqiyatli saqlandi!");
+            // Natijaga qarab biror sahifaga yo'naltirish yoki yangilash
+            window.location.reload(); 
+        } else {
+            console.error("Server xatosi:", result);
+            alert("Xatolik: " + (result.error || result.message || "Saqlashda xato yuz berdi"));
+        }
+    } catch (e) { 
+        console.error("Fetch xatosi:", e); 
+        alert("Serverga ulanishda xatolik! Internet aloqasini tekshiring.");
+    } finally {
+        const saveBtn = document.querySelector('[onclick="saveManualTest()"]');
+        if (saveBtn) saveBtn.disabled = false;
+    }
+}
+
+function moveQuestion(step) {
+    const nextIdx = window.currentIdx + step;
+    if (nextIdx >= 0 && nextIdx < window.quizQuestions.length) {
+        window.currentIdx = nextIdx;
+        showQuestion(window.currentIdx);
+        updateNavButtons(); // <-- Mana shu yerda navigatsiya yangilanadi
+        updateProgressInfo(); // <-- Progress (0/10) yangilanadi
+        renderDots(); // <-- Doirachalar yangilanadi
+    }
+}
+
+function updateNavButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn');
+    
+    // 1. Umumiy savollar sonini tekshirish
+    const questions = window.quizQuestions || [];
+    const total = questions.length;
+
+    if (total === 0) return; // Savollar yuklanmagan bo'lsa chiqib ketadi
+
+    // 2. Orqaga tugmasini sozlash
+    if (prevBtn) {
+        // Birinchi savolda bo'lsak, tugma o'chadi (disabled)
+        prevBtn.disabled = (window.currentIdx === 0);
+        prevBtn.onclick = () => {
+            moveQuestion(-1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    }
+    
+    // 3. Oxirgi savolmi yoki yo'qligini aniqlash
+    const isLast = (window.currentIdx === total - 1);
+    
+    // 4. Oldinga tugmasini sozlash
+    if (nextBtn) {
+        // Agar oxirgi savol bo'lsa, tugmani yashiramiz
+        nextBtn.style.display = isLast ? 'none' : 'block';
+        nextBtn.onclick = () => {
+            moveQuestion(1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    }
+    
+    // 5. Tugatish tugmasini sozlash
+    if (finishBtn) {
+        // Faqat oxirgi savolda ko'rinadi
+        finishBtn.style.display = isLast ? 'block' : 'none';
+        finishBtn.onclick = () => {
+            if (confirm("Testni yakunlashni xohlaysizmi?")) {
+                submitQuiz();
+            }
+        };
+    }
+
+    // Konsolda hozirgi holatni ko'rish (diagnostika uchun)
+    console.log(`Navigatsiya yangilandi: Savol ${window.currentIdx + 1}/${total}`);
+}
+
+function updateProgressInfo() {
+    // 1. Global o'zgaruvchilarni qat'iy tekshiramiz
+    const questions = window.quizQuestions || [];
+    
+    // MUHIM: userAnswers emas, window.userAnswers ishlatilishi shart
+    const answers = window.userAnswers || {};
+    
+    const solved = Object.keys(answers).length;
+    const total = questions.length;
+    
+    // 2. Matnli ma'lumotni yangilash
+    const solvedCountEl = document.getElementById('solvedCount');
+    if (solvedCountEl) {
+        solvedCountEl.innerText = `${solved} / ${total} `;
+    }
+    
+    // 3. Progress bar (chiziq) ni yangilash
+    const progressBarFill = document.getElementById('progressBarFill');
+    if (progressBarFill) {
+        const percent = total > 0 ? (solved / total * 100) : 0;
+        
+        // Animatsiya silliq bo'lishi uchun style o'zgarishi
+        progressBarFill.style.width = percent + '%';
+        
+        // Rangini o'zgartirish (ixtiyoriy: yechilishiga qarab rang o'zgaradi)
+        if (percent === 100) {
+            progressBarFill.style.backgroundColor = '#28a745'; // Yashil
+        }
+    }
+}
+
+function renderDots() {
+    const container = document.getElementById('dotsContainer');
+    if (!container) return;
+
+    // Global quizQuestions borligini tekshiramiz
+    const questions = window.quizQuestions || [];
+    
+    container.innerHTML = questions.map((q, i) => {
+        const qId = q.id.toString();
+        
+        // JAVOB BERILGANINI TEKSHIRISH
+        // 1. Obyektda kalit bormi? 
+        // 2. Agar massiv bo'lsa (multiple), uzunligi 0 dan kattami?
+        let isSolved = false;
+        if (window.userAnswers && window.userAnswers[qId]) {
+            if (Array.isArray(window.userAnswers[qId])) {
+                isSolved = window.userAnswers[qId].length > 0;
+            } else {
+                isSolved = true;
+            }
+        }
+
+        // KLASSLARNI ANIQLASH
+        let cls = 'unsolved'; // Default holat
+        if (i === window.currentIdx) {
+            cls = 'active';   // Hozirgi turgan savol (Ko'k)
+        } else if (isSolved) {
+            cls = 'solved';   // Yechilgan (Yashil)
+        }
+
+        return `<div class="q-dot ${cls}" onclick="showQuestion(${i})">${i + 1}</div>`;
+    }).join('');
+}
+
+function startTimer(seconds) {
+    // 1. Elementni qidirish (Sizda ID boshqacha bo'lishi mumkin, tekshiramiz)
+    let timerEl = document.getElementById('timerDisplay') || 
+                  document.getElementById('timer') || 
+                  document.querySelector('.timer-text');
+
+    // Konsolda tekshirish: Element topildimi?
+    if (!timerEl) {
+        console.error("❌ TAYMER XATOSI: HTML sahifada taymer ko'rinadigan element topilmadi! (ID 'timerDisplay' yoki 'timer' bo'lishi kerak)");
+    }
+
+    // 2. Vaqtni tekshirish (Agar xato yoki 0 kelsa, majburan 15 minut beramiz)
+    let timeLeft = parseInt(seconds);
+    if (isNaN(timeLeft) || timeLeft <= 0) {
+        console.warn(`⚠️ TAYMER OGOHLANTIRISHI: Kelgan vaqt noto'g'ri (${seconds}). Default 15 minut o'rnatildi.`);
+        timeLeft = 15 * 60; // 15 minut soniyada
+    }
+
+    console.log(`⏱️ Taymer muvaffaqiyatli ishga tushdi: ${Math.floor(timeLeft / 60)} minut.`);
+
+    // 3. Eski taymerlarni tozalash
+    if (window.timerInterval) {
+        clearInterval(window.timerInterval);
+    }
+
+    function updateTimerUI() {
+        if (timeLeft <= 0) {
+            clearInterval(window.timerInterval);
+            if (timerEl) timerEl.innerText = "00:00";
+            
+            alert("Vaqt tugadi! Testingiz avtomatik tarzda yakunlanadi.");
+            if (typeof submitQuiz === 'function') {
+                submitQuiz(); 
+            } else {
+                console.error("❌ submitQuiz funksiyasi topilmadi!");
+            }
+            return;
+        }
+
+        const minutes = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+
+        const displayMin = minutes < 10 ? '0' + minutes : minutes;
+        const displaySec = secs < 10 ? '0' + secs : secs;
+
+        if (timerEl) {
+            timerEl.innerText = `${displayMin}:${displaySec}`;
+            
+            // Vaqt kam qolganda qizil qilish
+            if (timeLeft <= 60) {
+                timerEl.style.color = '#dc3545';
+            } else {
+                timerEl.style.color = ''; 
+            }
+        }
+        
+        timeLeft--;
+    }
+
+    // Kechikishsiz darhol ishga tushirish
+    updateTimerUI();
+    window.timerInterval = setInterval(updateTimerUI, 1000);
+}
+
+function backToList() {
+    clearInterval(timerInterval);
+    document.getElementById('quiz-page').classList.add('hidden');
+    document.getElementById('search-page').classList.remove('hidden');
+    fetchTests();
+}
+
+async function submitQuiz() {
+    if (window.timerInterval) clearInterval(window.timerInterval);
+
+    // Sessiya ID sini bir necha manbadan qidirish
+    let sessionId = window.currentSessionId || 
+                    localStorage.getItem('my_session_id') || 
+                    window.localStorage.getItem('my_session_id');
+
+    console.log("Yuborilayotgan Sessiya ID:", sessionId);
+
+    if (!sessionId || sessionId === "undefined" || sessionId === "null") {
+        alert("Xatolik: Sessiya topilmadi. Sahifani yangilang!");
+        return;
+    }
+
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/test/finish/', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+                ...(token && { 'Authorization': `Token ${token}` })
+            },
+            // MUHIM: Faqat sessiya ID yuboramiz, javoblarni server bazadan oladi
+            body: JSON.stringify({ session_id: sessionId })
+        });
+        
+        const data = await response.json();
+
+        if (response.ok) {
+            // Natijani ko'rsatish
+            showResultUI(data);
+            // Sessiyani tozalash
+            localStorage.removeItem('my_session_id');
+            window.currentSessionId = null;
+        } else {
+            alert("Xato: " + (data.error || "Noma'lum xatolik"));
+        }
+    } catch (e) {
+        console.error("Finish error:", e);
+    }
+}
+
+async function uploadClosedTest(event) {
+    // 1. Elementlarni olish
+    const fileInput = document.getElementById('closedTestFile'); 
+    const titleInput = document.getElementById('closedTestTitle');
+    const durationInput = document.getElementById('manualTestDuration');
+    const subjectSelect = document.getElementById('manualSubjectSelect');
+    
+    // 2. Dastlabki tekshiruvlar
+    if (!fileInput || !fileInput.files[0]) {
+        alert("Iltimos, test faylini (Word/Excel) tanlang!");
+        return;
+    }
+
+    if (!subjectSelect || !subjectSelect.value) {
+        alert("Iltimos, fanni tanlang!");
+        return;
+    }
+
+    // 3. FormData tayyorlash
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    formData.append('title', titleInput?.value || fileInput.files[0].name);
+    formData.append('subject', subjectSelect.value);
+    
+    // BACKEND MANTIQI: 
+    // Test turi 'closed' (fayldan o'qiladigan testlar uchun)
+    formData.append('test_type', 'closed'); 
+
+    // Vaqt: agar foydalanuvchi kiritmagan bo'lsa (0 bo'lsa), 
+    // Backend o'zi fayldagi savollarni sanab vaqtni belgilaydi (1 savol = 1 minut).
+    const durationValue = parseInt(durationInput?.value) || 0;
+    formData.append('test_duration', durationValue);
+
+    // 4. UI holatini boshqarish (Tugmani bloklash)
+    const uploadBtn = event?.target || document.querySelector('.upload-btn');
+    const originalText = uploadBtn ? uploadBtn.innerText : "Yuklash";
+    
+    if (uploadBtn) {
+        uploadBtn.disabled = true;
+        uploadBtn.innerText = "Fayl tahlil qilinmoqda...";
+    }
+
+    try {
+        const response = await fetch('/api/manual-tests/', { 
+            method: 'POST',
+            headers: {
+                // DIQQAT: FormData ishlatganda 'Content-Type' headerini yozmang! 
+                // Browser o'zi 'multipart/form-data' va boundary qo'shadi.
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: formData 
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Test muvaffaqiyatli yuklandi va bazaga saqlandi!");
+            window.location.reload();
+        } else {
+            // Backenddan kelgan aniq xatolik xabari (masalan, fayl formati xato bo'lsa)
+            alert("Xato: " + (result.error || result.message || "Faylni yuklashda xatolik yuz berdi"));
+        }
+    } catch (e) {
+        console.error("Yuklash xatosi:", e);
+        alert("Server bilan aloqa uzildi. Fayl hajmi juda kattaligini yoki internetni tekshiring.");
+    } finally {
+        if (uploadBtn) {
+            uploadBtn.disabled = false;
+            uploadBtn.innerText = originalText;
+        }
+    }
+}
+
+async function finishTest() {
+    const sessionId = window.currentSessionId || localStorage.getItem('my_session_id');
+    
+    try {
+        const response = await fetch('/api/test/finish/', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ session_id: sessionId })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            // Natijalarni ekranda (HTML dagi ID larda) ko'rsatish
+            // Rasmda ko'ringan natija bloklarini to'ldiramiz:
+            if(document.getElementById('result-percent')) {
+                document.getElementById('result-percent').innerText = data.ball + "%";
+            }
+            if(document.getElementById('total-questions')) {
+                document.getElementById('total-questions').innerText = data.total_count + " ta";
+            }
+            if(document.getElementById('correct-answers')) {
+                document.getElementById('correct-answers').innerText = data.correct_count + " ta";
+            }
+            if(document.getElementById('wrong-answers')) {
+                document.getElementById('wrong-answers').innerText = data.wrong_answers + " ta";
+            }
+            if(document.getElementById('score-display')) {
+                document.getElementById('score-display').innerText = data.correct_count + " / " + data.total_count;
+            }
+
+            // Test tugatish blokini yashirib, natija blokini ko'rsatish (agar bo'lsa)
+            // window.location.href = '/dashboard/';  <-- Buni o'chirib turing natijani ko'rish uchun!
+            alert("Test yakunlandi! Natijangiz: " + data.ball + "%");
+
+        } else {
+            console.error("Tugatishda xato!");
+        }
+    } catch (error) {
+        console.error("Xatolik:", error);
+    }
+}
+
+async function searchTests(query) {
+    const subjectId = document.getElementById('subjectSelect')?.value || '';
+    const response = await fetch(`/api/all-tests/?search=${query}&subject_id=${subjectId}`, {
+        headers: {
+            'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+    });
+    const tests = await response.json();
+    
+    const container = document.getElementById('testContainer');
+    container.innerHTML = ""; // Tozalash
+
+    tests.forEach(test => {
+        container.innerHTML += `
+            <div class="test-card">
+                <h5>${test.title}</h5>
+                <p>Toifa: ${test.type_key}</p>
+                <p>Vaqt: ${test.duration} minut</p>
+                <button onclick="loadQuestions(${test.id}, '${test.title}', '${test.type_key}')">
+                    Boshlash
+                </button>
+            </div>
+        `;
+    });
+}
+
+function showResultUI(result) {
+    // 1. Sahifalarni almashtirish (Elementlar borligini tekshirish bilan)
+    const quizPage = document.getElementById('quiz-page');
+    const resultPage = document.getElementById('result-page');
+    
+    if (quizPage) quizPage.classList.add('hidden');
+    if (resultPage) resultPage.classList.remove('hidden');
+
+    // 2. Ma'lumotlarni xavfsiz o'qish
+    // Backend ba'zida correct_count, ba'zida correct_answers yuborishi mumkin
+    const correct = result.correct_count ?? result.correct_answers ?? 0;
+    const total = result.total_count ?? result.total_questions ?? 0;
+    
+    // Natija 0 chiqmasligi uchun foizni hisoblashning bir necha varianti
+    let percentage = 0;
+    if (result.ball !== undefined && result.ball !== null) {
+        percentage = Math.round(result.ball);
+    } else if (total > 0) {
+        percentage = Math.round((correct / total) * 100);
+    }
+    
+    // Ballarni olish
+    const earned = result.earned_score ?? result.score ?? (correct * 10); 
+    const totalScore = result.max_score ?? result.total_score ?? (total * 10);
+
+    // 3. UI elementlarni yangilash
+    const scoreDisplay = document.getElementById('result-score');
+    if (scoreDisplay) scoreDisplay.innerText = percentage + '%';
+
+    const iconEl = document.getElementById('result-icon');
+    const titleEl = document.getElementById('result-title');
+    
+    // 60% dan o'tganlar uchun muvaffaqiyat holati
+    if (percentage >= 60) {
+        if (iconEl) iconEl.innerHTML = '🎉';
+        if (titleEl) {
+            titleEl.innerText = 'Ajoyib natija!';
+            titleEl.style.color = '#28a745';
+        }
+    } else {
+        if (iconEl) iconEl.innerHTML = '😟';
+        if (titleEl) {
+            titleEl.innerText = 'Yana bir bor urinib ko\'ring';
+            titleEl.style.color = '#dc3545';
+        }
+    }
+
+    // 4. Detallarni chiqarish (Dizayn o'zgarmagan holda)
+    const detailsContainer = document.getElementById('result-details');
+    if (detailsContainer) {
+        detailsContainer.innerHTML = `
+            <div style="font-size: 18px; line-height: 1.8; text-align: left; max-width: 280px; margin: 0 auto; padding: 15px; background: #f8f9fa; border-radius: 12px; border: 1px solid #eee;">
+                <p style="margin: 5px 0;">Jami savollar: <span style="float: right;"><b>${total} ta</b></span></p>
+                <p style="color: #28a745; margin: 5px 0;">To'g'ri javoblar: <span style="float: right;"><b>${correct} ta</b></span></p>
+                <p style="color: #dc3545; margin: 5px 0;">Xato javoblar: <span style="float: right;"><b>${Math.max(0, total - correct)} ta</b></span></p>
+                <hr style="border: 0; border-top: 1px solid #ddd; margin: 10px 0;">
+                <p style="font-size: 20px; margin: 5px 0;"><b>Ball: <span style="float: right; color: #007bff;">${earned} / ${totalScore}</span></b></p>
+            </div>
+        `;
+    }
+}
+        
+document.addEventListener('DOMContentLoaded', () => {
+    // Sahifa yuklanganda testlarni birinchi marta olib kelish
+    fetchTests();
+
+    // Har bir filtr elementini kuzatib borish
+    const filterIds = ['searchInput', 'catFilter', 'subjectFilter', 'durationFilter', 'qCountFilter'];
+    
+    filterIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            // Agar input bo'lsa (yozilganda), select bo'lsa (tanlanganda) ishlaydi
+            const eventType = el.tagName === 'INPUT' ? 'input' : 'change';
+            
+            el.addEventListener(eventType, () => {
+                // Foydalanuvchi yozishdan to'xtashini kutish (debounce)
+                clearTimeout(window.filterTimeout);
+                window.filterTimeout = setTimeout(() => {
+                    fetchTests();
+                }, 400); // 400 millisekund kutish
+            });
+        }
+    });
+});
+
+ </script> 
+
+</body>
+</html>

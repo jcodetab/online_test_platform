@@ -1,0 +1,339 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tizimga kirish</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 80px;
+    }
+
+    /* Orqa fon rasmi */
+    .bg-container {
+      background: url("{% static 'img/carousel-2.jpg' %}") center/cover no-repeat;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+    }
+
+    /* To‘q overlay */
+    .bg-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(24, 29, 56, 0.6);
+      z-index: -1;
+    }
+
+    /* Login kartochka */
+    .login-card {
+      background: rgba(255, 255, 255, 0.3); /* shaffofroq */
+      border-radius: 16px;
+      padding: 40px 35px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      animation: fadeInUp .6s ease;
+      backdrop-filter: blur(10px); /* kuchliroq shisha effekt */
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .login-header i {
+      font-size: 70px;
+      color: #06BBCC;
+      margin-bottom: 8px;
+    }
+
+    .login-header h3 {
+      font-weight: 700;
+      color: #06BBCC;
+      margin-bottom: 4px;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      padding: 12px 15px;
+      font-size: 1rem;
+    }
+
+    .input-group-text {
+      background: #fff;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+    }
+
+    .btn-login {
+      background: #06BBCC;
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #fff;
+      transition: all .3s;
+    }
+
+    .btn-login:hover {
+      background: #048c99;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #222;
+    }
+
+    .footer-text a {
+      color: #06BBCC;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== MAXIMUM COMPACT & CENTERED MOBILE STYLE ===== */
+@media (max-width: 480px) {
+    body {
+        /* Ekran balandligini 100% egallash va markazlash */
+        display: flex !important;
+        align-items: center !important; 
+        justify-content: center !important;
+        padding: 15px !important;
+        height: 100vh !important; /* Ekran balandligi bilan qotirish */
+        padding-top: 0 !important; /* 80px bo'shliqni o'chiramiz */
+        overflow: hidden !important; /* Ortiqcha siljishni yo'qotadi */
+    }
+
+    .login-card {
+        padding: 20px 15px !important; /* Ichki masofa yanada ixcham */
+        margin: 0 auto !important;
+        border-radius: 20px !important;
+        width: 100% !important;
+        max-width: 320px !important; /* Ramka eni kichraytirildi */
+        box-shadow: 0 15px 40px rgba(0,0,0,0.4) !important;
+        
+        /* Shaffoflik va Rasm ko'rinishi */
+        background: rgba(255, 255, 255, 0.1) !important; 
+        backdrop-filter: blur(4px) !important; /* Blur kamaytirildi, rasm tiniqroq */
+    }
+
+    .login-header {
+        margin-bottom: 15px !important;
+    }
+
+    .login-header i {
+        font-size: 40px !important; /* Ikonka kichikroq */
+        margin-bottom: 5px !important;
+    }
+
+    .login-header h3 {
+        font-size: 1.2rem !important; /* Sarlavha ixcham */
+    }
+
+    .mb-3 {
+        margin-bottom: 8px !important; /* Inputlar orasidagi masofani qisqartirish */
+    }
+
+    .form-label {
+        font-size: 0.8rem !important;
+        margin-bottom: 2px !important;
+        color: #fff !important;
+    }
+
+    .form-control {
+        height: 38px !important; /* Input balandligi ixcham */
+        font-size: 16px !important; /* iPhone'da zoom qilmasligi uchun */
+        padding: 5px 12px !important;
+    }
+
+    .btn-login {
+        height: 45px !important;
+        font-size: 1rem !important;
+        margin-top: 10px !important;
+    }
+
+    .footer-text {
+        margin-top: 10px !important;
+        font-size: 0.8rem !important;
+        color: #ddd !important;
+    }
+
+    /* Parol va Ko'z ikonasi yaxlitligi */
+    .input-group {
+        border-radius: 10px !important;
+        overflow: hidden !important;
+    }
+}
+  </style>
+</head>
+<body>
+  <!-- Orqa fon va overlay -->
+  <div class="bg-container"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- Login kartochka -->
+  <div class="login-card">
+    <div class="login-header">
+      <i class="fa-solid fa-right-to-bracket"></i>
+      <h3>Tizimga kirish</h3>
+    </div>
+
+    <form id="loginForm">
+      <div class="mb-3">
+        <label for="id_email" class="form-label">Email</label>
+        <input type="email" id="id_email" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password" class="form-label">Parol</label>
+        <div class="input-group">
+          <input type="password" id="id_password" class="form-control" required>
+          <span class="input-group-text" id="togglePassword">
+            <i class="bi bi-eye"></i>
+          </span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-login w-100">Kirish</button>
+    </form>
+
+    <p class="footer-text">
+      Ro'yxatdan o'tmaganmisiz? <a href="{% url 'register' %}">Ro'yxatdan o'tish</a>
+    </p>
+  </div>
+
+  <!-- JS -->
+<script>
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // Djangoning standart form submitini to'xtatamiz
+
+    // 1. Tozalash (Eski token va sessiyalarni o'chirish)
+    localStorage.clear(); 
+
+    const email = document.getElementById('id_email').value.trim();
+    const password = document.getElementById('id_password').value.trim();
+
+    try {
+        const response = await fetch('/api/login/', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest' // Backendga bu AJAX so'rovi ekanini bildiradi
+            },
+            body: JSON.stringify({ email: email, password: password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.token) {
+            // 2. Tokenni saqlash
+            localStorage.setItem("token", data.token);
+            console.log("Token saqlandi:", data.token);
+
+            // 3. Redirect mantiqi
+            // window.location.origin ngrok manzilini to'liq oladi (masalan: https://xxx.ngrok-free.dev)
+            const targetUrl = window.location.origin + "/dashboard/";
+            
+            // Mobil brauzerlarda localStorage yozilishiga ulgurishi uchun biroz ko'proq kutamiz
+            setTimeout(() => {
+                // .replace() ishlatish yaxshi, chunki "Back" tugmasi bosilganda login sahifasiga qaytib qolmaydi
+                window.location.replace(targetUrl);
+            }, 300); 
+
+        } else {
+            // Xatolik xabarini chiqarish
+            const errorMsg = data.detail || data.non_field_errors || "Email yoki parol xato";
+            alert(errorMsg);
+        }
+    } catch (error) {
+        alert("Server bilan bog'lanishda muammo yuz berdi.");
+        console.error("Login Error:", error);
+    }
+});
+
+// 🔒 Parolni ko‘rsatish/yashirish
+document.getElementById("togglePassword").addEventListener("click", function() {
+    const passInput = document.getElementById("id_password");
+    const type = passInput.getAttribute("type") === "password" ? "text" : "password";
+    passInput.setAttribute("type", type);
+    this.innerHTML = type === "password"
+        ? '<i class="bi bi-eye"></i>'
+        : '<i class="bi bi-eye-slash"></i>';
+});
+
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

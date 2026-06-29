@@ -1,0 +1,1245 @@
+{% extends 'base.html' %} <!-- Shuni qo'shing -->
+{% load static %}
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kazus — Yopiq Test Platformasi</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+{% block extra_css %}
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#06BBCC;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px}
+.container{width:100%;max-width:1100px;background:#fff;border-radius:12px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,0.1);margin-top:20px}
+h2{text-align:center;color:#28a745;margin-bottom:14px}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-weight:600;margin-bottom:6px}
+input,select,textarea{width:100%;padding:10px;border-radius:8px;border:2px solid #ddd;font-size:15px;transition:all .15s}
+input:focus,select:focus,textarea:focus{border-color:#28a745;background:#f9fff9;outline:none}
+textarea{min-height:100px;resize:none}
+button.btn{width:100%;padding:12px;font-size:15px;background:#28a745;color:#fff;border:none;border-radius:25px;cursor:pointer;margin-top:8px}
+button.btn:hover{background:#218838}
+.question-group{background:#fdfdfd;border-radius:12px;padding:16px;margin-bottom:14px;border:1px solid #e6e6e6}
+.answer-group{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:600px){.answer-group{grid-template-columns:1fr}}
+.file-options-wrapper{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.file-option{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed #ccc;border-radius:12px;padding:12px;width:140px;height:120px;background:#f9f9f9;cursor:pointer;text-align:center}
+.file-option:hover{border-color:#28a745;background:#e9fcef}
+.file-option svg{width:56px;height:56px;margin-bottom:8px}
+.file-option span{display:block;font-weight:600;margin-bottom:6px}
+.file-option input[type=file]{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;border-radius:12px}
+.uploaded-files{margin-top:12px;background:#f8f9fa;border-radius:8px;padding:10px;border:1px solid #ccc;max-height:360px;overflow:auto}
+.test-file{display:flex;align-items:flex-start;gap:12px;padding:10px;border:1px solid #ddd;border-radius:8px;background:#fff;margin-bottom:10px}
+.test-file .meta{flex:1}
+.test-actions{display:flex;gap:8px;flex-wrap:wrap}
+.test-actions button{padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+.view-btn{background:#06BBFF;color:#fff}
+.edit-btn{background:#FFD700;color:#000}
+.delete-btn{background:#FF4500;color:#fff}
+/* ✅ SHU QATOR BILAN ALMASHTIRING (O'lchamlar va blok rejimi qo'shildi) */
+.toast {
+    position: fixed !important;
+    right: 30px !important;
+    bottom: 30px !important;
+    left: auto !important;
+    background: #28a745 !important;
+    color: #fff !important;
+    padding: 12px 20px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+    opacity: 0 !important;
+    transform: translateY(10px) !important;
+    transition: all 0.25s ease !important;
+    pointer-events: none !important;
+    z-index: 999999 !important;
+    
+    /* 🎯 MANA SHU QATORLAR O'LCHAM VA BLOK REJIMINI BELGILAYDI */
+    display: block !important;
+    width: auto !important;
+    min-width: 200px !important;
+    max-width: 320px !important;
+    box-sizing: border-box !important;
+}
+.preview-table{width:100%;overflow:auto}
+.preview-table table{border-collapse:collapse;width:100%}
+.preview-table th,.preview-table td{border:1px solid #ddd;padding:6px;font-size:13px}
+.small{font-size:13px;color:#666}
+.kv{font-weight:600;color:#333}
+.actions-row{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.inline-btn{padding:8px 12px;border-radius:10px;border:none;cursor:pointer}
+.inline-btn.view{background:#06BBFF;color:#fff}
+.inline-btn.edit{background:#FFD700;color:#000}
+.inline-btn.delete{background:#FF4500;color:#fff}
+.back-row{display:flex;justify-content:center;margin-top:12px}
+ 
+ #countdownWrapper {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px solid #d9534f;
+  font-size: 18px;
+  font-weight: bold;
+  color: #d9534f;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  z-index: 9999;
+}
+
+.inline-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.inline-btn.edit {
+    background: #FFD700;
+    color: #000;
+}
+
+.inline-btn.delete {
+    background: #FF4500;
+    color: #fff;
+}
+
+.inline-btn:hover {
+    opacity: 0.85;
+}
+
+/* Kompyuter uchun gorizontal va rangli tugmalar */
+.switch-buttons {
+    display: flex;
+    flex-direction: row; /* Yonma-yon */
+    justify-content: center;
+    gap: 30px; /* Tugmalar orasi ochiq */
+    margin-top: 20px;
+    width: 100%;
+}
+
+.switch-buttons button {
+    flex: 1;
+    /* max-width: 250px; */
+    padding: 14px 20px;
+    background-color: #28a745 !important; /* Siz aytgan yashil rang */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.switch-buttons button:hover {
+    background-color: #218838 !important; /* Sichqoncha borganda bir oz to'qroq */
+    transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+    /* 1. Asosiy konteyner bosimini yumshatamiz */
+    #testsContainer, .questions-wrapper, .preview-container {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* 2. Kartochkalar to'liq eni bo'yicha erkin joylashadi */
+    #testsContainer > div, .card, .question-card, .test-preview-box, .test-card { 
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3. Savol matnlari ezilmaydi va chetdan chiqmaydi */
+    .question-title, .question-text, .q-text, textarea {
+        display: block !important;
+        width: 100% !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+    
+    /* Toast ichidagi matnga ta'sir qilmasligi uchun ularni cheklaymiz */
+    .test-card p, .question-group p {
+        display: block !important;
+        width: 100% !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+
+    /* 4. Variantlar qatori (A, B, C, D) - Chiroyli pastma-past tushadi */
+    .options-grid, .variants-list, .variant-row, .answer-group {
+        display: flex !important;
+        flex-direction: column !important; 
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    /* Variant ichidagi Harf (A) va Matn yonma-yon chiroyli turadi, ustma-ust tushmaydi */
+    .option-item, .variant-item, .uploaded-option-item {
+        display: flex !important;
+        flex-direction: row !important; 
+        align-items: center !important;
+        width: 100% !important;
+        padding: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    .option-item span, .variant-item span {
+        display: inline-block !important;
+        width: auto !important;
+        word-break: break-word !important;
+    }
+
+    /* 5. BOSH SAHIFADAGI 3 TA ASOSIY TUGMA (Asil dumaloq radusi tiklandi) */
+    .switch-buttons {
+        display: flex !important;
+        flex-direction: column !important; 
+        gap: 12px !important;
+        width: 100% !important;
+    }
+
+    .switch-buttons button {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 30px !important; 
+        padding: 14px 20px !important;
+        font-size: 15px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* 6. KICHIK HARAKAT TUGMALARI (Kartochka ichidagi Tahrirlash va O'chirish) */
+    .action-buttons, .btn-group, .card-actions, .test-actions {
+        display: flex !important;
+        flex-direction: row !important; 
+        gap: 8px !important;
+        width: 100% !important;
+        margin-top: 12px !important;
+    }
+
+    .inline-btn, .btn-edit, .btn-delete, .edit-btn, .delete-btn,
+    .test-actions button, .action-buttons button:not(.switch-buttons button) {
+        flex: 1 !important; 
+        width: 48% !important;
+        padding: 10px 5px !important;
+        font-size: 14px !important;
+        border-radius: 8px !important; 
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* 7. FAYL YUKLASH TUGMALARI (Word, Excel, Text) VERTIKAL */
+    .file-options-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px !important; 
+        width: 100% !important;
+    }
+
+    .file-option {
+        width: 100% !important; 
+        max-width: 100% !important;
+        height: auto !important; 
+        padding: 20px 15px !important; 
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .file-option svg {
+        width: 60px !important; 
+        height: 60px !important;
+        margin-bottom: 8px !important;
+    }
+
+    /* 8. YUKLANGAN FAYL INTERFEYSINI TO'LIQ EKRAV VA TOZA QILISH */
+    #uploadedFilesDisplay {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 10px 0 !important;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    #uploadedTestList > div > div:first-child,
+    div[style*="justify-content:space-between"][style*="background:#f8fafc"],
+    div[style*="justify-content: space-between"][style*="background: #f8fafc"] {
+        display: flex !important;
+        flex-direction: column !important; 
+        align-items: flex-start !important;
+        gap: 12px !important;
+        padding: 15px !important;
+        height: auto !important;
+        border-radius: 10px !important;
+    }
+
+    #uploadedTestList > div > div:first-child div[style*="display:flex"],
+    #uploadedTestList > div > div:first-child div[style*="display: flex"],
+    div[style*="background:#f8fafc"] div[style*="display:flex"],
+    div[style*="background: #f8fafc"] div[style*="display: flex"] {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important; 
+        gap: 10px !important;
+    }
+
+    #uploadedTestList > div > div:first-child button,
+    div[style*="background:#f8fafc"] button,
+    div[style*="background: #f8fafc"] button {
+        flex: 1 !important;
+        width: 48% !important;
+        height: 42px !important; 
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        border-radius: 8px !important;
+        margin: 0 !important;
+    }
+}
+
+/* ========================================================
+   🎯 GLOBAL: TOAST'NI OLDINGI ASIL DIZAYNIGA QAYTARISH (O'NG BURCHAK)
+   ======================================================== */
+#toast, .toast {
+    position: fixed !important;
+    right: 30px !important;  /* Oldingidek o'ng burchakda */
+    bottom: 30px !important; /* Oldingidek pastki qismda */
+    left: auto !important;   /* Markazlashtirish o'chdi */
+    transform: translateY(10px) !important; /* Oldingi silliq ko'tarilish boshlang'ichi */
+    background: #28a745 !important; /* Asil yashil rang */
+    color: #fff !important;
+    padding: 12px 18px !important;
+    border-radius: 10px !important; /* Oldingi to'rtburchak-yumaloq shakli */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important; /* Oldingi asil soya */
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: 999999 !important;
+    display: block !important;
+    width: auto !important;
+    max-width: 320px !important; /* Mobileda ham ekranga yopishib ketmaydi */
+    white-space: normal !important;
+    transition: all 0.25s ease !important; /* Oldingi asil silliqlik vaqti */
+}
+
+/* Toast faollashganda (Oldingi asil holati) */
+#toast.show, .toast.show {
+    opacity: 1 !important;
+    transform: translateY(0) !important; /* Silliq joyiga ko'tarilib chiqadi */
+    pointer-events: auto !important;
+}
+
+/* Telefon ekranida o'ng burchakda juda chetga chiqib ketmasligi uchun qo'shimcha moslashuv */
+@media (max-width: 480px) {
+    #toast, .toast {
+        right: 15px !important;
+        left: 15px !important; /* Telefonda chetga qisilmasdan chiroyli en egallaydi */
+        width: auto !important;
+        max-width: calc(100% - 30px) !important;
+    }
+}
+
+</style>
+{% endblock %}
+</head>
+<body>
+{% block content %}
+<div class="container">
+<h2>Yopiq Test 
+  <span class="badge auto-eval" title="Tizim o‘zi baholaydi">
+    🔄 Avtomatik baholanadi
+  </span>
+</h2>
+<section id="mainSection">
+    <div class="form-group">
+        <label for="questionCount">Savollar soni:</label>
+        <input type="number" id="questionCount" min="1" placeholder="Masalan: 5">
+    </div>
+
+    <div class="form-group">
+        <label for="timeLimit">Vaqt (daqiqalarda):</label>
+        <input type="number" id="timeLimit" min="1" placeholder="Masalan: 30">
+    </div>
+
+    <div class="form-group" title="Bu test uchun ball tizim tomonidan avtomatik hisoblanadi">
+        <label for="score">Ball <span style="color:#28a745">(avtomatik)</span>:</label>
+        <input type="number" id="score" placeholder="Hisob avtomatik" readonly style="background:#f1fff3;border-color:#28a745;">
+    </div>
+
+    <div class="switch-buttons">
+        <button id="startManualTestBtn">Qo‘lda test yaratish</button>
+        <button onclick="showSection('fileUploadSection')">Fayldan test yaratish</button>
+        <button onclick="window.location.href='/my-closed-tests/'">Mening testlarim</button>
+    </div>
+</section>
+<section id="createTestSection" style="display:none; margin-top:14px;">
+
+    <!-- Sarlavha markazda -->
+    <h2 style="text-align:center; margin-bottom:10px;">Savollarni kiritish</h2>
+
+<!-- Tahrirlash va O‘chirish tugmalari sarlavha ostida, o‘ng burchakda -->
+<!-- <div style="display:flex; justify-content:flex-end; gap:10px; margin-bottom:20px;">
+    <button class="inline-btn edit" onclick="editAllQuestions()">Tahrirlash</button>
+    <button class="inline-btn delete" onclick="deleteAllQuestions()">O‘chirish</button>
+</div> -->
+
+    <!-- Timer -->
+    <div id="countdownWrapper" style="margin-top:10px; text-align:center;">
+        ⏱ <span id="countdownTimer">00:00</span>
+    </div>
+
+    <!-- Savollar container -->
+    <div id="questionsContainer" style="margin-top:15px;"></div>
+
+    <!-- Testni yuborish va Orqaga tugmalari savollar ostida -->
+    <div class="form-group" style="margin-top:15px;">
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" id="submitManualTestBtn">Testni yuborish</button>
+            <button class="btn" onclick="showSection('mainSection')">⬅ Orqaga</button>
+        </div>
+    </div>
+
+    <!-- Fayllar ro'yxati (agar bo'lsa) -->
+    <div id="manualUploadedTests" class="uploaded-files" style="margin-top:12px;"></div>
+
+</section>
+
+<section id="fileUploadSection" style="display:none;margin-top:14px;">
+<h2>Fayldan test yaratish</h2>
+<div class="file-options-wrapper">
+     <label class="file-option" title="Word (.doc, .docx)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" aria-hidden="true">
+          <rect x="6" y="6" width="108" height="108" rx="18" fill="#2B6CB0"/>
+          <text x="60" y="74" text-anchor="middle" font-family="Arial" font-weight="700" font-size="56" fill="#fff">W</text>
+        </svg>
+        <span>Word (.docx)</span>
+        <input type="file" id="wordFile" accept=".doc,.docx" multiple onchange="handleLocalFiles(this,'word')">
+      </label>
+      <!-- Excel -->
+      <label class="file-option" title="Excel (.xls, .xlsx)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" aria-hidden="true">
+          <rect x="6" y="6" width="108" height="108" rx="18" fill="#1E7F3E"/>
+          <text x="60" y="74" text-anchor="middle" font-family="Arial" font-weight="700" font-size="56" fill="#fff">X</text>
+        </svg>
+        <span>Excel (.xlsx)</span>
+        <input type="file" id="excelFile" accept=".csv,.xls,.xlsx" multiple onchange="handleLocalFiles(this,'excel')">
+      </label>
+
+      <!-- Text -->
+      <label class="file-option" title="Text (.txt)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" aria-hidden="true">
+          <rect x="6" y="6" width="108" height="108" rx="18" fill="#E6E6E6"/>
+          <rect x="30" y="34" width="60" height="8" rx="2" fill="#999"/>
+          <rect x="30" y="54" width="60" height="8" rx="2" fill="#999"/>
+          <rect x="30" y="74" width="40" height="8" rx="2" fill="#999"/>
+        </svg>
+        <span>Text (.txt)</span>
+        <input type="file" id="textFile" accept=".txt" multiple onchange="handleLocalFiles(this,'text')">
+      </label>
+
+</div>
+
+<div id="uploadedFilesDisplay" class="uploaded-files" style="display:none">
+<h4>📂 Yuklangan fayllar:</h4>
+<div id="uploadedTestList"></div>
+<div id="filePreview"></div>
+<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+<button class="btn" onclick="submitUploadedFiles()">Yuklangan testlarni yuborish</button>
+<button class="btn" onclick="showSection('main')">⬅ Orqaga</button>
+</div>
+</div>
+</section>
+</div>
+
+<div id="toast" class="toast"></div>
+
+{% endblock %} <!-- Content blokini yopish uchun shuni qo'shing -->
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.21/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<script>
+/* ================================
+   GLOBAL O‘ZGARUVCHILAR
+================================ */
+let uploadedFiles = [];
+const apiUrl = '/api/';
+const csrftoken = getCookie('csrftoken');
+let examInterval = null;
+
+/* ================================
+   UTILITY: CSRF TOKEN
+================================ */
+function getCookie(name) {
+    const cookies = document.cookie ? document.cookie.split(';') : [];
+    for (let c of cookies) {
+        c = c.trim();
+        if (c.startsWith(name + '=')) return decodeURIComponent(c.substring(name.length + 1));
+    }
+    return null;
+}
+
+/* ================================
+   SECTION KO‘RINISHINI O‘ZGARTIRISH
+================================ */
+function showSection(section) {
+    ['mainSection','createTestSection','fileUploadSection'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.display = id.includes(section) ? 'block' : 'none';
+    });
+}
+
+/* ================================
+   TOAST XABAR
+================================ */
+function showToast(msg) {
+    // 1. Agar sahifada eski dinamik toast bo'lsa, o'chirib tashlaymiz (chalkashmaslik uchun)
+    const oldToast = document.getElementById('dynamic-toast');
+    if (oldToast) oldToast.remove();
+
+    // 2. Butunlay yangi, mustaqil element yaratamiz
+    const t = document.createElement('div');
+    t.id = 'dynamic-toast';
+    t.textContent = msg;
+
+    // 3. O'sha o'zingizga yoqqan eski asil dizayn stillarini qat'iy inline (JS ichida) beramiz
+    t.style.position = "fixed";
+    t.style.right = "30px";
+    t.style.bottom = "30px";
+    t.style.left = "auto";
+    t.style.background = "#28a745"; // Asil yashil rang
+    t.style.color = "#ffffff";
+    t.style.padding = "12px 20px";
+    t.style.borderRadius = "10px"; // To'rtburchak-yumaloq shakli
+    t.style.boxShadow = "0 6px 20px rgba(0,0,0,0.15)"; // Mayin asil soya
+    t.style.zIndex = "1000000"; // Mutloq eng yuqori qatlam (hamma narsaning ustida turadi)
+    t.style.fontSize = "14px";
+    t.style.fontWeight = "600";
+    t.style.display = "block";
+    t.style.width = "auto";
+    t.style.maxWidth = "320px";
+    t.style.boxSizing = "border-box";
+    
+    // 4. Eski silliq ko'tarilish animatsiyasi
+    t.style.opacity = "0";
+    t.style.transform = "translateY(10px)";
+    t.style.transition = "all 0.25s ease";
+
+    // Elementni to'g'ridan-to'g'ri sahifaning eng pasiga (body ichiga) qo'shamiz
+    document.body.appendChild(t);
+
+    // Kichik kechikish bilan animatsiyani ishga tushiramiz (Silliq ko'tariladi)
+    setTimeout(() => {
+        t.style.opacity = "1";
+        t.style.transform = "translateY(0)";
+    }, 50);
+
+    // 2.5 soniyadan keyin silliq yo'qolib, o'chib ketadi
+    setTimeout(() => {
+        t.style.opacity = "0";
+        t.style.transform = "translateY(10px)";
+        setTimeout(() => {
+            t.style.remove();
+        }, 250);
+    }, 2500);
+}
+
+function editUploadedFile(index) {
+    const file = uploadedFiles[index];
+    if (!file) return showToast("Fayl topilmadi!");
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        try {
+            let content = "";
+            if (file.name.endsWith(".txt")) {
+                content = new TextDecoder("utf-8").decode(e.target.result);
+            } else if (file.name.endsWith(".docx")) {
+                const result = await mammoth.extractRawText({ arrayBuffer: e.target.result });
+                content = result.value;
+            } else if (file.name.match(/\.xlsx?$/)) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: "array" });
+                content = workbook.SheetNames.map(sn => XLSX.utils.sheet_to_csv(workbook.Sheets[sn])).join("\n\n");
+            }
+
+            const container = document.getElementById("questionsContainer");
+            
+            // Bu yerda ortiqcha tugmalarni olib tashladik, faqat textarea qoldi
+            container.innerHTML = `
+                <div class="edit-wrapper" style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #fff;">
+                    <div style="margin-bottom: 10px;">
+                        <strong>Fayl tahriri: ${file.name}</strong>
+                    </div>
+                    <div style="border: 2px solid #ffc107; border-radius: 8px; padding: 10px;">
+                        <textarea id="fullContentEditor" 
+                                  style="width: 100%; min-height: 400px; border: none; outline: none; font-family: monospace; font-size: 14px; line-height: 1.5;"
+                                  placeholder="Savollarni bu yerda tahrirlang...">${content}</textarea>
+                    </div>
+                </div>
+            `;
+            showSection("createTestSection");
+        } catch (err) {
+            showToast("Xatolik: " + err.message);
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function renderBeautifulPreview(rawText) {
+    const previewArea = document.getElementById("previewArea") || document.getElementById("questionsContainer");
+    
+    // Savollarni [s] bo'yicha ajratish
+    const questionBlocks = rawText.split(/\[s\]/).filter(b => b.trim() !== "");
+    let finalHtml = "";
+
+    // Massivni tasodifiy aralashtirish uchun yordamchi funksiya (Fisher-Yates shuffle)
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    questionBlocks.forEach((block, i) => {
+        const lines = block.trim().split('\n').filter(l => l.trim() !== "");
+        const questionText = lines[0]; 
+        let rawOptions = lines.slice(1); 
+
+        // 1. Variantlarni ob'ekt ko'rinishiga o'tkazish
+        let optionsList = rawOptions.slice(0, 4).map(opt => {
+            return {
+                text: opt.trim().replace(/^[+-]/, '').trim(),
+                isCorrect: opt.trim().startsWith('+')
+            };
+        });
+
+        // 2. VARIANTLARNI ARALASHTIRISH (Shuffle)
+        optionsList = shuffle(optionsList);
+
+        let optionsHtml = "";
+        const letters = ['A', 'B', 'C', 'D'];
+        
+        // 3. Aralashgan variantlarni chizish
+        optionsList.forEach((opt, index) => {
+            optionsHtml += `
+                <div style="border: 1px solid ${opt.isCorrect ? '#28a745' : '#eef2f7'}; 
+                            padding: 15px; margin-bottom: 10px; border-radius: 10px; 
+                            background: ${opt.isCorrect ? '#f0fff4' : '#fff'}; 
+                            display: flex; align-items: center; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);">
+                    <strong style="margin-right: 15px; color: #444;">${letters[index]})</strong> 
+                    <span style="color: #333;">${opt.text}</span>
+                    ${opt.isCorrect ? '<span style="margin-left: auto; color: #28a745;">(To‘g‘ri javob)</span>' : ''}
+                </div>`;
+        });
+
+        finalHtml += `
+            <div class="test-card" style="background: white; border: 1px solid #e0e6ed; 
+                        padding: 30px; border-radius: 15px; margin-bottom: 25px; 
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div style="font-weight: 700; font-size: 18px; margin-bottom: 20px; color: #1a202c; display: flex;">
+                    <span style="margin-right: 10px;">${i + 1}.</span>
+                    <span>${questionText}</span>
+                </div>
+                <div class="options-list">${optionsHtml}</div>
+            </div>`;
+    });
+
+    previewArea.innerHTML = finalHtml;
+}
+
+function handleLocalFiles(input) {
+    if (input.files?.length) {
+        uploadedFiles = [input.files[0]]; 
+    }
+    const file = uploadedFiles[0];
+    if (!file) return;
+
+    // 🎯 MUAMMONING EChIMI: HTML ichidagi to'g'ri elementlarni bog'laymiz
+    const listContainer = document.getElementById('uploadedTestList'); // Fayllar ro'yxati chiqadigan joy
+    const displayWrapper = document.getElementById('uploadedFilesDisplay'); // Yuklangan fayllar katta bloki
+    
+    if (!listContainer || !displayWrapper) return;
+
+    const reader = new FileReader();
+    reader.onload = async e => {
+        try {
+            let content = "";
+            
+            // 1. Faylni turiga qarab o'qib olish
+            if (file.name.endsWith('.txt')) {
+                content = e.target.result;
+            } else if (file.name.endsWith('.docx')) {
+                if (typeof mammoth === "undefined") {
+                    alert("❌ Mammoth kutubxonasi yuklanmagan! Internet aloqasini tekshiring.");
+                    return;
+                }
+                const result = await mammoth.extractRawText({ arrayBuffer: e.target.result });
+                content = result.value;
+            } else if (file.name.match(/\.xlsx?$/)) {
+                if (typeof XLSX === "undefined") {
+                    alert("❌ XLSX kutubxonasi yuklanmagan! Internet aloqasini tekshiring.");
+                    return;
+                }
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                content = workbook.SheetNames.map(sn => XLSX.utils.sheet_to_csv(workbook.Sheets[sn])).join("\n\n");
+            }
+
+            // 2. MUSTAQIL PARSER MANTIQI
+            const cleanText = content.replace(/[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g, " ");
+            const lines = cleanText.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+            
+            const parsedQuestions = [];
+            let currentQ = null;
+
+            lines.forEach((line) => {
+                const lowerLine = line.toLowerCase();
+                
+                if (lowerLine.includes('[s]')) {
+                    if (currentQ) parsedQuestions.push(currentQ);
+                    currentQ = {
+                        title: line.replace(/\[s\]/i, '').trim(),
+                        options: [],
+                        correct: []
+                    };
+                } else if (currentQ && (line.startsWith('+') || line.startsWith('-'))) {
+                    const isCorrect = line.startsWith('+');
+                    const optionText = line.substring(1).trim();
+                    
+                    if (optionText) {
+                        const label = String.fromCharCode(65 + currentQ.options.length); 
+                        currentQ.options.push({ 
+                            label: label, 
+                            text: optionText, 
+                            isCorrect: isCorrect 
+                        });
+                        if (isCorrect) currentQ.correct.push(label);
+                    }
+                } else if (!currentQ && !line.startsWith('+') && !line.startsWith('-')) {
+                    currentQ = {
+                        title: line.trim(),
+                        options: [],
+                        correct: []
+                    };
+                }
+            });
+            if (currentQ) parsedQuestions.push(currentQ);
+
+            if (parsedQuestions.length === 0) {
+                alert("⚠️ Fayl ichidan mos formatdagi testlar topilmadi. Format: [s] Savol matni...");
+                return;
+            }
+
+            // Ma'lumotlarni global o'zgaruvchida saqlaymiz (Yuborish tugmasi ishlashi uchun)
+            file.parsedData = parsedQuestions;
+
+            // 3. PARS BO'LGAN SAVOLLAR ASOSIDA VIZUAL HTML CHIZISH
+            const questionsHtml = parsedQuestions.map((q, i) => {
+                const hasOptions = q.options && q.options.length > 0;
+                const actualCorrect = q.correct && q.correct.length > 0 ? q.correct[0] : "A";
+                const letters = ['A', 'B', 'C', 'D'];
+
+                const optionsHtml = hasOptions ? q.options.map((opt, idx) => {
+                    const isCorrectView = opt.isCorrect || opt.label === actualCorrect;
+                    const safeText = opt.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    
+                    return `
+                        <div style="border: 1px solid ${isCorrectView ? '#28a745' : '#eef2f7'}; 
+                                    padding: 12px; margin-bottom: 8px; border-radius: 10px; 
+                                    background: ${isCorrectView ? '#f0fff4' : '#fff'}; 
+                                    display: flex; align-items: center;">
+                            <strong style="margin-right: 12px; color: #444; min-width: 25px;">${letters[idx] || opt.label})</strong> 
+                            <span style="color: #333;">${safeText}</span>
+                        </div>`;
+                }).join('') : `<div style="color:orange;">⚠️ Variantlar topilmadi</div>`;
+
+                return `
+                    <div class="test-card" style="background: white; border: 1px solid #e0e6ed; padding: 25px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <div style="font-weight: 700; font-size: 17px; margin-bottom: 15px; color: #1a202c; display: flex;">
+                            <span style="margin-right: 10px;">${i + 1}.</span>
+                            <span>${(q.title || q.text).replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>
+                        </div>
+                        <div class="options-list">${optionsHtml}</div>
+                    </div>`;
+            }).join('');
+
+            // 4. HEADER PANEL: Fayl nomi va boshqaruv tugmalari
+            const headerHtml = `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span>📄</span> <strong style="font-size: 14px;">${file.name}</strong>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="editUploadedFile(0)" class="inline-btn edit" style="padding: 6px 12px; font-size: 13px;">Tahrirlash</button>
+                        <button onclick="location.reload()" class="inline-btn delete" style="padding: 6px 12px; font-size: 13px;">O'chirish</button>
+                    </div>
+                </div>`;
+
+            // 5. TO'G'RI APARATGA CHIZISH VA OYNANI KO'RSATISH
+            listContainer.innerHTML = headerHtml + questionsHtml;
+            displayWrapper.style.display = "block"; // Yashirin turgan blokni ko'rinadigan qiladi
+            
+            showToast("✅ Fayl muvaffaqiyatli yuklandi!");
+
+        } catch (err) {
+            console.error(err);
+            alert("❌ Faylni o'qishda xatolik yuz berdi!");
+        }
+    };
+
+    if (file.name.endsWith('.txt')) {
+        reader.readAsText(file);
+    } else {
+        reader.readAsArrayBuffer(file);
+    }
+}
+
+async function submitUploadedFiles() {
+    const formData = new FormData();
+    const editor = document.getElementById('fullContentEditor');
+    const token = localStorage.getItem("token"); // Tokenni olishni unutmang
+
+    // 1. Fayl mazmunini yig'ish
+    if (editor) {
+        // Tahrirlangan matnni Blob qilib yuboramiz
+        const blob = new Blob([editor.value], { type: 'text/plain' });
+        const fileName = uploadedFiles[0] ? uploadedFiles[0].name : "test_savollar.txt";
+        // MUHIM: 'files' emas, 'file' bo'lishi kerak (Backendga mos)
+        formData.append('file', blob, fileName); 
+    } else if (uploadedFiles.length > 0) {
+        // Original yuklangan faylni yuboramiz
+        formData.append('file', uploadedFiles[0]);
+    } else {
+        return showToast('Hech qanday ma\'lumot topilmadi!');
+    }
+
+    // Agar title kerak bo'lsa, uni ham qo'shing
+    formData.append('title', uploadedFiles[0]?.name || "Yangi yopiq test");
+
+    try {
+        showToast('Saqlanmoqda...');
+        // URL manzilini tekshiring: oxirida slesh bo'lishi shart
+        const res = await fetch(`/api/closed-tests/upload/`, {
+            method: 'POST',
+            headers: { 
+                // DIQQAT: Content-Type yozilmaydi! 
+                'Authorization': `Token ${token}`, // Agar Token authentication bo'lsa
+                'X-CSRFToken': csrftoken 
+            },
+            body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            showToast('✅ Testlar muvaffaqiyatli saqlandi!');
+        } else {
+            console.error("Server xatosi:", data);
+            showToast('❌ Xatolik: ' + (data.error || 'Ma\'lumot formati xato'));
+        }
+    } catch (err) {
+        console.error(err);
+        showToast('❌ Tarmoq xatosi!');
+    }
+}
+
+
+function renderQuestions(count) {
+    const container = document.getElementById('questionsContainer');
+    if(!container) return;
+
+    // 1. Avval boshqaruv tugmalarini qo'shamiz (Faqat bitta joyda)
+    let headerButtons = `
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-bottom:20px;">
+            <button class="inline-btn edit" style="background:#ffc107; border:none; padding:8px 15px; border-radius:8px; cursor:pointer;" onclick="editAllQuestions()">Tahrirlash</button>
+            <button class="inline-btn delete" style="background:#dc3545; color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer;" onclick="deleteAllQuestions()">O‘chirish</button>
+        </div>`;
+
+    let questionsHtml = "";
+    for(let i=1; i<=count; i++){
+        questionsHtml += `
+        <div class="question-group" data-id="${i}" style="margin-bottom:15px;padding:20px;border:1px solid #e0e6ed;border-radius:12px; background:#fff; position:relative;">
+            <label style="font-weight:bold;">Savol ${i}:</label>
+            <textarea class="q-text" placeholder="Savol matni" rows="2" style="width:100%; margin-top:5px; border-radius:8px; border:1px solid #ddd; padding:10px;"></textarea>
+            <div class="answer-group" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+                <input type="text" class="a-A" placeholder="A javob">
+                <input type="text" class="a-B" placeholder="B javob">
+                <input type="text" class="a-C" placeholder="C javob">
+                <input type="text" class="a-D" placeholder="D javob">
+            </div>
+            <input type="text" class="correct" placeholder="To'g'ri javob (A/B/C/D)" style="margin-top:10px; border-color:#28a745;">
+        </div>`;
+    }
+    
+    container.innerHTML = headerButtons + questionsHtml;
+}
+
+
+function deleteAllQuestions() {
+    if (!confirm("Haqiqatan ham barcha savollar o‘chirilsinmi?")) return;
+    document.getElementById('questionsContainer').innerHTML = "";
+    showToast("Barcha savollar o‘chirildi!");
+}
+
+// Tahrirlash tugmasi funksiyasi
+function editAllQuestions() {
+    const questions = document.querySelectorAll(".question-group");
+
+    if (questions.length === 0) {
+        showToast("Savol mavjud emas!", 2500);
+        return;
+    }
+
+    questions.forEach(q => {
+        q.querySelectorAll("input").forEach(input => {
+            input.removeAttribute("readonly");
+            input.style.background = "#fff";
+            input.style.border = "1px solid #ccc";
+        });
+    });
+
+    showToast("Savollarni tahrirlashingiz mumkin!", 3000);
+}
+
+/* ================================
+   EVENT LISTENERS
+================================ */
+// Savol soni o‘zgarganda
+document.getElementById('questionCount')?.addEventListener('change', e => {
+    const count = parseInt(e.target.value);
+    if(count && count>0) renderQuestions(count);
+});
+
+
+// Qo‘lda test boshlash
+document.getElementById('startManualTestBtn')?.addEventListener('click', ()=>{
+    const count = parseInt(document.getElementById('questionCount')?.value)||1;
+    const duration = parseInt(document.getElementById('timeLimit')?.value)||1;
+
+    renderQuestions(count);
+    startCountdown(duration);
+
+     // Qo‘lda test sectionini ko‘rsatish
+    showSection('createTestSection'); // alternativ tarzda
+
+    // Qo‘lda test sectionini ko‘rsatish
+    document.getElementById('mainSection').style.display = 'none';
+    document.getElementById('createTestSection').style.display = 'block';
+});
+
+
+// TESTNI YUBORISH (HAM QO'LDA, HAM FAYL UCHUN UNIVERSAL)
+document.getElementById('submitManualTestBtn')?.addEventListener('click', async () => {
+    
+    // 1. Fayl rejimi yoki tahrirlash ochiqligini tekshirish
+    const isFileMode = document.getElementById('fullContentEditor') || 
+                       (uploadedFiles.length > 0 && document.querySelector('.test-card'));
+
+    if (isFileMode) {
+        // Agar ekranda fayl bo'lsa, faylni yuborish funksiyasini chaqiramiz
+        return submitUploadedFiles(); 
+    }
+
+    // 2. QO'LDA YARATISH REJIMI (Agar fayl bo'lmasa, pastdagi kod ishlaydi)
+    const title = "Qo'lda yaratildi";
+    const duration = parseInt(document.getElementById('timeLimit')?.value) || 30;
+    const score = parseInt(document.getElementById('score')?.value) || 100;
+
+    const questions = [];
+    // Qo'lda kiritilgan savollarni yig'ish
+    document.querySelectorAll('.question-group').forEach(q => {
+        const text = q.querySelector('.q-text')?.value.trim();
+        const aA = q.querySelector('.a-A')?.value.trim();
+        const aB = q.querySelector('.a-B')?.value.trim();
+        const aC = q.querySelector('.a-C')?.value.trim();
+        const aD = q.querySelector('.a-D')?.value.trim();
+        const correct = q.querySelector('.correct')?.value.trim().toUpperCase();
+        
+        if (text && aA && aB && aC && aD && correct) {
+            questions.push({ 
+                text, 
+                question_type: 'single', 
+                answers: { A: aA, B: aB, C: aC, D: aD }, 
+                correct 
+            });
+        }
+    });
+
+    if (questions.length === 0) {
+        return showToast('Savollar kiritilmagan!');
+    }
+
+    try {
+        showToast('Saqlanmoqda...');
+        const res = await fetch(`${apiUrl.replace(/\/+$/, '')}/create_manual_closed_test/`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'X-CSRFToken': csrftoken 
+            },
+            body: JSON.stringify({ 
+                title, 
+                description: '', 
+                duration_minutes: duration, 
+                score, 
+                questions 
+            })
+        });
+        
+        const data = await res.json();
+        // Backend 'test_id' yoki muvaffaqiyat statusi qaytarishini tekshiring
+        if (res.ok) {
+            showToast(`✅ Test muvaffaqiyatli yaratildi!`);
+            // setTimeout(() => location.href = '/my-closed-tests/', 1500);
+        } else {
+            showToast('Xatolik: ' + (data.detail || 'Server saqlay olmadi'));
+        }
+    } catch (err) {
+        console.error(err);
+        showToast('Xatolik yuz berdi!');
+    }
+});
+
+// COUNTDOWN timer
+let countdownInterval;
+
+function startCountdown(minutes) {
+    let totalSeconds = minutes * 60;
+
+    clearInterval(countdownInterval);
+
+    const timerEl = document.getElementById("countdownTimer");
+    if (!timerEl) return; // element mavjudligini tekshirish
+
+    function updateTimer() {
+       if (totalSeconds < 0) {
+    clearInterval(countdownInterval);
+    showToast("⛔ Vaqt tugadi! Test yakunlandi.", 4000, "#dc3545"); // qizil rang
+    return;
+        }
+
+        const m = Math.floor(totalSeconds / 60);
+        const s = totalSeconds % 60;
+
+        timerEl.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+        totalSeconds--;
+    }
+
+    updateTimer(); // darhol birinchi marta ko‘rsatish
+    countdownInterval = setInterval(updateTimer, 1000);
+}
+
+// Sahifa yuklanganda main section
+window.addEventListener('DOMContentLoaded', ()=>showSection('mainSection'));
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

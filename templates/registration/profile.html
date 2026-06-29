@@ -1,0 +1,377 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaxsiy Kabinet</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+    --primary:#2a9d8f;
+    --dark:#264653;
+    --accent:#e9c46a;
+    --card-bg: rgba(0,0,0,0.45);
+    --soft: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.18);
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    background: url("{% static 'img/carousel-2.jpg' %}") center/cover no-repeat;
+    margin: 0; padding: 0;
+    min-height: 100vh;
+    color: #fff;
+    display: flex; justify-content: center; align-items: center;
+}
+.container {
+    width: 92%; max-width: 1150px;
+    padding: 28px;
+    border-radius: 22px;
+    background: var(--card-bg);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+.header { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+.header h1 { margin:0; font-size:1.8rem; }
+.grid { display:grid; grid-template-columns:300px 1fr; gap:22px; }
+.profile-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 50px;
+    text-align: center;
+}
+.avatar{
+    width: 110px; height: 110px; border-radius: 50%;
+    margin: 6px auto 12px;
+    border: 4px solid rgba(255,255,255,0.9);
+    background-size: cover;
+    background-position: center;
+}
+.username{ font-weight:700; font-size:1.2rem; }
+.email{ font-size:.95rem; opacity:.9; margin-top:4px; }
+.chip{
+    display:inline-block;
+    background:rgba(42,157,143,0.15);
+    border:1px solid rgba(42,157,143,0.35);
+    padding:6px 10px; border-radius:999px;
+    font-size:.85rem; margin-top:10px;
+}
+.main-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+}
+.stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:18px; }
+.stat{ background:var(--soft); border:1px solid var(--border); padding:16px; border-radius:14px; }
+.stat .num{ font-size:1.4rem; font-weight:700; }
+.info{ display:grid; grid-template-columns:160px 1fr; gap:10px; }
+.btns{ margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; }
+.btn{ background:linear-gradient(45deg, var(--primary), #37b3a6); color:#fff; padding:12px 18px; border-radius:12px; text-decoration:none; }
+.btn.secondary{ background:linear-gradient(45deg, #5474ff, #6a11cb); }
+.message {margin-bottom:20px; padding:12px; border-radius:8px; font-size:15px;}
+.message.success {background-color:#28a745; color:white;}
+.message.error {background-color:#dc3545; color:white;}
+
+/* Profil sahifasi uchun Mobile FIX */
+@media (max-width: 768px) {
+body {
+    display: flex !important;           /* Markazlash ishlashi uchun shart */
+    justify-content: center !important;  /* Chap-o'ng tomondan markazga oladi */
+    align-items: center !important;     /* Tepa-past tomondan markazga oladi (O'RTA) */
+    min-height: 100vh !important;       /* Ekran balandligini to'liq hisobga oladi */
+    padding: 10px !important;           /* Chetlariga ozgina masofa */
+}
+
+    /* Ramkani mobilga moslash */
+    .container {
+        width: 84% !important;
+        padding: 15px !important;
+        margin: 5px auto;
+        border-radius: 15px !important;
+    }
+
+    .grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px;
+    }
+
+    .profile-card {
+        width: 100% !important;
+        padding: 20px !important;
+        border-radius: 15px !important;
+        box-sizing: border-box;
+    }
+
+    /* Statistika bloklarini yonma-yon saqlash (3 tasi bitta qatorda) */
+    .stats {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .stat .num { font-size: 1.1rem !important; }
+    .stat .lbl { font-size: 0.7rem !important; }
+
+    /* Tugmalarni yonma-yon (gorizontal) qilish */
+    .btns {
+        display: flex !important;
+        flex-direction: row !important; /* Gorizontal joylashuv */
+        gap: 8px !important;
+        width: 100% !important;
+        margin-top: 20px !important;
+    }
+
+    .btn {
+        flex: 1 !important; /* Ikkala tugma teng en egallaydi */
+        padding: 10px 5px !important;
+        font-size: 0.75rem !important; /* Matn sig'ishi uchun biroz kichikroq */
+        text-align: center;
+        border-radius: 8px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .info {
+        grid-template-columns: 1fr !important;
+        gap: 2px !important;
+    }
+
+    .key {
+        font-size: 0.85rem;
+        margin-top: 8px;
+        opacity: 0.8;
+    }
+    
+    .val {
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header"><h1>Profil</h1></div>
+    <div id="message-box"></div>
+
+    <div class="grid">
+        <aside class="profile-card">
+            <!-- <div id="avatar" class="avatar" style="background-image: url('{% static "imagen/default-avatar.png" %}');"></div> -->
+            <div id="username" class="username">Foydalanuvchi</div>
+            <!-- <div id="email" class="email">email@domain.com</div> -->
+            <!-- <div class="chip">Foydalanuvchi</div> -->
+        </aside>
+
+        <main class="main-card">
+            <div class="stats">
+                <div class="stat"><div id="solved_tests" class="num">0</div><div class="lbl">Yechilgan testlar</div></div>
+                <div class="stat"><div id="average_score" class="num">0%</div><div class="lbl">O‘rtacha natija</div></div>
+                <div class="stat"><div id="groups_count" class="num">0</div><div class="lbl">Guruhlar</div></div>
+            </div>
+
+            <div class="section">
+                <h3>Shaxsiy maʼlumotlar</h3>
+                <div class="info">
+                    <!-- <div class="key">Foydalanuvchi nomi:</div>
+                    <div id="profile_username" class="val">—</div> -->
+                    <div class="key">Ism Familiya:</div>
+                    <div id="profile_fullname" class="val">—</div>
+                    <div class="key">Email:</div>
+                    <div id="profile_email" class="val">—</div>
+                    <div class="key">Roʻyxatdan o‘tgan sana:</div>
+                    <div id="profile_date_joined" class="val">—</div>
+                </div>
+
+                <div class="btns">
+                    <a class="btn" href="{% url 'profile_edit_page' %}">Profilni yangilash</a>
+                    <a class="btn secondary" href="{% url 'change-password' %}">Parolni o‘zgartirish</a>
+                    <!-- <a class="btn btn-payment" href="/test/12/payment/">To‘lov</a> -->
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+const messageBox = document.getElementById("message-box");
+
+function showMessage(text, type = "error") {
+    if (messageBox) {
+        messageBox.innerHTML = `<div class="message ${type}">${text}</div>`;
+    }
+}
+
+async function loadProfile() {
+    if (!token) {
+        showMessage("Avval tizimga kiring!", "error");
+        return;
+    }
+
+    try {
+        const res = await fetch("/api/profile/me/", {
+            headers: { "Authorization": `Token ${token}` }
+        });
+
+        if (res.status === 401) {
+            showMessage("Sessiya tugagan, qaytadan tizimga kiring.", "error");
+            return;
+        }
+        if (!res.ok) throw new Error("Profilni olishda xatolik");
+
+        const data = await res.json();
+
+        // 🔹 FOYDALANUVCHI NOMI (Olib tashlandi)
+        // Agar yuqorida header qismida username qolgan bo'lsa, uni email bilan almashtiramiz
+        const usernameEl = document.getElementById("username");
+        if (usernameEl) usernameEl.innerText = data.email || "—";
+        
+        const emailEl = document.getElementById("email");
+        if (emailEl) emailEl.innerText = data.email || "—";
+
+        // 🔹 PROFIL BO'LIMI
+        // profile_username elementini butunlay o'chirib tashlang yoki emailga o'zgartiring
+        if (document.getElementById("profile_username")) {
+            document.getElementById("profile_username").style.display = "none"; // Ko'rsatmaslik uchun
+        }
+
+        if (document.getElementById("profile_fullname")) {
+            // Backenddan kelgan first_name va last_name ni birlashtiramiz
+            const fullName = (data.first_name || "") + " " + (data.last_name || "");
+            document.getElementById("profile_fullname").innerText = fullName.trim() || "—";
+        }
+
+        if (document.getElementById("profile_email")) {
+            document.getElementById("profile_email").innerText = data.email || "—";
+        }
+
+        if (document.getElementById("profile_date_joined")) {
+            // Backenddan tayyor Kun.Oy.Yil formatida keladi
+            document.getElementById("profile_date_joined").innerText = data.date_joined || "—";
+        }
+
+        // 🔹 STATISTIKA
+        if (document.getElementById("solved_tests")) {
+            document.getElementById("solved_tests").innerText = data.solved_tests || 0;
+        }
+        if (document.getElementById("average_score")) {
+            // Agar backenddan string (% bilan) kelsa o'zini chiqaramiz
+            document.getElementById("average_score").innerText = data.average_score || "0%";
+        }
+        if (document.getElementById("groups_count")) {
+            document.getElementById("groups_count").innerText = data.groups_count || 0;
+        }
+
+        // 🔹 AVATAR LOGIKASI
+        const avatarEl = document.getElementById("avatar");
+        if (avatarEl) {
+            let avatarUrl = "/static/imagen/default-avatar.png"; 
+            if (data.gender === "male") avatarUrl = "/static/imagen/male.png";
+            if (data.gender === "female") avatarUrl = "/static/imagen/female.png";
+            
+            if (data.avatar_url) {
+                avatarUrl = data.avatar_url.startsWith("http")
+                    ? data.avatar_url
+                    : window.location.origin + data.avatar_url;
+            }
+            avatarEl.style.backgroundImage = `url('${avatarUrl}')`;
+        }
+
+    } catch (err) {
+        console.error(err);
+        showMessage(err.message || "Server bilan bog'lanishda xatolik", "error");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadProfile);
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

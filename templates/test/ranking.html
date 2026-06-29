@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Reyting | Professional Test Platformasi</title>
+    
+    <style>
+        /* ====================================
+           CSS KODI: Dashboard Stili, Yorqin va Toza
+           ==================================== */
+        :root {
+            --primary-color: #007bff; /* Moviy */
+            --primary-light: #e6f0ff; 
+            --secondary-color: #28a745; /* Yashil */
+            --background-color: #06BBCC;
+            --card-background: #ffffff;
+            --text-color: #343a40;
+            --input-border: #dee2e6;
+            --fieldset-border: #ced4da; /* Yangi: Blok chegarasi */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            padding: 30px 10px;
+            display: flex;
+            justify-content: center;
+            color: var(--text-color);
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        /* --- INTERAKTIV SARLAVHA STILI --- */
+        .header-title {
+            font-size: 2.2em; 
+            font-weight: 800;
+            margin-bottom: 25px;
+            padding: 15px 0;
+            text-align: center;
+            background: linear-gradient(45deg, var(--primary-color), #00a4ff, #5cb85c, var(--primary-color));
+            background-size: 400% 400%; 
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent; 
+            animation: gradientShift 8s ease infinite; 
+            cursor: default; 
+            transition: transform 0.3s ease;
+        }
+
+        .header-title:hover {
+            transform: scale(1.01);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- FILTR VA SARALASH BLOKLARI STILI (Yangi) --- */
+        .filter-sort-panel {
+            display: flex;
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            gap: 20px; /* Bloklar orasidagi bo'shliq */
+            flex-wrap: wrap;
+        }
+
+        .filter-sort-group {
+            border: 1px solid var(--fieldset-border); /* Blok chegarasi */
+            border-radius: 8px;
+            padding: 15px;
+            flex-grow: 1;
+            min-width: 250px; /* Minimal kenglikni belgilash */
+        }
+        
+        .group-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .input-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* --- Input Stili --- */
+        .input-group {
+            position: relative;
+            flex-grow: 1;
+            min-width: 120px;
+        }
+
+        .input-group input[type="text"],
+        .input-group select {
+            padding: 10px 15px;
+            border: 1px solid var(--input-border);
+            border-radius: 6px; 
+            font-size: 0.95em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        /* Qidiruv Ikonkasi */
+        .input-group.search-input input[type="text"] {
+            padding-left: 40px;
+        }
+        .input-group.search-input::before {
+            content: "🔍";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 1em;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        /* --- Reyting Jadvali va Boshqa Stillar (o'zgarmas) --- */
+        .rating-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 120px 100px;
+            padding: 18px 30px;
+            color: #6c757d;
+            font-size: 0.95em;
+            font-weight: 600;
+            border-bottom: 1px solid var(--input-border);
+            background-color: var(--primary-light); 
+        }
+        .table-header > div:nth-child(4), .table-header > div:nth-child(5) { text-align: right; }
+
+        .rating-item {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 120px 100px;
+            align-items: center;
+            padding: 15px 30px;
+            border-bottom: 1px solid #f8f9fa;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+        .rank { font-weight: 700; text-align: center; color: var(--primary-color); }
+        .score-value { font-weight: 700; text-align: right; color: var(--secondary-color); }
+        .highlight-row {
+            background-color: var(--primary-light);
+            border-left: 5px solid var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* --- TOAST NOTIFICATION STILI --- */
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        .toast-message {
+            background-color: #333; color: white; padding: 12px 20px;
+            border-radius: 8px; margin-top: 10px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0; transition: opacity 0.5s, transform 0.5s; transform: translateY(20px);
+            max-width: 300px; font-size: 0.9em;
+        }
+        .toast-message.show { opacity: 1; transform: translateY(0); }
+
+        /* ====================================
+   MOBILE OPTIMIZATSIYA (FAQAT SMARTFONLAR UCHUN)
+/* ====================================
+   MOBILE OPTIMIZATSIYA - BALLNI SIG'DIRISH
+   ==================================== */
+@media (max-width: 768px) {
+    /* Sahifa siljishini to'xtatamiz */
+    html, body {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    .main-wrapper {
+        padding: 0 5px !important;
+    }
+
+    /* Dashboard yozuvini kichraytirish va markazlash */
+    .header-title {
+        font-size: 1.1rem !important;
+        text-align: center !important;
+        margin: 10px 0 !important;
+    }
+
+    /* Inputlarni ramka ichiga sig'dirish */
+    .filter-sort-panel {
+        margin: 0 5px 15px 5px !important;
+        padding: 12px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* JADVALNI OPTIMALLASHTIRISH */
+    .rating-card {
+        margin: 0 5px !important;
+        overflow: hidden !important; /* Skrollni butunlay yo'qotamiz */
+    }
+
+    /* Ustunlar kengligini Ball sig'adigan qilib taqsimlash */
+    /* # (35px) | O'quvchi (1.2fr) | Guruh (0.8fr) | T.J (50px) | Ball (50px) */
+    .table-header, .rating-item {
+        display: grid !important;
+        grid-template-columns: 35px 1.2fr 0.8fr 50px 50px !important;
+        gap: 2px !important;
+        padding: 10px 5px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .table-header {
+        font-size: 9px !important; /* Sarlavha yozuvlari juda kichik ekranlarda ham sig'ishi uchun */
+        font-weight: bold;
+    }
+
+    .rating-item {
+        font-size: 11px !important;
+    }
+
+    /* "To'g'ri javob" so'zi sig'magani uchun uni qisqartiramiz (CSS orqali) */
+    .table-header div:nth-child(6) {
+        font-size: 0; /* Asl "To'g'ri javob" yozuvini yashirish */
+    }
+    .table-header div:nth-child(4)::after {
+        content: ""; /* Qisqa variant */
+        font-size: 9px;
+    }
+
+    /* Ball ustunini yashil va qalin qilish */
+    .score-value {
+        font-weight: 800 !important;
+        color: var(--secondary-color) !important;
+        text-align: right !important;
+        padding-right: 5px;
+    }
+
+    /* Ism uzun bo'lsa pastga tushmasdan qirqib tashlanadi */
+    .user-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /* --- FILTRLARNI MOBILDA ISHLATISH UCHUN TUZATISH --- */
+    
+    /* 1. Bloklarning ustma-ust tushib qolishini oldini olish */
+    .filter-sort-panel {
+        position: relative !important;
+        z-index: 100 !important; /* Jadvaldan balandda turishi shart */
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* 2. Qidiruv ikonkasini bosishga xalaqit bermaydigan qilish */
+    .input-group.search-input::before {
+        pointer-events: none !important; /* Ikonka bosishni to'smaydi */
+        z-index: 10 !important;
+    }
+
+    /* 3. Input va Selectlarni aktiv qilish */
+    .input-group input, 
+    .input-group select {
+        position: relative !important;
+        z-index: 5 !important;
+        pointer-events: auto !important; /* Bosish ruxsat etilgan */
+        background-color: #ffffff !important; /* Rang ko'rinib tursin */
+        /* -webkit-appearance: listbox !important; iOS select muammosi uchun */
+    }
+
+    /* 4. Inputga bosganda klaviatura jadvalni yopib qo'ymasligi uchun */
+    .input-group input:focus {
+        border-color: var(--primary-color) !important;
+        outline: none !important;
+        box-shadow: 0 0 5px rgba(0,123,255,0.5);
+    }
+}
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="header-title">
+        DASHBOARD REYTING 
+    </div>
+
+    <div class="filter-sort-panel">
+        
+        <div class="filter-sort-group" style="min-width: 200px;">
+            <div class="group-title">O'quvchini qidirish</div>
+            <div class="input-controls">
+                <div class="input-group search-input" style="flex-basis: 100%;">
+                    <input type="text" id="searchName" placeholder="F.I.SH. bo'yicha qidirish">
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-sort-group">
+            <div class="group-title">Natijalarni filtrlash</div>
+            <div class="input-controls">
+                <div class="input-group">
+                    <select id="filterGroup">
+                        <option value="">— Guruh —</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <select id="filterTest">
+                        <option value="">— Test nomi —</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-sort-group" style="min-width: 180px;">
+            <div class="group-title">Natijani saralash</div>
+            <div class="input-controls">
+                <div class="input-group" style="flex-basis: 100%;">
+                    <select id="sortBy">
+                        <option value="score">Ball bo'yicha</option>
+                        <option value="correct_count">To'g'ri javoblar</option>
+                        <option value="rank">O'rin bo'yicha</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="rating-card">
+        <div class="table-header">
+            <div>#</div>
+            <div>O'QUVCHI</div>
+            <div>GURUH</div>
+            <div>TO'G'RI JAVOB</div>
+            <div>BALL</div>
+        </div>
+        
+        <div id="loadingMessage">Ma'lumotlar yuklanmoqda... Iltimos, kuting.</div>
+        
+        <div id="ratingList">
+        </div>
+        
+        <div id="emptyMessage" style="display:none;">Filtrlashga mos keluvchi o'quvchilar topilmadi.</div>
+    </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const ratingListContainer = document.getElementById('ratingList');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const emptyMessage = document.getElementById('emptyMessage');
+    const searchInput = document.getElementById('searchName');
+    const groupSelect = document.getElementById('filterGroup');
+    const sortBySelect = document.getElementById('sortBy');
+
+    let currentUserUsername = null;
+
+    /**
+     * 1. Ma'lumotlarni serverdan olish.
+     * Bu funksiya endi har bir harf bosilganda emas, debounce orqali ishlaydi.
+     */
+    async function fetchData() {
+        loadingMessage.style.display = 'block';
+        emptyMessage.style.display = 'none';
+        
+        // Backend kutayotgan parametrlar (trim() qo'shildi)
+        const params = new URLSearchParams({
+            search: searchInput.value.trim(), 
+            group: groupSelect.value,
+            sort: sortBySelect.value
+        });
+
+        try {
+            // Profil va natijalarni parallel yuklash
+            const [profileRes, resultsRes] = await Promise.all([
+                fetch('/api/profile/me/', { credentials: 'include' }),
+                fetch(`/api/results/?${params.toString()}`, { credentials: 'include' })
+            ]);
+
+            let resultsData = [];
+            if (resultsRes.ok) {
+                resultsData = await resultsRes.json();
+            }
+
+            if (profileRes.ok) {
+                const profileData = await profileRes.json();
+                currentUserUsername = profileData.username;
+                
+                // Guruhlarni to'ldirish (faqat birinchi marta)
+                if (groupSelect.options.length <= 1 && resultsData.length > 0) {
+                    const groups = [...new Set(resultsData.map(u => u.group).filter(g => g))];
+                    fillGroupFilter(groups);
+                }
+            }
+
+            renderRating(resultsData);
+
+        } catch (error) {
+            console.error("Fetch xatosi:", error);
+            // showToast funksiyasi mavjud bo'lsa ishlaydi
+            if (typeof showToast === "function") showToast('🚫 Ma\'lumot yuklashda xato!');
+        } finally {
+            loadingMessage.style.display = 'none';
+        }
+    }
+
+    /**
+     * 2. Guruhlarni dropdown menyuga qo'shish
+     */
+    function fillGroupFilter(groups) {
+        // Avvalgi variantlarni saqlab qolgan holda qo'shish
+        groups.forEach(group => {
+            const option = document.createElement('option');
+            option.value = group;
+            option.textContent = group;
+            groupSelect.appendChild(option);
+        });
+    }
+
+    /**
+     * 3. Jadvalni chizish (Ism-sharif muammosi shu yerda yechilgan)
+     */
+    function renderRating(data) {
+        ratingListContainer.innerHTML = '';
+
+        if (!data || data.length === 0) {
+            emptyMessage.style.display = 'block';
+            return;
+        }
+
+        data.forEach((user, index) => {
+            const listItem = document.createElement('div');
+            listItem.classList.add('rating-item');
+
+            // Hozirgi foydalanuvchini ko'k rang bilan ajratish
+            if (currentUserUsername && user.username === currentUserUsername) {
+                listItem.classList.add('highlight-row');
+            }
+
+            // O'rin raqami
+            const rank = index + 1;
+
+            // DIQQAT: Ism-sharif chiqishi uchun user.name ustuvorligi
+            // Agar backend Serializer'da name deb berilgan bo'lsa o'shani oladi, 
+            // bo'lmasa username'ni ko'rsatadi.
+            const displayName = user.name || user.username || "Noma'lum o'quvchi";
+
+            listItem.innerHTML = `
+                <div class="rank">#${rank}</div>
+                <div class="user-name"><strong>${displayName}</strong></div>
+                <div class="group-name">${user.group || '-'}</div>
+                <div class="correct-answers">${user.correct_count} ta</div>
+                <div class="score-value">${user.score}</div>
+            `;
+
+            ratingListContainer.appendChild(listItem);
+        });
+    }
+
+    // 4. QIDIRUVNI OPTIMALLASHTIRISH (Debounce)
+    let timeout = null;
+    searchInput.addEventListener('input', () => {
+        clearTimeout(timeout);
+        // Foydalanuvchi yozishdan to'xtagach 500ms dan keyin so'rov yuboradi
+        timeout = setTimeout(fetchData, 500); 
+    });
+
+    // Filtrlarni o'zgarishi bilan yangilash
+    groupSelect.addEventListener('change', fetchData);
+    sortBySelect.addEventListener('change', fetchData);
+
+    // Dastlabki yuklash
+    fetchData();
+});
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guruhlar & Chat Paneli</title>
+<style>
+:root {
+    --primary-color:  #06BBCC;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --border-radius: 10px;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --toast-success: #28a745;
+    --toast-error: #dc3545;
+    --toast-info: #007bff;
+    --toast-warning: #ffc107;
+    --toast-text-light: #fff;
+    --toast-text-dark: #333;
+}
+
+/* Body va layout */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin:0;
+    padding:0;
+    display:flex;
+    min-height:100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+.sidebar h2 { text-align:center; margin-bottom:30px; }
+.sidebar button {
+    display:block; width:100%;
+    padding:14px 20px;
+    margin-bottom:12px;
+    border:none; color:white; text-align:left;
+    border-radius: var(--border-radius);
+    font-size:16px;
+    cursor:pointer;
+    transition: background 0.3s;
+}
+.sidebar button:hover, .sidebar button.active {
+    background-color: #34495e;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow:1; padding:30px;
+}
+.tab-content {
+    display:none;
+    background-color: var(--card-bg);
+    padding:30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-top:20px;
+}
+.tab-content.active { display:block; }
+h3 { color:var(--primary-color); border-bottom:2px solid var(--primary-color); padding-bottom:10px; margin-bottom:20px; }
+
+/* Form */
+.form-group { margin-bottom:18px; }
+label { display:block; margin-bottom:6px; font-weight:bold; color:#555; }
+input[type=text], input[type=number], textarea {
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size:16px;
+    box-sizing:border-box;
+    transition:border 0.3s, box-shadow 0.3s;
+}
+input[type=text]:focus, input[type=number]:focus, textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 6px rgba(0,123,255,0.3);
+}
+textarea { resize: vertical; }
+
+/* Buttons */
+.btn {
+    padding:12px 25px;
+    border:none;
+    border-radius: var(--border-radius);
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+    transition: all 0.3s;
+}
+.btn-primary { background-color: var(--primary-color); color:white; }
+.btn-primary:hover { background-color:#0056b3; }
+.btn-danger { background-color: var(--error-color); color:white; }
+.btn-danger:hover { background-color:#c82333; }
+
+/* List Items */
+.list-item {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:15px; border-bottom:1px solid #eee;
+    border-radius: var(--border-radius);
+    margin-bottom:8px;
+    transition: background 0.3s;
+}
+.list-item:hover { background: #f0f8ff; }
+.list-item-title { font-weight:bold; }
+
+/* Chat */
+.chat-container {
+    display:flex; flex-direction:column; height:500px;
+    border:1px solid #ddd; border-radius: var(--border-radius);
+}
+.chat-messages { flex-grow:1; padding:15px; overflow-y:auto; background:#fafafa; }
+.chat-input { padding:10px; border-top:1px solid #ddd; display:flex; gap:10px; }
+.chat-input input { flex-grow:1; padding:12px; border-radius:6px; border:1px solid #ccc; }
+.message { margin-bottom:10px; padding:10px 16px; border-radius:20px; max-width:70%; word-wrap:break-word; }
+.message.sent { background-color: var(--primary-color); color:white; align-self:flex-end; margin-left:auto; }
+.message.received { background-color:#e0e0e0; color:#333; align-self:flex-start; margin-right:auto; }
+
+
+/* Toast */
+#toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 16px 22px;
+    border-radius: 10px;
+    display: none;
+    z-index: 1000;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease;
+}
+
+/* Ko‘rsatish animatsiyasi */
+#toast.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ranglar */
+#toast.success { background-color: var(--toast-success); color: var(--toast-text-light); }
+#toast.error   { background-color: var(--toast-error);   color: var(--toast-text-light); }
+#toast.warning { background-color: var(--toast-warning); color: var(--toast-text-dark); }
+#toast.info    { background-color: var(--toast-info);    color: var(--toast-text-light); }
+
+
+.message-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.sender-name {
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
+}
+
+.msg-text {
+    font-size: 15px;
+    line-height: 1.4;
+    padding-left: 40px; /* avatar bilan joy ajratish */
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+:root {
+    --primary-color: #06BBCC;
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --border-radius: 12px;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    display: flex;
+    flex-direction: row; /* Desktopda yonma-yon */
+    min-height: 100vh;
+}
+
+/* Sidebar Mobil uchun */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    flex-shrink: 0;
+    transition: 0.3s;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- RESPONSIVE O'ZGARISHLAR --- */
+/* --- FAQAT MOBILE UCHUN STILLAR --- */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; 
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around; 
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-sizing: border-box;
+    }
+
+    .sidebar h2 {
+        display: none; 
+    }
+
+    .sidebar button {
+        margin-bottom: 0;
+        padding: 10px;
+        font-size: 14px;
+        flex: 1;
+        text-align: center;
+        margin: 0 5px;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    /* 1. GURUH RO'YXATIDAGI TUGMALAR (Chatga kirish va h.k) */
+    .list-item {
+        flex-direction: column !important; 
+        align-items: stretch !important;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .list-item button {
+        width: 100% !important; /* Tugmalar bir xil hajmda bo'ladi */
+        margin: 0;
+    }
+
+    /* 2. CHAT INPUT VA YUBORISH TUGMASI */
+    .chat-input {
+        flex-direction: column !important; /* Input tepada, tugma pastda */
+        gap: 10px;
+        padding: 12px;
+        background: #fff;
+    }
+
+    .chat-input input {
+        width: 100% !important; /* To'liq gorizontal kenglik */
+        flex: none !important;
+        padding: 12px;
+    }
+
+    .chat-input .btn {
+        width: 100% !important; /* Yuborish tugmasi ham to'liq kenglikda */
+        margin: 0;
+        padding: 12px;
+    }
+
+    /* Boshqa mobil sozlamalar */
+    #tabGroup > div {
+        flex-direction: column !important;
+    }
+
+    .chat-container {
+        height: calc(100vh - 300px); /* Ekran balandligiga moslash */
+    }
+
+    .message {
+        max-width: 85%;
+    }
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-top: 10px;
+}
+
+.tab-content.active { display: block; }
+
+/* Chat xabarlari stili */
+.message {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.message.sent {
+    background-color: var(--primary-color);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.message.received {
+    background-color: #e9ecef;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.msg-text {
+    padding-left: 0; /* Tozalash */
+    margin-top: 5px;
+    word-break: break-word;
+}
+
+.msg-time {
+    font-size: 10px;
+    opacity: 0.7;
+    text-align: right;
+    margin-top: 5px;
+}
+
+/* Tugmalar */
+.btn {
+    width: 100%; /* Mobilda tugmalar to'liq kenglikda */
+    margin-top: 10px;
+}
+
+@media (min-width: 769px) {
+    .btn { width: auto; }
+}
+
+</style>
+</head>
+<body>
+
+<div id="app" data-csrf-token="{{ csrf_token }}"></div>
+
+
+<aside class="sidebar">
+<h2>Panel</h2>
+<button id="navGroup" class="active">Guruhlar</button>
+<button id="navChat">Chat</button>
+</aside>
+
+<main class="main-content">
+<h1></h1>
+
+<section id="tabGroup" class="tab-content active">
+<h3>Guruh Yaratish / Qo'shilish</h3>
+<div style="display:flex; gap:20px;">
+<div style="flex:1;">
+<h4>Yangi Guruh Yaratish</h4>
+<div class="form-group">
+<label for="groupName"></label>
+<input type="text" id="groupName" placeholder="Guruh nomini kiriting" required />
+</div>
+<button type="button" class="btn btn-primary" onclick="createGroup()">Guruhni Yaratish</button>
+<div id="inviteTokenDisplay" style="margin-top:15px;padding:10px;background:#f0f8ff;border:1px dashed var(--primary-color);border-radius:5px;display:none;">
+<label>Taklif Linki:</label>
+<input type="text" id="inviteLink" readonly />
+</div>
+</div>
+<div style="flex:1;">
+<h4>Sizning Guruhlaringiz</h4>
+<div id="groupList"></div>
+</div>
+</div>
+</section>
+
+<section id="tabChat" class="tab-content">
+<h3>Guruh Chati</h3>
+<h4 id="currentGroupName">Guruh nomini tanlang...</h4>
+<div class="chat-container">
+<div class="chat-messages" id="chatMessages"></div>
+<div class="chat-input">
+<input type="text" id="messageInput" placeholder="Xabar yuborish..." />
+<button class="btn btn-primary" onclick="sendMessage()">Yuborish</button>
+</div>
+
+
+</div>
+</section>
+
+</main>
+<div id="toast"></div>
+
+<script>
+// --- Global Variables ---
+const csrftoken = app.dataset.csrfToken;
+
+const groupListEl = document.getElementById('groupList');
+const inviteLinkInput = document.getElementById('inviteLink');
+const inviteDisplay = document.getElementById('inviteTokenDisplay');
+const currentGroupNameEl = document.getElementById('currentGroupName');
+const chatMessagesEl = document.getElementById('chatMessages');
+const messageInputEl = document.getElementById('messageInput');
+
+const navGroupBtn = document.getElementById('navGroup');
+const navChatBtn = document.getElementById('navChat');
+
+const tabGroup = document.getElementById('tabGroup');
+const tabChat = document.getElementById('tabChat');
+
+let currentGroupId = null;
+let chatPollingInterval = null;
+let CURRENT_USER = null;
+
+// --- Helpers ---
+function apiFetch(url, options = {}) {
+    const token = localStorage.getItem('token');  // login bo‘lganda saqlanadi
+
+    options.headers = {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+        ...(token ? { 'Authorization': `Token ${token}` } : {}),  // 🔥 TO‘G‘RILANGAN
+        ...options.headers
+    };
+
+    return fetch(url, options)
+        .then(res => {
+            if (!res.ok) throw new Error(`Server xatolik: ${res.status}`);
+            return res.json();
+        });
+}
+
+// --- Current User ---
+function loadCurrentUser() {
+    return apiFetch('/api/auth/me/')
+        .then(user => {
+            CURRENT_USER = user;
+            console.log("Hozirgi user:", CURRENT_USER);
+        })
+        .catch(err => {
+            showToast("Userni aniqlab bo‘lmadi. Login qiling.");
+        });
+}
+
+// --- Groups ---
+function loadGroups() {
+    apiFetch('/api/groups/')
+        .then(groups => {
+            groupListEl.innerHTML = '';
+            groups.forEach(group => {
+                const div = document.createElement('div');
+                div.className = 'list-item';
+                div.innerHTML = `
+                    <span class="list-item-title">${group.name} (${group.members_count} a'zo)</span>
+                    <div class="actions">
+                        <button class="btn btn-primary view-chat-btn" data-id="${group.id}" data-name="${group.name}">Chatga Kirish</button>
+                    </div>
+                `;
+                groupListEl.appendChild(div);
+            });
+
+            document.querySelectorAll('.view-chat-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentGroupId = btn.dataset.id;
+                    currentGroupNameEl.textContent = btn.dataset.name;
+                    showTab('tabChat');
+                    loadChatMessages();
+                    startChatPolling();
+                });
+            });
+        })
+        .catch(err => showToast(err.message));
+}
+
+function createGroup() {
+    const name = document.getElementById('groupName').value.trim();
+    if (!name) { showToast("Guruh nomi kiriting!"); return; }
+
+    apiFetch('/api/groups/', { method: 'POST', body: JSON.stringify({ name }) })
+        .then(group => {
+            showToast(`Guruh "${group.name}" yaratildi!`);
+            inviteLinkInput.value = `${window.location.origin}/api/groups/join/${group.invite_token}/`;
+            inviteDisplay.style.display = 'block';
+            loadGroups();
+        })
+        .catch(err => showToast(err.message));
+}
+
+// Rang generatsiya qiluvchi funksiya
+function getColorForUser(name) {
+    const colors = [
+        "#FF6B6B", "#4ECDC4", "#5567FF", "#FFA502",
+        "#2ED573", "#1E90FF", "#FF7F50", "#3742FA",
+        "#70A1FF", "#5352ED", "#7BED9F", "#E84393"
+    ];
+
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash) % colors.length];
+}
+
+// Avatar generator
+function generateAvatar(fullName, avatarUrl) {
+    if (avatarUrl) {
+        return `<img src="${avatarUrl}" class="avatar" />`;
+    }
+
+    const initials = fullName
+        .split(" ")
+        .map(w => w[0]?.toUpperCase())
+        .join("")
+        .substring(0, 2);
+
+    const bgColor = getColorForUser(fullName);
+
+    return `
+        <div class="avatar avatar-auto" style="background-color: ${bgColor}; color: white;">
+            ${initials}
+        </div>
+    `;
+}
+
+// Vaqt formatlash
+function formatTime(timestamp) {
+    if (!timestamp) return "";
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+// UNIVERSAL xabar yasovchi
+function renderMessage(msg) {
+    const isMe = CURRENT_USER && msg.sender.id === CURRENT_USER.id;
+
+    const fullName =
+        `${msg.sender.first_name || ""} ${msg.sender.last_name || ""}`.trim();
+
+    return `
+        <div class="message ${isMe ? 'sent' : 'received'}">
+            <div class="message-header">
+                ${generateAvatar(fullName, msg.sender.avatar_url)}
+                <span class="sender-name">${fullName}</span>
+            </div>
+
+            <div class="msg-text">${msg.content}</div>
+
+            <div class="msg-time">${formatTime(msg.timestamp)}</div>
+        </div>
+    `;
+}
+
+// --- Chat funksiyasi (LOAD + SEND birlashtirilgan) ---
+function loadChatMessages() {
+    if (!currentGroupId) return;
+
+    apiFetch(`/api/groups/${currentGroupId}/messages/`)
+        .then(messages => {
+            chatMessagesEl.innerHTML = '';
+            messages.forEach(msg => {
+                chatMessagesEl.innerHTML += renderMessage(msg);
+            });
+
+            chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+        })
+        .catch(err => showToast(err.message));
+}
+
+function sendMessage() {
+    const content = messageInputEl.value.trim();
+    if (!content || !currentGroupId) return;
+
+    apiFetch(`/api/groups/${currentGroupId}/messages/`, {
+        method: 'POST',
+        body: JSON.stringify({ content })
+    })
+        .then(msg => {
+            chatMessagesEl.innerHTML += renderMessage(msg);
+            messageInputEl.value = '';
+            chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+            showToast("Xabar yuborildi!");
+        })
+        .catch(err => showToast(err.message));
+}
+
+// --- Tabs ---
+function showTab(tabId) {
+    tabGroup.classList.remove('active');
+    tabChat.classList.remove('active');
+
+    if (tabId === 'tabGroup') tabGroup.classList.add('active');
+    if (tabId === 'tabChat') tabChat.classList.add('active');
+
+    navGroupBtn.classList.remove('active');
+    navChatBtn.classList.remove('active');
+
+    if (tabId === 'tabGroup') navGroupBtn.classList.add('active');
+    if (tabId === 'tabChat') navChatBtn.classList.add('active');
+}
+
+// --- Chat Polling ---
+function startChatPolling() {
+    if (chatPollingInterval) clearInterval(chatPollingInterval);
+
+    chatPollingInterval = setInterval(() => {
+        if (currentGroupId) loadChatMessages();
+    }, 2500);
+}
+
+// --- Event Listeners ---
+messageInputEl.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+navGroupBtn.addEventListener('click', () => showTab('tabGroup'));
+navChatBtn.addEventListener('click', () => showTab('tabChat'));
+
+// --- Toast ---
+function showToast(msg, type = 'success', dur = 3000) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    toast.textContent = msg;
+    toast.classList.remove('success', 'error', 'warning', 'info');
+    toast.classList.add(type);
+    toast.classList.add('show');
+
+    setTimeout(() => toast.classList.remove('show'), dur);
+}
+
+// --- Init ---
+loadCurrentUser().then(() => {
+    loadGroups();
+});
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+

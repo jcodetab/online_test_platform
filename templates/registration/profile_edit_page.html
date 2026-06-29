@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profilni Yangilash</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body { 
+    font-family: 'Poppins', sans-serif; 
+    background: url("{% static 'img/carousel-2.jpg' %}") center/cover no-repeat; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    color: #fff;
+    margin:0;
+}
+.container {
+    width:90%; 
+    max-width:500px; 
+    padding:40px; 
+    background:rgba(255,255,255,0.12); 
+    border-radius:12px; 
+    backdrop-filter: blur(12px); 
+    border:1px solid rgba(255,255,255,0.2); 
+    box-shadow:0 12px 35px rgba(0,0,0,0.3); 
+    text-align:center; 
+    display:flex; 
+    flex-direction:column;
+}
+h2 {font-size:26px; margin-bottom:25px;}
+.form-group {margin-bottom:20px; text-align:left;}
+.form-group label {font-size:15px; font-weight:600; margin-bottom:8px; display:block; color:#f1f1f1;}
+.form-group input {
+    width:100%; 
+    padding:12px; 
+    font-size:15px; 
+    border:none; 
+    border-radius:8px; 
+    background:rgba(255,255,255,0.9); 
+    color:#333; 
+    transition:all 0.3s ease;
+}
+.form-group input:focus {
+    outline:none; 
+    background:#fff; 
+    box-shadow:0 0 0 3px rgba(46,204,113,0.5);
+}
+.message {margin-bottom:20px; padding:12px; border-radius:8px; font-size:15px;}
+.message.success {background-color:#28a745; color:white;}
+.message.error {background-color:#dc3545; color:white;}
+.btn-group {
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:20px;
+}
+button, .button-link {
+    flex:1;
+    height:48px;
+    text-align:center;
+    background:linear-gradient(135deg,#2ecc71,#27ae60); 
+    color:white; 
+    cursor:pointer; 
+    border-radius:8px; 
+    font-size:15px; 
+    border:none; 
+    transition:all 0.3s ease;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+button:hover {
+    background:linear-gradient(135deg,#27ae60,#219150); 
+    transform:translateY(-2px); 
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+.button-link {
+    background:linear-gradient(135deg,#3498db,#2c6dd1);
+}
+.button-link:hover {
+    background:linear-gradient(135deg,#2c6dd1,#1e58a8); 
+    transform:translateY(-2px); 
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Mobile Moslashuv (Media Query) */
+/* Umumiy sahifa sozlamalari - siljishni oldini olish uchun */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Gorizontal siljishni taqiqlash */
+    box-sizing: border-box;
+}
+
+/* Barcha elementlar uchun box-sizingni yoqish */
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Vertikal markazlash */
+        padding: 10px;
+        height: auto;
+        min-height: 100vh;
+        background-attachment: fixed; /* Fon rasmi siljimaydi */
+    }
+
+    .container {
+        width: 95%;         /* Ekran chetidan ozgina masofa qoladi */
+        max-width: 380px;    
+        padding: 25px 20px;  
+        margin: 10px auto;   
+        border-radius: 15px;
+        /* Ramka ichida hamma narsa sig'ishini ta'minlaydi */
+        overflow: hidden;
+    }
+
+    h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* INPUTLARNI TO'G'IRLASH */
+    .form-group input {
+        width: 100% !important; /* Ramkadan chiqib ketishni oldini oladi */
+        display: block;
+        padding: 10px !important; /* 5px juda kichik edi, 10px qulayroq */
+        font-size: 16px !important; /* iOS da avto-zoom bo'lmasligi uchun kamida 16px */
+        border-radius: 8px;
+        border: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .btn-group {
+        display: flex;
+        flex-direction: row; /* Tugmalar yonma-yon */
+        gap: 10px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    button, .button-link {
+        flex: 1;             /* Ikkala tugma teng kenglikda */
+        font-size: 14px;
+        height: 46px;        /* Barmoq uchun qulay */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 8px;
+    }
+}
+
+/* Juda kichik ekranlar uchun (iPhone SE kabi) */
+@media (max-width: 360px) {
+    .container {
+        padding: 20px 15px;
+    }
+    
+    .btn-group {
+        flex-direction: column; /* Tugmalar ustma-ust tushadi */
+    }
+
+    button, .button-link {
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>Profilingizni yangilash</h2>
+<div id="message-box"></div>
+
+<form id="profile-form">
+    <div class="form-group">
+        <label for="first_name">Ism</label>
+        <input type="text" id="first_name" name="first_name" required>
+    </div>
+    <div class="form-group">
+        <label for="last_name">Familiya</label>
+        <input type="text" id="last_name" name="last_name" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Elektron pochta</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+
+    <div class="btn-group">
+        <button type="submit">Yangilash</button>
+        <a href="{% url 'profile-page' %}" class="button-link">Ortga</a>
+    </div>
+</form>
+</div>
+
+<script>
+const form = document.getElementById("profile-form");
+const messageBox = document.getElementById("message-box");
+const token = localStorage.getItem("token");
+
+function showMessage(text, type) {
+    messageBox.innerHTML = `<div class="message ${type}">${text}</div>`;
+}
+
+// 🔹 PROFILNI YUKLASH
+async function loadProfile() {
+    if (!token) {
+        showMessage("Avval tizimga kiring!", "error");
+        return;
+    }
+    try {
+        const response = await fetch("/api/profile/me/", {
+            method: "GET",
+            headers: {
+                "Authorization": `Token ${token}`,
+                "Accept": "application/json"
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById("first_name").value = data.first_name || "";
+            document.getElementById("last_name").value = data.last_name || "";
+            document.getElementById("email").value = data.email || "";
+        } else {
+            showMessage("Profilni yuklab bo‘lmadi.", "error");
+        }
+    } catch (err) {
+        showMessage("Server bilan bog‘lanishda xatolik", "error");
+    }
+}
+
+// 🔹 PROFILNI YANGILASH
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const payload = {
+        first_name: document.getElementById("first_name").value,
+        last_name: document.getElementById("last_name").value,
+        email: document.getElementById("email").value,
+    };
+
+    try {
+        const response = await fetch("/api/profile/me/", {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Token ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            showMessage("Profil muvaffaqiyatli yangilandi!", "success");
+        } else {
+            const err = await response.json();
+            let errorText = "";
+            for (let key in err) {
+                if (Array.isArray(err[key])) {
+                    errorText += `${key}: ${err[key].join(", ")}\n`;
+                } else {
+                    errorText += `${key}: ${err[key]}\n`;
+                }
+            }
+            showMessage("Xatolik: \n" + errorText, "error");
+        }
+    } catch (err) {
+        showMessage("Server bilan bog‘lanishda xatolik", "error");
+        console.error(err);
+    }
+});
+
+// Sahifa yuklanganda
+loadProfile();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

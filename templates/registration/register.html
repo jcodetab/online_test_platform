@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ro'yxatdan o'tish</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+<style>
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url("{% static 'img/carousel-2.jpg' %}") center/cover no-repeat;
+    position: relative;
+}
+.bg-overlay {
+    position: absolute;
+    top:0; left:0; width:100%; height:100%;
+    background: rgba(24,29,56,0.5);
+    z-index: -1;
+}
+.register-card {
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 35px 30px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    backdrop-filter: blur(4px);
+    position: relative;
+    z-index: 1;
+}
+.register-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.register-header i {
+    font-size: 60px;
+    color: #06BBCC;
+    margin-bottom: 8px;
+}
+.register-header h3 {
+    font-weight: 700;
+    color: #06BBCC;
+}
+.form-control {
+    border-radius: 10px;
+    padding: 12px 15px;
+}
+.btn-register {
+    background: #06BBCC;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+    color: #fff;
+    width: 100%;
+    transition: all 0.3s;
+}
+.btn-register:hover {
+    background: #048c99;
+}
+.footer-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+.footer-text a {
+    color: #06BBCC;
+    text-decoration: none;
+    font-weight: 600;
+}
+.footer-text a:hover {
+    text-decoration: underline;
+}
+.invalid-feedback {
+    display: block;
+}
+
+/* ===== MAXIMUM COMPACT MOBILE STYLE ===== */
+@media (max-width: 480px) {
+    body {
+        display: flex !important;
+        align-items: center !important; /* Vertikal markazlash */
+        justify-content: center !important; /* Gorizontal markazlash */
+        padding: 15px !important;
+        min-height: 100vh !important;
+    }
+
+    .register-card {
+        padding: 20px !important; /* Ichki bo'shliq minimal */
+        margin: 0 !important;
+        border-radius: 20px !important;
+        width: 100% !important;
+        max-width: 340px !important; /* Ramka enini yanada qisqartirdik */
+        box-shadow: 0 15px 35px rgba(0,0,0,0.4) !important;
+    }
+
+    .register-header {
+        margin-bottom: 15px !important;
+    }
+
+    .register-header i {
+        font-size: 35px !important; /* Ikonka yanada ixcham */
+        margin-bottom: 5px !important;
+    }
+
+    .register-header h3 {
+        font-size: 1.2rem !important; /* Sarlavha ixcham */
+    }
+
+    .mb-3 {
+        margin-bottom: 10px !important; /* Inputlar orasidagi masofa */
+    }
+
+    .form-label {
+        font-size: 0.8rem !important;
+        margin-bottom: 2px !important;
+    }
+
+    .form-control {
+        height: 40px !important; /* Input balandligi ixcham */
+        font-size: 15px !important;
+        padding: 8px 12px !important;
+    }
+
+    .btn-register {
+        padding: 10px !important;
+        font-size: 15px !important;
+        margin-top: 5px !important;
+        height: 45px !important;
+    }
+
+    .footer-text {
+        margin-top: 10px !important;
+        font-size: 0.75rem !important;
+    }
+}
+</style>
+</head>
+<body>
+<div class="bg-overlay"></div>
+
+<div class="register-card">
+    <div class="register-header">
+        <i class="fa-solid fa-user-plus"></i>
+        <h3>Ro'yxatdan o'tish</h3>
+    </div>
+
+    <form id="registerForm" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_first_name" class="form-label">Ism</label>
+            <input type="text" id="id_first_name" class="form-control" required>
+            <div class="invalid-feedback" id="error_first_name"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_last_name" class="form-label">Familiya</label>
+            <input type="text" id="id_last_name" class="form-control" required>
+            <div class="invalid-feedback" id="error_last_name"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            <input type="email" id="id_email" class="form-control" required>
+            <div class="invalid-feedback" id="error_email"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_password" class="form-label">Parol</label>
+            <input type="password" id="id_password" class="form-control" required>
+            <div class="invalid-feedback" id="error_password"></div>
+        </div>
+
+        <button type="submit" class="btn btn-register">Ro'yxatdan o'tish</button>
+    </form>
+
+    <p class="footer-text">
+        Allaqachon ro'yxatdan o'tganmisiz? <a href="{% url 'login' %}">Tizimga kirish</a>
+    </p>
+</div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+document.getElementById('registerForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    ['first_name','last_name','email','password'].forEach(f=>{
+        const errField = document.getElementById(`error_${f}`);
+        const inputField = document.getElementById(`id_${f}`);
+        if(errField) errField.innerText = '';
+        if(inputField) inputField.classList.remove('is-invalid');
+    });
+
+    const data = {
+        username: document.getElementById('id_email').value.trim(),
+        email: document.getElementById('id_email').value.trim(),
+        first_name: document.getElementById('id_first_name').value.trim(),
+        last_name: document.getElementById('id_last_name').value.trim(),
+        password: document.getElementById('id_password').value.trim()
+    };
+
+    try {
+        const response = await fetch('/api/users/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(data)
+        });
+
+        if(response.ok){
+            alert("Ro'yxatdan o'tish muvaffaqiyatli. Endi tizimga kirishingiz mumkin.");
+            window.location.href = "{% url 'login' %}";
+        } else if(response.status === 400){
+            const errors = await response.json();
+            for(const key in errors){
+                const fieldKey = (key==='username')?'email':key;
+                const errField = document.getElementById(`error_${fieldKey}`);
+                const inputField = document.getElementById(`id_${fieldKey}`);
+                if(errField && inputField){
+                    errField.innerText = errors[key].join(', ');
+                    inputField.classList.add('is-invalid');
+                }
+            }
+        } else {
+            alert("Serverda noma'lum xatolik yuz berdi.");
+        }
+    } catch(err){
+        alert("Server bilan bog'lanishda muammo.");
+        console.error(err);
+    }
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

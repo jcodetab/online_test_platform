@@ -1,0 +1,101 @@
+
+[s] HTMLda sarlavha tegi qaysi?
+
++ <h1>
+
+- <title>
+
+- <p>
+
+- <head>
+
+[s] CSSda matn rangini o‘rnatish xossasi qaysi?
+
++ color
+
+- font-weight
+
+- background-image
+
+- display
+
+[s] JavaScriptda massiv uzunligini olish uchun nima ishlatiladi?
+
++ .length
+
+- .size()
+
+- .count()
+
+- .items
+
+[s] Gitda yangi commit yaratish buyrug‘i qaysi?
+
++ git commit -m "xabar"
+
+- git push origin main
+
+- git status
+
+- git clone <url>
+
+[s] HTTPda mijozdan serverga ma’lumot yuborish uchun odatiy metod qaysi?
+
++ POST
+
+- GET
+
+- PUT
+
+- DELETE
+
+[s] Ma’lumotlar bazasida birlamchi kalit (Primary Key) nima?
+
++ Jadvaldagi har bir yozuvni noyob aniqlovchi ustun
+
+- Jadvaldagi eng katta qiymat
+
+- Jadval nomi
+
+- Indekslar soni
+
+[s] Big O notatsiyada chiziqli murakkablik qanday yoziladi?
+
++ O(n)
+
+- O(1)
+
+- O(n^2)
+
+- O(log n)
+
+[s] Docker’da konteynerni ishga tushirish buyrug‘i qaysi?
+
++ docker run <image>
+
+- docker build .
+
+- docker pull <image>
+
+- docker ps -a
+
+[s] TypeScriptda tur aniqlash uchun qaysi kalit so‘z ishlatiladi?
+
++ type
+
+- var
+
+- any
+
+- enum
+
+[s] React’da komponent ichida holat (state) yaratish uchun qaysi hook ishlatiladi?
+
++ useState
+
+- useEffect
+
+- useRef
+
+- useMemo
+

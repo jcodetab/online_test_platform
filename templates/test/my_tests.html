@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mening Testlarim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            border: 1px solid #06BBCC;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+        /* Modalni skroll qilish uslubi */
+        .modal-body::-webkit-scrollbar { width: 6px; }
+        .modal-body::-webkit-scrollbar-thumb { background: #06BBCC; border-radius: 10px; }
+
+@media (max-width: 640px) {
+    /* Sizning eski kodlaringiz shu yerda turibdi... */
+    #testsContainer {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+    }
+    #testsContainer > div, #testsContainer .card { 
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        display: block !important;
+    }
+
+    /* ========================================================
+       🔥 YANGI QO'SHILADIGAN MOBIL MOSLASHTIRUVChI KODLAR:
+       ======================================================== */
+
+    /* 1. Savollar yuklanadigan asosiy konteyner yoki kartochka */
+    .question-card, .test-preview-card, [id*="question"], [id*="preview"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 1rem !important; /* Ichki joyni kichraytiramiz, ekranga ko'proq joy ochiladi */
+        box-sizing: border-box !important;
+        overflow-x: hidden !important; /* Yon tomonga chiqib ketishni butunlay bo'g'amiz */
+    }
+
+    /* 2. Savol matnlari va variantlar (Text wrap qilish) */
+    .question-text, .option-text, .variant-item, p, span, div {
+        white-space: normal !important; /* Matn majburlab pastga tushadi */
+        word-break: break-word !important; /* Juda uzun so'zlar bo'lsa ham bo'g'ilib pastga tushadi */
+        max-width: 100% !important;
+    }
+
+    /* 3. Variantlar qatori (agar ichida flex bo'lsa, qatorga sig'may qolsa pastga tushsin) */
+    .option-row, .variant-row {
+        display: flex !important;
+        flex-direction: column !important; /* Variant harfi va matnini ustma-ust qiladi yoki flex-wrap beradi */
+        align-items: start !important;
+        gap: 0.5rem !important;
+    }
+
+    /* 4. TAHRIRLASH VA O'CHIRISH TUGMALARI */
+    /* Agar tugmalar yonma-yon turgan bo'lsa, ularni ustma-ust yoki 100% kenglikda qilamiz */
+    .action-buttons, .btn-group, .card-actions {
+        display: flex !important;
+        flex-direction: column !important; /* Tugmalarni ustma-ust joylashtiradi */
+        gap: 0.75rem !important;
+        width: 100% !important;
+        margin-top: 1rem !important;
+    }
+
+    /* Tahrirlash va O'chirish tugmalarining o'zi */
+    .action-buttons button, .action-buttons a, 
+    .btn-edit, .btn-delete, 
+    button[onclick*="edit"], button[onclick*="delete"] {
+        width: 100% !important; /* Tugmalar kartochka kengligi bilan tenglashadi */
+        max-width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 0.75rem 1rem !important; /* Bossishga oson, zamonaviy mobil o'lcham */
+        font-size: 0.875rem !important;
+        border-radius: 0.75rem !important; /* Burchaklarini chiroyli yumaloq qilamiz */
+    }
+}
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+
+<div class="container mx-auto px-4 py-10">
+    <h1 class="text-4xl font-extrabold text-center text-slate-800 mb-10">🧠 Mening Testlarim</h1>
+
+    <div id="loginSection" class="max-w-sm mx-auto bg-white p-6 rounded-xl shadow-md mb-10 border border-slate-200">
+        <h2 class="text-xl font-bold mb-4 text-slate-700 text-center">Tizimga kirish</h2>
+        <input type="text" id="username" placeholder="Username" class="w-full mb-3 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+        <input type="password" id="password" placeholder="Password" class="w-full mb-4 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+        <button id="loginBtn" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">Kirish</button>
+        <div id="loginError" class="text-red-500 mt-2 text-sm text-center"></div>
+    </div>
+    <div id="testsWrapper" class="hidden">
+    <div id="testsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        </div>
+</div>    
+    <div id="loading" class="text-center text-slate-500 mt-10 hidden italic">Yuklanmoqda...</div>
+    <div id="noTests" class="hidden text-center text-slate-500 mt-10 text-lg">Sizda hali testlar yo‘q.</div>
+</div>
+
+<div id="testModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+        <div class="p-5 border-b flex justify-between items-center bg-white sticky top-0 z-10">
+            <h2 id="modalTitle" class="text-xl font-bold text-slate-800 truncate pr-4">Test ko'rinishi</h2>
+            <button onclick="closeModal()" class="text-slate-400 hover:text-red-500 text-3xl font-light transition">&times;</button>
+        </div>
+        
+        <div id="modalBody" class="p-6 overflow-y-auto bg-slate-50 flex-grow">
+            <div id="modalLoader" class="text-center py-20 hidden">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-200 border-t-blue-600"></div>
+                <p class="mt-4 text-slate-500 font-medium">Yuklanmoqda...</p>
+            </div>
+            <div id="modalContent" class="space-y-6 pb-10"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * 1. KONFIGURATSIYA
+ */
+const CONFIG = {
+    BASE_URL: "",
+    getToken: () => {
+        // 🎯 Telefon va kompyuter brauzeridagi tokenni sug'urtalash
+        let token = localStorage.getItem("token") || localStorage.getItem("accessToken");
+        
+        if (token) {
+            token = String(token).trim();
+            if (token === "null" || token === "undefined" || token === "") {
+                return null;
+            }
+            return token;
+        }
+        return null;
+    }
+};
+
+async function apiRequest(endpoint, method = 'GET', body = null) {
+    const token = CONFIG.getToken();
+    const url = `${CONFIG.BASE_URL}${endpoint}`;
+    
+    const headers = { 
+        "Authorization": `Token ${token}`,
+        "ngrok-skip-browser-warning": "true"
+    };
+
+    if (body && !(body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    const options = { method, headers, body: (body instanceof FormData) ? body : (body ? JSON.stringify(body) : null) };
+
+    try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            // 🚨 TELEFONDA XATONI KO'RISH UCHUN POPUP:
+            alert(`API Xatolik (${response.status}): ${response.statusText}\nURL: ${url}`);
+            throw new Error(`Xatolik: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        // 🚨 TARMOQ XATOSINI KO'RISH UCHUN POPUP:
+        alert(`Ulanishda xatolik yuz berdi!\nUlanayotgan URL: ${url}\nXato: ${error.message}`);
+        console.error("So'rov yuborishda xatolik:", error);
+        throw error;
+    }
+}
+
+function handleFileUpload(file) {
+    if (!file) return;
+
+    // Fayl yuklanish jarayoni boshlanganini ko'rsatish
+    const uploadZone = document.getElementById('uploadZone');
+    if (uploadZone) {
+        uploadZone.innerHTML = `
+            <div class="text-center">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-indigo-600 border-t-transparent mb-2"></div>
+                <p class="text-sm text-slate-600 font-medium">Fayl tahlil qilinmoqda va yuklanmoqda...</p>
+            </div>
+        `;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    // 🎯 ENG MUHIM QISM: Biz hozir Kazus bo'limida turganimiz uchun 
+    // backendga test_type qiymatini qat'iy ravishda 'kazus' deb berib yuboramiz!
+    formData.append('test_type', 'kazus');
+
+    // Agarda sahifada subjectSelect (fan tanlash) bo'lsa, uning ID sini oladi
+    const subjectEl = document.getElementById("subjectSelect");
+    if (subjectEl && subjectEl.value) {
+        formData.append('subject', subjectEl.value);
+    }
+
+    // 🎯 TOKENNI SUG'URTALAB OLISH (TUZATILDI)
+    // CONFIG.getToken() bo'lsa undan foydalanadi, bo'lmasa localStoragedan barcha kalitlarni tekshiradi
+    let token = null;
+    if (typeof CONFIG !== 'undefined' && typeof CONFIG.getToken === 'function') {
+        token = CONFIG.getToken();
+    } else {
+        const rawToken = localStorage.getItem('token') || localStorage.getItem('accessToken');
+        if (rawToken && rawToken !== "null" && rawToken !== "undefined" && String(rawToken).trim() !== "") {
+            token = String(rawToken).trim();
+        }
+    }
+
+    // 🎯 FETCH SO'ROVI: URL BASE_URL bilan boyitildi va Bearer o'rniga Token qo'yildi
+    const targetUrl = (typeof CONFIG !== 'undefined' && CONFIG.BASE_URL) 
+        ? `${CONFIG.BASE_URL}/api/upload-test-file/` 
+        : '/api/upload-test-file/';
+
+    fetch(targetUrl, {
+        method: 'POST',
+        headers: {
+            // Django DRF TokenAuthentication uchun 'Token' formatiga o'tkazildi
+            'Authorization': token ? `Token ${token}` : '',
+            // Ngrok/Pinggy orqali telefonda tekshirganda ogohlantirish oynasini aylanib o'tish sharti
+            'ngrok-skip-browser-warning': 'true'
+            // Diqqat: FormData ishlatganda 'Content-Type' ni o'zimiz yozmaymiz, brauzer o'zi boundary qo'yadi
+        },
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Yuklashda xatolik yuz berdi');
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert("Kazus test fayldan muvaffaqiyatli yuklandi!");
+            // Sahifani yangilash va testlarni qayta yuklash
+            if (typeof loadTests === 'function') {
+                loadTests('case'); // Avtomat ravishda Kazus filtri bilan qayta yuklaydi
+            } else {
+                window.location.reload();
+            }
+        } else {
+            alert("Xatolik: " + (data.error || "Noma'lum xato"));
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Faylni yuklashda xatolik yuz berdi.");
+        window.location.reload();
+    });
+}
+
+async function openTest(testId, category) {
+    const modalContent = document.getElementById("modalContent");
+    const modal = document.getElementById("testModal");
+    if (!modal || !modalContent) return;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.style.overflow = 'hidden';
+    modalContent.innerHTML = `<div class="p-16 text-center"><div class="animate-spin h-10 w-10 border-4 border-indigo-500 border-t-transparent inline-block rounded-full"></div></div>`;
+
+    try {
+        const response = await apiRequest(`/api/get-test-details/?test_id=${testId}&type=${category}`);
+        const questions = Array.isArray(response) ? response : (response.questions || []);
+
+        modalContent.innerHTML = questions.map((q, i) => {
+            // 1. To'g'ri javoblarni yig'ish (Case-insensitive)
+            let correctSet = new Set();
+            
+            // correct_option, correct_answer yoki correct_answers bo'lishi mumkin
+            const rawAnswers = [
+                q.correct_option, 
+                q.correct_answer, 
+                q.correct_answers
+            ].flat();
+
+            rawAnswers.forEach(val => {
+                if (val) {
+                    // Agar massiv kelsa (masalan ["A"]), uni ham stringga o'tkazib saqlaydi
+                    correctSet.add(String(val).trim().toUpperCase());
+                }
+            });
+
+            // 2. Variantlarni bazadagi har xil nomlanishiga moslash (a vs A)
+            const optionsData = [
+                { label: 'A', text: q.answer_a || q.answer_A },
+                { label: 'B', text: q.answer_b || q.answer_B },
+                { label: 'C', text: q.answer_c || q.answer_C },
+                { label: 'D', text: q.answer_d || q.answer_D }
+            ].filter(opt => opt.text !== undefined && opt.text !== null && String(opt.text).trim() !== "");
+
+            let optionsHtml = optionsData.map(opt => {
+                const currentText = String(opt.text).trim().toUpperCase();
+                const currentLabel = opt.label.toUpperCase();
+                
+                // 3. Tekshiruv: Harf (A) yoki Matn (Samarqand) to'g'ri javoblar ichida bormi?
+                const isCorrect = correctSet.has(currentLabel) || correctSet.has(currentText);
+                
+                return renderOptionRow(opt.label, opt.text, isCorrect);
+            }).join('');
+
+            return `
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 mb-6 shadow-sm text-left">
+                    <div class="flex items-start gap-4 mb-5">
+                        <span class="bg-indigo-600 text-white w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-sm">${i + 1}</span>
+                        <div class="flex-1 font-bold text-slate-800 text-lg leading-snug">${q.text}</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        ${optionsHtml || '<div class="col-span-full p-4 bg-amber-50 text-amber-700 rounded-xl text-sm">Variantlar topilmadi</div>'}
+                    </div>
+                </div>`;
+        }).join('');
+
+    } catch (err) {
+        console.error("Xatolik:", err);
+        modalContent.innerHTML = `<div class="p-16 text-center text-red-500">Ma'lumot yuklashda xatolik</div>`;
+    }
+}
+
+function renderOptionRow(label, text, isCorrect) {
+    // Dizayn klasslari
+    const containerClass = isCorrect 
+        ? 'border-green-500 bg-green-50/50 ring-1 ring-green-500/20 shadow-sm' 
+        : 'border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50';
+    
+    const textClass = isCorrect ? 'text-green-700 font-bold' : 'text-slate-600 font-medium';
+    
+    const labelClass = isCorrect 
+        ? 'bg-green-500 text-white' 
+        : 'bg-slate-100 text-slate-500';
+
+    const safeOptionText = String(text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    return `
+        <div class="flex items-center gap-3 p-3.5 rounded-xl border ${containerClass} transition-all duration-200">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 ${labelClass}">
+                ${label}
+            </span>
+            <span class="text-sm ${textClass}">${safeOptionText}</span>
+            ${isCorrect ? '<i class="fas fa-check-circle text-green-500 ml-auto text-lg"></i>' : ''}
+        </div>`;
+}
+
+// 1. KARTALARNI CHIZISH FUNKSIYASI (TUZATILGAN)
+function renderCards(tests) {
+    const container = document.getElementById("testsContainer");
+    if (!container) return;
+    container.innerHTML = "";
+
+    tests.forEach(test => {
+        let category = test.category || 'regular';
+        
+        // 🎯 ENG ISHONCHLI MAJBURIY SHART:
+        // Sarlavhada .docx yoki .xlsx bo'lsa yoki backend creation_method='file' deb qaytargan bo'lsa
+        const titleLower = String(test.title || "").toLowerCase();
+        const isFromFile = (
+            test.creation_method === 'file' || 
+            titleLower.includes('.docx') || 
+            titleLower.includes('.xlsx') || 
+            titleLower.includes('.doc')
+        );
+
+        const uploadMethodText = isFromFile ? "(Fayldan)" : "(Qo'lda)";
+        const uploadMethodBadge = isFromFile ? "📄 Fayldan" : "✍️ Qo'lda";
+
+        const configs = {
+            'regular': { label: `Oddiy Test ${uploadMethodText}`, color: 'bg-blue-50 text-blue-700 border-blue-100', btnHover: 'hover:bg-blue-600' },
+            'case': { label: `Kazus Test ${uploadMethodText}`, color: 'bg-amber-50 text-amber-700 border-amber-100', btnHover: 'hover:bg-amber-600' },
+            'closed': { label: `Yopiq Test ${uploadMethodText}`, color: 'bg-rose-50 text-rose-700 border-rose-100', btnHover: 'hover:bg-rose-600' }
+        };
+
+        const config = configs[category] || configs['regular'];
+
+        const card = document.createElement("div");
+        card.className = "bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group h-full";
+        card.innerHTML = `
+            <div>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="text-[10px] px-2.5 py-1 rounded-lg border font-black tracking-wider uppercase ${config.color}">
+                        ${config.label}
+                    </span>
+                    <span class="text-[10px] px-2.5 py-1 rounded-lg border border-slate-100 bg-slate-50 text-slate-500 font-bold uppercase">
+                        ${uploadMethodBadge}
+                    </span>
+                </div>
+                <h3 class="font-bold text-slate-800 text-xl mb-6 line-clamp-3 leading-tight group-hover:text-indigo-600 transition-colors">
+                    ${test.title || "Nomlanmagan test"}
+                </h3>
+            </div>
+            <div class="mt-auto">
+                <div class="flex items-center justify-between mb-4 px-1">
+                    <span class="text-xs text-slate-400">ID: #${test.id}</span>
+                    <span class="text-xs text-slate-400 font-medium">${test.created_at ? new Date(test.created_at).toLocaleDateString() : 'Yangi'}</span>
+                </div>
+                <button onclick="openTest(${test.id}, '${category}')" 
+                        class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold ${config.btnHover} active:scale-95 transition-all text-sm shadow-sm">
+                    Ko'rish
+                </button>
+            </div>`;
+        container.appendChild(card);
+    });
+}
+
+// 2. MA'LUMOTLARNI YUKLASH FUNKSIYASI (TUZATILGAN)
+async function loadTests(filterType = 'all') {
+    const container = document.getElementById("testsContainer");
+    const wrapper = document.getElementById("testsWrapper");
+
+    if (!container) return;
+    if (wrapper) wrapper.classList.remove("hidden");
+
+    container.innerHTML = `
+        <div class="col-span-full py-32 text-center">
+            <div class="relative inline-flex mb-4">
+                <div class="w-12 h-12 rounded-full border-4 border-slate-100"></div>
+                <div class="w-12 h-12 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin absolute top-0 left-0"></div>
+            </div>
+            <p class="text-slate-500 font-medium animate-pulse text-sm uppercase tracking-wider">Ma'lumotlar yuklanmoqda...</p>
+        </div>`;
+
+    try {
+        const [myRes, caseRes, closedRes] = await Promise.allSettled([
+            apiRequest("/api/my-tests/"),
+            apiRequest("/api/case-tests/"),
+            apiRequest("/api/closed-tests/")
+        ]);
+
+        const getItems = (res, cat) => {
+            if (res.status === 'fulfilled' && res.value) {
+                const data = res.value.results || res.value;
+                const items = Array.isArray(data) ? data : [];
+                return items.map(t => {
+                    const titleLower = String(t.title || "").toLowerCase();
+                    const typeLower = String(t.test_type || "").toLowerCase();
+                    const categoryLower = String(t.category || "").toLowerCase();
+                    
+                    const isKazus = cat === 'case' || typeLower === 'kazus' || typeLower === 'case' || titleLower.includes('kazus') || titleLower.includes('kasuz');
+                    const isClosed = cat === 'closed' || typeLower === 'closed';
+                    
+                    let finalCategory = 'regular';
+                    if (isKazus) finalCategory = 'case';
+                    else if (isClosed) finalCategory = 'closed';
+
+                    // 🎯 FAYLDAN YUKLANGANINI ANIQLASH:
+                    // Agar api/my-tests/ ichidan kelayotgan obyektingizda fayl mavjudligiga oid 
+                    // eng kichik belgi bo'lsa ham uni qat'iy ravishda 'file' deb belgilaymiz.
+                    let method = 'manual';
+
+                    if (
+                        t.creation_method === 'file' || 
+                        t.creation_method === 'docx' ||
+                        t.creation_method === 'xlsx' ||
+                        categoryLower.includes('.docx') || 
+                        titleLower.includes('.docx') || 
+                        titleLower.includes('.xlsx') || 
+                        titleLower.includes('.doc') ||
+                        (t.file !== undefined && t.file !== null && t.file !== "") || 
+                        t.is_file_uploaded === true || 
+                        t.is_file_uploaded === "true" ||
+                        t.file_uploaded === true ||
+                        t.file_uploaded === "true" ||
+                        t.excel_file || t.word_file || t.doc_file || t.file_path
+                    ) {
+                        method = 'file';
+                    } else if (t.creation_method === 'manual' || t.creation_method === 'hand') {
+                        method = 'manual';
+                    } else {
+                        method = t.creation_method || 'manual';
+                    }
+
+                    return { 
+                        ...t, 
+                        category: finalCategory,
+                        creation_method: method, 
+                        test_type: isKazus ? 'kazus' : (isClosed ? 'closed' : 'ordinary')
+                    };
+                });
+            }
+            return [];
+        };
+
+        let allRawTests = [
+            ...getItems(myRes, 'regular'),
+            ...getItems(caseRes, 'case'),
+            ...getItems(closedRes, 'closed')
+        ];
+
+        // ID bo'yicha unikal saralash (Kazusga ustunlik beradi)
+        const uniqueMap = new Map();
+        allRawTests.forEach(test => {
+            const existing = uniqueMap.get(test.id);
+            if (!existing || (existing.category === 'regular' && test.category !== 'regular')) {
+                uniqueMap.set(test.id, test);
+            }
+        });
+        
+        let allTests = Array.from(uniqueMap.values());
+
+        if (filterType !== 'all') {
+            allTests = allTests.filter(t => t.category === filterType);
+        }
+
+        if (allTests.length === 0) {
+            container.innerHTML = `<div class="col-span-full py-20 text-center text-slate-400">Testlar topilmadi.</div>`;
+            return;
+        }
+
+        renderCards(allTests);
+
+    } catch (e) {
+        console.error("Yuklashda xatolik:", e);
+        container.innerHTML = `<div class="col-span-full py-20 text-center text-red-500">Xatolik yuz berdi.</div>`;
+    }
+}
+
+async function saveManualTest(testData) {
+    try {
+        // testData ichida title, description va questions bo'lishi kerak
+        const result = await apiRequest("/api/create_manual_closed_test/", "POST", testData);
+        alert("Muvaffaqiyatli saqlandi!");
+    } catch (error) {
+        // Aynan mana shu joyda popup xabari chiqadi
+        alert("Tarmoq xatosi! " + error.message);
+    }
+}
+
+function closeModal() {
+    const modal = document.getElementById("testModal");
+    if(modal) modal.classList.add("hidden");
+    document.body.style.overflow = 'auto';
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const token = CONFIG.getToken();
+    const loginSection = document.getElementById("loginSection");
+    const testsWrapper = document.getElementById("testsWrapper");
+
+    // Kirish tugmasi bosilganda tokenni to'g'ri saqlash
+    const loginBtn = document.getElementById("loginBtn");
+    if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+            const userVal = document.getElementById("username").value;
+            const passVal = document.getElementById("password").value;
+            
+            fetch(`${CONFIG.BASE_URL}/api-token-auth/`, { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: userVal, password: passVal })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem("token", data.token); // Tokenni muhrlash
+                    window.location.reload();
+                } else {
+                    document.getElementById("loginError").innerText = "Login yoki parol xato!";
+                }
+            })
+            .catch(() => {
+                // Agar server hali ulanmagan bo'lsa, test rejimi
+                localStorage.setItem("token", "test_token_dynamic");
+                window.location.reload();
+            });
+        });
+    }
+
+    // Telefon ekrani uchun asosiy ochilish ssenariysi
+    if (token) {
+        if (loginSection) loginSection.classList.add("hidden");
+        if (testsWrapper) testsWrapper.classList.remove("hidden");
+        loadTests();
+    } else {
+        if (loginSection) loginSection.classList.remove("hidden");
+        if (testsWrapper) testsWrapper.classList.add("hidden");
+    }
+});
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
