@@ -22,13 +22,13 @@
 
     <style>
         :root {
-            --bg-dark-core: #0B0F17; /* Chuqur Next-gen to'q ko'k/qora fon */
-            --card-bg: rgba(20, 27, 41, 0.6);
-            --border-glow: rgba(6, 187, 204, 0.12);
-            --brand-primary: #06BBCC; /* Siz so'ragan asosiy brend rangi */
+            --bg-dark-core: #090D14; 
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --brand-primary: #06BBCC; /* Siz so'ragan asosiy rang */
             --brand-hover: #05a4b4;
-            --text-main: #F1F5F9;
-            --text-muted: #94A3B8;
+            --border-glow: rgba(6, 187, 204, 0.25); /* Rang asosidagi chegara nuri */
+            --text-main: #F8FAFC; 
+            --text-muted: #A1B0CB; 
         }
 
         body {
@@ -43,7 +43,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* 2026 Ambient Dynamic Mesh (Brend rangidan olingan neon aura) */
+        /* Ambient Dynamic Mesh */
         .ambient-bg {
             position: fixed;
             top: 0;
@@ -52,20 +52,19 @@
             height: 100vh;
             z-index: -1;
             background: 
-                radial-gradient(circle at 10% 20%, rgba(6, 187, 204, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 90% 80%, rgba(6, 187, 204, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 75% 35%, rgba(6, 187, 204, 0.2) 0%, transparent 55%),
+                radial-gradient(circle at 20% 75%, rgba(6, 187, 204, 0.12) 0%, transparent 45%);
             background-size: cover;
-            opacity: 0.9;
+            opacity: 1;
         }
 
         /* Glassmorphic Minimal Header */
         .custom-nav {
             border-bottom: 1px solid var(--border-glow);
-            background: rgba(11, 15, 23, 0.75) !important;
+            background: rgba(9, 13, 20, 0.8) !important;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             padding: 16px 0;
-            transition: all 0.3s ease;
         }
 
         .brand-text {
@@ -74,46 +73,50 @@
             color: #FFFFFF !important;
         }
 
-        /* Next.js & Apple Style Buttons (Siz so'ragan rangda) */
+        .brand-color-text {
+            color: var(--brand-primary) !important;
+        }
+
+        /* Buttons — #06BBCC Rang urg'ulari bilan */
         .btn-modern-primary {
             background-color: var(--brand-primary);
-            color: #0B0F17 !important;
+            color: #090D14 !important;
             font-weight: 700;
             font-size: 0.95rem;
             padding: 14px 32px;
             border-radius: 12px;
             border: none;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(6, 187, 204, 0.2);
+            box-shadow: 0 4px 20px rgba(6, 187, 204, 0.4);
         }
 
         .btn-modern-primary:hover {
             background-color: var(--brand-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(6, 187, 204, 0.35);
+            box-shadow: 0 8px 25px rgba(6, 187, 204, 0.6);
         }
 
         .btn-modern-secondary {
             background: rgba(6, 187, 204, 0.05);
-            color: #FFFFFF !important;
-            font-weight: 600;
+            color: var(--brand-primary) !important; /* Shrift rangi #06BBCC qilindi */
+            font-weight: 700;
             font-size: 0.95rem;
             padding: 14px 32px;
             border-radius: 12px;
-            border: 1px solid rgba(6, 187, 204, 0.25);
+            border: 1px solid var(--brand-primary); /* Chegara rangi ham #06BBCC */
             transition: all 0.25s ease;
         }
 
         .btn-modern-secondary:hover {
-            background: rgba(6, 187, 204, 0.12);
-            border-color: var(--brand-primary);
+            background: rgba(6, 187, 204, 0.15);
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(6, 187, 204, 0.2);
         }
 
         /* Cyberpunk Micro Badge */
         .section-tag {
-            background: rgba(6, 187, 204, 0.08);
-            border: 1px solid rgba(6, 187, 204, 0.2);
+            background: rgba(6, 187, 204, 0.12);
+            border: 1px solid var(--brand-primary);
             color: var(--brand-primary);
             font-size: 0.75rem;
             font-weight: 700;
@@ -139,13 +142,12 @@
         }
 
         .brand-gradient-text {
-            color: var(--brand-primary);
-            background: linear-gradient(135deg, #FFFFFF 0%, var(--brand-primary) 100%);
+            background: linear-gradient(135deg, #FFFFFF 30%, var(--brand-primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Abstract Premium Hero Graphics (Eski rasmlar o'rniga zamonaviy render) */
+        /* Advanced Visual Component */
         .hero-visual-wrapper {
             position: relative;
             width: 100%;
@@ -156,27 +158,27 @@
         }
 
         .animated-core-sphere {
-            width: 250px;
-            height: 250px;
+            width: 340px;
+            height: 340px;
             background: var(--brand-primary);
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.25;
+            filter: blur(100px);
+            opacity: 0.35;
             animation: pulseGlow 6s infinite alternate ease-in-out;
         }
 
         .orbiting-card {
             position: absolute;
-            background: rgba(20, 27, 41, 0.7);
-            border: 1px solid var(--border-glow);
-            backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--brand-primary); /* Chegaralar yanada yorqinroq */
+            backdrop-filter: blur(16px);
             border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 40px rgba(6, 187, 204, 0.15);
             animation: floatUI 6s infinite ease-in-out;
         }
 
-        /* Premium Bento-Grid System */
+        /* Bento-Grid System */
         .bento-card {
             background: var(--card-bg);
             border: 1px solid var(--border-glow);
@@ -190,16 +192,16 @@
         }
 
         .bento-card:hover {
-            border-color: rgba(6, 187, 204, 0.4);
+            border-color: var(--brand-primary); /* Hover bo'lganda #06BBCC yonadi */
             transform: translateY(-6px);
-            box-shadow: 0 15px 35px rgba(6, 187, 204, 0.08);
+            box-shadow: 0 15px 35px rgba(6, 187, 204, 0.15);
         }
 
         .icon-wrapper {
             width: 50px;
             height: 50px;
-            background: rgba(6, 187, 204, 0.1);
-            border: 1px solid rgba(6, 187, 204, 0.2);
+            background: rgba(6, 187, 204, 0.15);
+            border: 1px solid var(--brand-primary);
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -231,28 +233,27 @@
             position: absolute;
             top: 32px;
             right: 32px;
-            color: var(--text-muted);
-            transition: transform 0.3s ease, color 0.3s ease;
+            color: var(--brand-primary); /* Strelka doimiy #06BBCC rangda */
+            transition: transform 0.3s ease;
         }
 
         .interactive-cat-box:hover .cat-arrow {
             transform: translate(3px, -3px) scale(1.15);
-            color: var(--brand-primary);
         }
 
         @keyframes pulseGlow {
-            0% { transform: scale(0.9); opacity: 0.2; }
-            100% { transform: scale(1.15); opacity: 0.35; }
+            0% { transform: scale(0.95); opacity: 0.25; }
+            100% { transform: scale(1.15); opacity: 0.42; }
         }
 
         @keyframes floatUI {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
             100% { transform: translateY(0px); }
         }
 
         .footer-clean {
-            background: #070A10;
+            background: #05070B;
             border-top: 1px solid var(--border-glow);
             padding: 80px 0 40px;
         }
@@ -274,7 +275,7 @@
         <div class="container px-4">
             <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
                 <h3 class="m-0 brand-text d-flex align-items-center">
-                    <i class="bi bi-grid-1x2-fill me-2" style="color: var(--brand-primary);"></i>testborbaza<span style="color: var(--brand-primary);">.uz</span>
+                    <i class="bi bi-grid-1x2-fill me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
                 </h3>
             </a>
             
@@ -282,7 +283,7 @@
                 {% if user.is_authenticated %}
                     <a href="{% url 'profile' %}" class="btn-modern-secondary py-2 px-4 rounded-pill small" style="padding: 8px 20px !important;"><i class="bi bi-person-circle me-2"></i>Kabinet</a>
                 {% else %}
-                    <a href="{% url 'login' %}" class="text-white text-decoration-none small me-3 d-none d-sm-inline hover:text-cyan-400">Kirish</a>
+                    <a href="{% url 'login' %}" class="text-white text-decoration-none small me-2 hover:text-cyan-400">Kirish</a>
                     <a href="{% url 'register' %}" class="btn-modern-primary py-2 px-4 rounded-pill small" style="padding: 8px 24px !important;">Boshlash</a>
                 {% endif %}
             </div>
@@ -298,34 +299,34 @@
                         <i class="bi bi-lightning-charge-fill"></i> ZAMONAVIY TA'LIM EKOTIZIMI
                     </div>
                     <h1 class="hero-title mb-4">Onlayn testlar uchun <span class="brand-gradient-text">eng toza</span> muhit</h1>
-                    <p class="text-muted fs-5 mb-5" style="font-weight: 300; line-height: 1.65;">Tezkor algoritmlar, yuqori aniqlikdagi ekspert tahlillari va chalg'ituvchi reklamalarsiz mukammal platforma.</p>
+                    <p class="text-muted fs-5 mb-5" style="font-weight: 400; line-height: 1.65; color: var(--text-muted) !important;">Tezkor algoritmlar, yuqori aniqlikdagi ekspert tahlillari va chalg'ituvchi reklamalarsiz mukammal platforma.</p>
                     
                     <div class="d-flex flex-row flex-wrap gap-3">
                         <a href="{% url 'register' %}" class="btn-modern-primary text-decoration-none">
                             Ro‘yxatdan o‘tish
                         </a>
                         <a href="{% url 'search_tests_page' %}" class="btn-modern-secondary text-decoration-none">
-                            <i class="bi bi-collection-play me-2" style="color: var(--brand-primary);"></i> Testlar bazasi
+                            <i class="bi bi-collection-play me-2"></i> Testlar bazasi
                         </a>
                     </div>
                 </div>
                 
-                <!-- Advanced Visual Component (No JPG image lag) -->
+                <!-- Advanced Visual Component -->
                 <div class="col-lg-6">
                     <div class="hero-visual-wrapper">
                         <div class="animated-core-sphere"></div>
                         <div class="orbiting-card" style="top: 15%; left: 8%; max-width: 270px;">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="rounded-circle p-2 d-flex" style="background: rgba(6, 187, 204, 0.15); color: var(--brand-primary);"><i class="bi bi-shield-check-fill"></i></div>
+                                <div class="rounded-circle p-2 d-flex" style="background: rgba(6, 187, 204, 0.25); color: var(--brand-primary);"><i class="bi bi-shield-check-fill"></i></div>
                                 <div>
                                     <h6 class="m-0 text-white small fw-bold">Kazus-Test Yakunlandi</h6>
-                                    <span class="text-muted tiny" style="font-size: 11px;">Tahlil yuklandi: 100% xavfsiz</span>
+                                    <span style="color: var(--text-muted); font-size: 11px;">Tahlil yuklandi: 100% xavfsiz</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="orbiting-card" style="bottom: 20%; right: 5%; max-width: 230px; animation-delay: -3s;">
+                        <div class="orbiting-card" style="bottom: 25%; right: 5%; max-width: 230px; animation-delay: -3s;">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-graph-up-arrow" style="color: var(--brand-primary);"></i>
+                                <i class="bi bi-graph-up-arrow brand-color-text"></i>
                                 <span class="text-white small fw-medium">Real-vaqt monitoringi</span>
                             </div>
                         </div>
@@ -371,7 +372,7 @@
 
     <!-- Minimal Analytics Info Panel -->
     <div class="container py-5">
-        <div class="bento-card p-5" style="background: radial-gradient(100% 100% at 0% 0%, rgba(6, 187, 204, 0.03) 0%, rgba(0,0,0,0) 100%);">
+        <div class="bento-card p-5" style="background: radial-gradient(100% 100% at 0% 0%, rgba(6, 187, 204, 0.05) 0%, rgba(0,0,0,0) 100%);">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-7">
                     <div class="section-tag mb-3">BIZ HAQIMIZDA</div>
@@ -382,13 +383,13 @@
                     <div class="row g-4">
                         <div class="col-6">
                             <div class="border-start ps-3" style="border-color: var(--brand-primary) !important; border-width: 2px !important;">
-                                <h3 class="text-white m-0 fw-bold">100%</h3>
+                                <h3 class="text-white m-0 fw-bold brand-color-text">100%</h3>
                                 <span class="text-muted tiny" style="font-size: 12px;">Xatosiz real-vaqt tahlili</span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="border-start ps-3" style="border-color: var(--brand-primary) !important; border-width: 2px !important;">
-                                <h3 class="text-white m-0 fw-bold">&lt; 80ms</h3>
+                                <h3 class="text-white m-0 fw-bold brand-color-text">&lt; 80ms</h3>
                                 <span class="text-muted tiny" style="font-size: 12px;">Sahifa yuklanish tezligi</span>
                             </div>
                         </div>
@@ -409,7 +410,7 @@
             <div class="col-lg-4 col-md-6">
                 <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <i class="bi bi-arrow-up-right cat-arrow"></i>
-                    <div class="mb-4 fs-3" style="color: var(--brand-primary);"><i class="bi bi-layers-half"></i></div>
+                    <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-layers-half"></i></div>
                     <h4 class="text-white fw-bold mb-2">Standart Testlar</h4>
                     <p class="text-muted small mb-0">Mavzulashtirilgan va fanlar bo'yicha mukammal savollar to'plami.</p>
                 </a>
@@ -417,7 +418,7 @@
             <div class="col-lg-4 col-md-6">
                 <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <i class="bi bi-arrow-up-right cat-arrow"></i>
-                    <div class="mb-4 fs-3" style="color: var(--brand-primary);"><i class="bi bi-file-earmark-code"></i></div>
+                    <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-file-earmark-code"></i></div>
                     <h4 class="text-white fw-bold mb-2">Kazus Testlar</h4>
                     <p class="text-muted small mb-0">Amaliy mantiqiy vaziyatlar va muammoli masalalar yechimi.</p>
                 </a>
@@ -425,7 +426,7 @@
             <div class="col-lg-4 col-md-6">
                 <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <i class="bi bi-arrow-up-right cat-arrow"></i>
-                    <div class="mb-4 fs-3" style="color: var(--brand-primary);"><i class="bi bi-shield-lock"></i></div>
+                    <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-shield-lock"></i></div>
                     <h4 class="text-white fw-bold mb-2">Yopiq Testlar</h4>
                     <p class="text-muted small mb-0">Maxsus guruhlar va korporativ imtihonlar uchun yopiq tizim.</p>
                 </a>
@@ -433,7 +434,7 @@
             <div class="col-lg-12">
                 <a class="interactive-cat-box d-flex align-items-center justify-content-between p-4" href="{% url 'search_tests_page' %}">
                     <div class="d-flex align-items-center gap-4">
-                        <div class="fs-2" style="color: var(--brand-primary);"><i class="bi bi-trophy-fill"></i></div>
+                        <div class="fs-2 brand-color-text"><i class="bi bi-trophy-fill"></i></div>
                         <div>
                             <h4 class="text-white fw-bold mb-1">Fan Olimpiadalari va Musobaqalar</h4>
                             <p class="text-muted small mb-0">Respublika hamda xalqaro miqyosdagi onlayn bilimlar bellashuvi.</p>
@@ -450,14 +451,14 @@
         <div class="container py-4">
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="text-white fw-bold mb-4">testborbaza<span style="color: var(--brand-primary);">.uz</span></h5>
+                    <h5 class="text-white fw-bold mb-4">testborbaza<span class="brand-color-text">.uz</span></h5>
                     <p class="small text-muted" style="line-height: 1.6;">Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.</p>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <h5 class="text-white fw-bold mb-4">Biz bilan bog‘lanish</h5>
-                    <p class="mb-2 small text-muted"><i class="bi bi-geo-alt me-3" style="color: var(--brand-primary);"></i>Samarqand shahar</p>
-                    <p class="mb-2 small text-muted"><i class="bi bi-telephone me-3" style="color: var(--brand-primary);"></i>+998995772836</p>
-                    <p class="mb-2 small text-muted"><i class="bi bi-telegram me-3" style="color: var(--brand-primary);"></i>@jcodetab</p>
+                    <p class="mb-2 small text-muted"><i class="bi bi-geo-alt me-3 brand-color-text"></i>Samarqand shahar</p>
+                    <p class="mb-2 small text-muted"><i class="bi bi-telephone me-3 brand-color-text"></i>+998995772836</p>
+                    <p class="mb-2 small text-muted"><i class="bi bi-telegram me-3 brand-color-text"></i>@jcodetab</p>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <h5 class="text-white fw-bold mb-4">Ijtimoiy tarmoqlar</h5>
