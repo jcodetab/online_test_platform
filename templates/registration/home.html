@@ -281,7 +281,7 @@
             
             <div class="ms-auto d-flex align-items-center gap-3">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'profile' %}" class="btn-modern-secondary py-2 px-4 rounded-pill small" style="padding: 8px 20px !important;"><i class="bi bi-person-circle me-2"></i>Kabinet</a>
+                    <a href="#/" class="btn-modern-secondary py-2 px-4 rounded-pill small" style="padding: 8px 20px !important;"><i class="bi bi-person-circle me-2"></i>Kabinet</a>
                 {% else %}
                     <a href="{% url 'login' %}" class="text-white text-decoration-none small me-2 hover:text-cyan-400">Kirish</a>
                     <a href="{% url 'register' %}" class="btn-modern-primary py-2 px-4 rounded-pill small" style="padding: 8px 24px !important;">Boshlash</a>
