@@ -24,35 +24,31 @@
             --card-bg: #FFFFFF;
             --brand-primary: #06BBCC; 
             --brand-hover: #05a4b4;
-            --brand-light: rgba(6, 187, 204, 0.05);
+            --brand-light: rgba(6, 187, 204, 0.06);
             --text-main: #0F172A; 
             --text-muted: #64748B;
             --border-clean: #E2E8F0;
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.015);
-            --shadow-md: 0 12px 24px rgba(0, 0, 0, 0.03);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --sphere-opacity: 0.12;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.04);
             --toggle-bg: #FFFFFF;
-            
-            /* Technical Grid Color */
-            --grid-color: rgba(15, 23, 42, 0.03);
         }
 
         [data-bs-theme="dark"] {
-            --bg-light-core: #090E1A; 
-            --card-bg: #0E1626;
+            --bg-light-core: #0B1329; 
+            --card-bg: #131C35;
             --brand-primary: #06BBCC; 
             --brand-hover: #22D3EE;
-            --brand-light: rgba(6, 187, 204, 0.1);
-            --text-main: #F8FAFC; 
+            --brand-light: rgba(6, 187, 204, 0.12);
+            --text-main: #F1F5F9; 
             --text-muted: #94A3B8;
             --border-clean: #1E293B;
-            --nav-bg: rgba(14, 22, 38, 0.85);
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --nav-bg: rgba(19, 28, 53, 0.8);
+            --sphere-opacity: 0.22;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.22);
             --toggle-bg: #1E293B;
-            
-            /* Technical Grid Color */
-            --grid-color: rgba(248, 250, 252, 0.02);
         }
 
         body {
@@ -60,40 +56,38 @@
             background-color: var(--bg-light-core);
             color: var(--text-main);
             overflow-x: hidden;
-            letter-spacing: -0.2px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            letter-spacing: -0.1px;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* Engineering Grid Architecture Background */
-        .technical-grid-bg {
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+        }
+
+        /* Ambient Dynamic Background */
+        .ambient-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            background-image: 
-                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: radial-gradient(circle at 50% 30%, black 60%, transparent 95%);
-            -webkit-mask-image: radial-gradient(circle at 50% 30%, black 60%, transparent 95%);
+            background: 
+                radial-gradient(circle at 85% 20%, rgba(6, 187, 204, var(--sphere-opacity)) 0%, transparent 45%),
+                radial-gradient(circle at 15% 75%, rgba(6, 187, 204, calc(var(--sphere-opacity) / 2)) 0%, transparent 40%);
+            background-size: cover;
+            transition: background 0.4s ease;
         }
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: var(--text-main);
-            font-weight: 700;
-        }
-
-        /* Clean Glassmorphic Navigation */
+        /* Apple Style Toza Glassmorphic Navigatsiya */
         .custom-nav {
             border-bottom: 1px solid var(--border-clean);
             background: var(--nav-bg) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 14px 0;
-            transition: all 0.3s ease;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 16px 0;
+            transition: all 0.4s ease;
         }
 
         .brand-text {
@@ -106,201 +100,236 @@
             color: var(--brand-primary) !important;
         }
 
-        /* SYSTEM METRICS RADAR BADGE */
-        .system-status-pill {
-            background: var(--card-bg);
-            border: 1px solid var(--border-clean);
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            font-family: monospace;
-            color: var(--text-muted);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-pulse-dot {
-            width: 6px;
-            height: 6px;
-            background-color: #10B981;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 8px #10B981;
-        }
-
-        /* LINEAR & STRIPE STYLE SHARP EDGE PREMIUM BUTTONS */
-        .btn-premium-action {
-            background: var(--text-main);
-            color: var(--bg-light-core) !important;
+        /* ZAMONAVIY GLOSSY PILL BUTTONS (APPLE & STRIPE STYLE) */
+        .btn-pill-primary {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-hover) 100%);
+            color: #FFFFFF !important;
             font-weight: 600;
             font-size: 0.95rem;
-            padding: 14px 28px;
-            border-radius: 10px;
-            border: 1px solid transparent;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 14px 32px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(6, 187, 204, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
 
-        .btn-premium-action:hover {
+        .btn-pill-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-            filter: brightness(1.1);
+            box-shadow: 0 8px 24px rgba(6, 187, 204, 0.35);
+            filter: brightness(1.05);
         }
 
-        .btn-premium-outline {
+        .btn-pill-secondary {
             background: var(--card-bg);
             color: var(--text-main) !important;
             font-weight: 600;
             font-size: 0.95rem;
-            padding: 14px 28px;
-            border-radius: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-sm);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
 
-        .btn-premium-outline:hover {
+        .btn-pill-secondary:hover {
             transform: translateY(-2px);
-            border-color: var(--text-main);
+            border-color: var(--brand-primary);
             box-shadow: var(--shadow-md);
+            background: var(--bg-light-core);
         }
 
-        /* PREMIUM GRID SYSTEM (NO DUMB ROUND SHAPES) */
-        .hero-clean-layout {
-            max-width: 900px;
-            margin: 0 auto;
+        .btn-pill-info {
+            background: var(--brand-light);
+            color: var(--brand-primary) !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 14px 32px;
+            border-radius: 50px;
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        .btn-pill-info:hover {
+            transform: translateY(-2px);
+            background: rgba(6, 187, 204, 0.15);
+            box-shadow: 0 6px 20px rgba(6, 187, 204, 0.1);
+        }
+
+        /* Hero Bo'limi */
         .hero-title {
-            font-size: 4.2rem;
+            font-size: 3.8rem;
             font-weight: 800;
-            letter-spacing: -2.5px;
-            line-height: 1.1;
+            letter-spacing: -2px;
+            line-height: 1.15;
             color: var(--text-main);
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 2.8rem; letter-spacing: -1.2px; }
+            .hero-title { font-size: 2.6rem; }
         }
 
-        /* MONOCHROME HIGH CONTRAST CARDS (STRICT METHODOLOGY STYLE) */
-        .technical-card-link {
-            background: var(--card-bg);
-            border: 1px solid var(--border-clean);
-            padding: 35px 28px;
-            display: block;
-            text-decoration: none !important;
+        .brand-gradient-text {
+            background: linear-gradient(135deg, var(--brand-primary) 30%, #22D3EE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Grafik Animatsiyalar */
+        .hero-visual-wrapper {
             position: relative;
-            border-radius: 14px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .technical-card-link:hover {
-            transform: translateY(-5px);
-            border-color: var(--brand-primary);
-            box-shadow: var(--shadow-md);
+        .animated-core-sphere {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(6, 187, 204, 0.4) 0%, rgba(6, 187, 204, 0.02) 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: pulseGlow 4s infinite alternate ease-in-out;
         }
 
-        .card-corner-arrow {
-            position: absolute;
-            top: 28px;
-            right: 28px;
-            color: var(--text-muted);
-            font-size: 16px;
-            transition: all 0.25s ease;
-            opacity: 0.5;
-        }
-
-        .technical-card-link:hover .card-corner-arrow {
-            transform: translate(3px, -3px);
-            color: var(--brand-primary);
-            opacity: 1;
-        }
-
-        .technical-icon-box {
-            font-size: 28px;
-            color: var(--brand-primary);
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        /* BENTO ARCHITECTURE CARDS */
+        /* Bento Minimal Animatsiyali Kartalar */
         .bento-card {
             background: var(--card-bg);
             border: 1px solid var(--border-clean);
-            border-radius: 16px;
-            padding: 32px 28px;
+            border-radius: 22px;
+            padding: 35px 30px;
             height: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
             box-shadow: var(--shadow-sm);
         }
 
         .bento-card:hover {
-            border-color: var(--text-main);
+            border-color: var(--brand-primary);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-md);
         }
 
         .icon-wrapper {
-            width: 44px;
-            height: 44px;
+            width: 52px;
+            height: 52px;
             background: var(--brand-light);
-            border-radius: 8px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--brand-primary);
-            font-size: 20px;
-            margin-bottom: 20px;
+            font-size: 24px;
+            margin-bottom: 22px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* CONTROLS NAVBAR THEME BUTTON */
-        .theme-nav-toggle {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+        .bento-card:hover .icon-wrapper {
+            transform: scale(1.1) rotate(8deg);
+            background: var(--brand-primary);
+            color: #FFFFFF;
+        }
+
+        /* Interaktiv Yo'nalish Bloklari */
+        .interactive-cat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-clean);
+            border-radius: 20px;
+            padding: 32px 28px;
+            height: 100%;
+            display: block;
+            text-decoration: none !important;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .interactive-cat-box:hover {
+            border-color: var(--brand-primary);
+            background: linear-gradient(145deg, var(--card-bg) 0%, var(--brand-light) 100%);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .cat-arrow {
+            position: absolute;
+            top: 28px;
+            right: 28px;
+            color: var(--text-muted);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-cat-box:hover .cat-arrow {
+            transform: translate(3px, -3px);
+            color: var(--brand-primary);
+        }
+
+        /* EKRAN BURCHAGIDAGI FLOATING KUN/TUN REJIMI TUGMASI */
+        .theme-floating-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
             background-color: var(--toggle-bg);
             border: 1px solid var(--border-clean);
-            color: var(--text-main);
-            box-shadow: var(--shadow-sm);
+            color: var(--brand-primary);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.25s ease;
-            font-size: 16px;
+            z-index: 9999;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 22px;
         }
         
-        .theme-nav-toggle:hover {
+        .theme-floating-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 12px 30px rgba(6, 187, 204, 0.25);
+            background-color: var(--brand-primary);
+            color: #FFFFFF;
             border-color: var(--brand-primary);
-            color: var(--brand-primary);
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 0.85; }
         }
 
         .footer-clean {
             background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
-            padding: 60px 0 35px;
-            transition: all 0.3s ease;
+            padding: 70px 0 35px;
+            transition: background-color 0.4s ease, border-top 0.4s ease;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="technical-grid-bg"></div>
+    <div class="ambient-bg"></div>
 
     <input type="hidden" id="user-auth-status" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     <div id="page-type" data-page="home"></div>
 
     {% block content %}{% endblock %}
+
+    <button class="theme-floating-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
+        <i class="bi bi-sun-fill" id="theme-icon"></i>
+    </button>
 
     <nav class="navbar navbar-expand-lg sticky-top custom-nav">
         <div class="container px-4">
@@ -309,82 +338,41 @@
                     <i class="bi bi-journal-check me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
                 </h3>
             </a>
-            <div class="ms-auto d-flex align-items-center gap-3">
-                <div class="d-none d-md-flex">
-                    <div class="system-status-pill">
-                        <span class="status-pulse-dot"></span>
-                        <span>STATUS: ACTIVE_80MS</span>
-                    </div>
-                </div>
-                <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
-                    <i class="bi bi-sun-fill" id="theme-icon"></i>
-                </button>
-            </div>
+            <div class="ms-auto d-flex align-items-center gap-3"></div>
         </div>
     </nav>
 
-    <div class="hero-section py-5 my-md-5 text-center">
+    <div class="hero-section py-5 my-md-4">
         <div class="container px-4">
-            <div class="hero-clean-layout">
-                <h1 class="hero-title mb-4">Chuqur mantiqiy <span class="brand-color-text">tahlillar maskani</span></h1>
-                
-                <p class="text-muted fs-5 mb-5 mx-auto" style="font-weight: 400; line-height: 1.7; max-width: 780px; letter-spacing: -0.1px;">
-                    TestBorBaza — xalqaro baholash mezonlariga asoslangan yangi avlod intellektual onlayn imtihon tizimidir. Platformada standart testlardan tortib professional mantiqiy kazus-keyslargacha bo‘lgan filtrlangan materiallar bazasidan reklamasiz va ortiqcha vizual shovqinlarsiz foydalanishingiz mumkin. Har bir mikrosekund faqat sizning intellektual o‘sishingizga xizmat qiladi.
-                </p>
-                
-                <div class="d-flex flex-row flex-wrap align-items-center justify-content-center gap-3">
-                    <a href="{% url 'register' %}" class="btn-premium-action text-decoration-none">
-                        <i class="bi bi-arrow-right-short fs-5 me-1"></i> Ro‘yxatdan o‘tish
-                    </a>
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7 text-center text-lg-start pt-lg-3">
+                    <h1 class="hero-title mb-4">Mukammal bilimlar va chuqur mantiqiy <span class="brand-gradient-text">tahlillar maskani</span></h1>
+                    <p class="text-muted fs-5 mb-5" style="font-weight: 400; line-height: 1.8; max-width: 680px;">
+                        TestBorBaza — zamonaviy o‘quv metodologiyalari va xalqaro baholash mezonlari asosida ishlab chiqilgan yangi avlod intellektual ekotizimidir. Bu yerda siz fanlararo standart test topshiriqlaridan tortib, chuqur tahliliy fikrlashni talab etuvchi ilg‘or professional kazus-keyslargacha bo‘lgan keng ma’lumotlar bazasidan foydalana olasiz. 
+                    </p>
                     
-                    {% if not user.is_authenticated %}
-                        <a href="{% url 'login' %}" class="btn-premium-outline text-decoration-none">
-                            Tizimga kirish
+                    <div class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
+                        <a href="{% url 'register' %}" class="btn-pill-primary text-decoration-none">
+                            <i class="bi bi-person-plus-fill me-2"></i> Ro‘yxatdan o‘tish
                         </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
+                        
+                        {% if not user.is_authenticated %}
+                            <a href="{% url 'login' %}" class="btn-pill-secondary text-decoration-none">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Kirish
+                            </a>
+                        {% endif %}
 
-    <div class="container px-4 py-5">
-        <div class="d-flex flex-column align-items-center text-center mb-5">
-            <h2 class="fw-bold text-uppercase tracking-wider small text-muted mb-2" style="font-size: 0.85rem; font-family: monospace;">Kataloq va yo'nalishlar</h2>
-            <h3 class="fw-bold m-0" style="letter-spacing: -1px; font-size: 2.1rem;">Mavjud o‘quv va imtihon turlari</h3>
-        </div>
-        
-        <div class="row g-4 justify-content-center">
-            <div class="col-xl-3 col-lg-4 col-md-6">
-                <a class="technical-card-link" href="{% url 'search_tests_page' %}">
-                    <i class="bi bi-arrow-up-right card-corner-arrow"></i>
-                    <div class="technical-icon-box"><i class="bi bi-layers-half"></i></div>
-                    <h4 class="fw-bold fs-5 mb-2">Standart Testlar</h4>
-                    <p class="text-muted small mb-0">Mavzulashtirilgan va fanlar bo'yicha mukammal savollar to'plami.</p>
-                </a>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6">
-                <a class="technical-card-link" href="{% url 'search_tests_page' %}">
-                    <i class="bi bi-arrow-up-right card-corner-arrow"></i>
-                    <div class="technical-icon-box"><i class="bi bi-file-earmark-code"></i></div>
-                    <h4 class="fw-bold fs-5 mb-2">Kazus Testlar</h4>
-                    <p class="text-muted small mb-0">Amaliy mantiqiy vaziyatlar va muammoli masalalar yechimi.</p>
-                </a>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6">
-                <a class="technical-card-link" href="{% url 'search_tests_page' %}">
-                    <i class="bi bi-arrow-up-right card-corner-arrow"></i>
-                    <div class="technical-icon-box"><i class="bi bi-shield-lock"></i></div>
-                    <h4 class="fw-bold fs-5 mb-2">Yopiq Testlar</h4>
-                    <p class="text-muted small mb-0">Maxsus guruhlar va korporativ imtihonlar uchun yopiq tizim.</p>
-                </a>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6">
-                <a class="technical-card-link" href="{% url 'search_tests_page' %}">
-                    <i class="bi bi-arrow-up-right card-corner-arrow"></i>
-                    <div class="technical-icon-box"><i class="bi bi-trophy-fill"></i></div>
-                    <h4 class="fw-bold fs-5 mb-2">Fan Olimpiadalari</h4>
-                    <p class="text-muted small mb-0">Respublika va xalqaro miqyosdagi onlayn bilimlar bellashuvi.</p>
-                </a>
+                        <a href="{% url 'search_tests_page' %}" class="btn-pill-info text-decoration-none">
+                            <i class="bi bi-search me-2"></i> Testlar bazasi
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+                    <div class="hero-visual-wrapper">
+                        <div class="animated-core-sphere"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -394,28 +382,28 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="bento-card">
                     <div class="icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
-                    <h5 class="mb-2 fw-bold fs-6">Qat'iy vaqt nazorati</h5>
+                    <h5 class="mb-3 fw-bold">Qat'iy vaqt nazorati</h5>
                     <p class="text-muted small mb-0">Har bir savol uchun aniq 1 daqiqalik algoritmik cheklov bilan imtihon realistik boshqariladi.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
                 <div class="bento-card">
                     <div class="icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
-                    <h5 class="mb-2 fw-bold fs-6">Filtrlangan test kutubxonasi</h5>
+                    <h5 class="mb-3 fw-bold">Filtrlangan test kutubxonasi</h5>
                     <p class="text-muted small mb-0">Kazus-keyslar va oddiy savollar backend filtrlari orqali xatosiz, alohida tartibda ajratilgan.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
                 <div class="bento-card">
                     <div class="icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
-                    <h5 class="mb-2 fw-bold fs-6">Tezkor yuklanish tezligi</h5>
+                    <h5 class="mb-3 fw-bold">Tezkor yuklanish tezligi</h5>
                     <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar 80ms dan kam vaqt ichida barqaror ochiladi.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
                 <div class="bento-card">
                     <div class="icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
-                    <h5 class="mb-2 fw-bold fs-6">Xavfsiz monitoring</h5>
+                    <h5 class="mb-3 fw-bold">Xavfsiz monitoring</h5>
                     <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni to'liq yopiq va sun'iy intellekt nazoratida.</p>
                 </div>
             </div>
@@ -423,28 +411,69 @@
     </div>
 
     <div class="container px-4 py-5">
-        <div class="bento-card p-5">
+        <div class="bento-card p-5" style="background: linear-gradient(135deg, var(--card-bg) 0%, var(--brand-light) 100%);">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-7">
-                    <h2 class="mb-4 fw-bold" style="letter-spacing: -1px; font-size: 2.2rem;">Test platformasiga xush kelibsiz!</h2>
-                    <p class="text-muted mb-0" style="line-height: 1.7;">Bizning ekotizimda test topshirish jarayoni xalqaro ta'lim standartlariga to'liq mos keladi. Ortiqcha keraksiz ranglar, bannerlar va og'ir vizual shovqinlardan voz kechdik — asosiy e'tibor faqat intellektual o'sish va natijaga qaratilgan.</p>
+                    <h2 class="mb-4 fw-bold" style="letter-spacing: -1.2px; font-size: 2.3rem;">Test platformasiga xush kelibsiz!</h2>
+                    <p class="text-muted mb-0">Bizning ekotizimda test topshirish jarayoni xalqaro ta'lim standartlariga to'liq mos keladi. Ortiqcha keraksiz ranglar, bannerlar va og'ir vizual shovqinlardan voz kechdik — asosiy e'tibor faqat intellektual o'sish va natijaga qaratilgan.</p>
                 </div>
                 <div class="col-lg-5">
                     <div class="row g-4">
                         <div class="col-6">
                             <div class="border-start ps-3" style="border-color: var(--brand-primary) !important; border-width: 3px !important;">
                                 <h3 class="m-0 fw-bold brand-color-text">100%</h3>
-                                <span class="text-muted tiny" style="font-size: 12px; font-family: monospace;">REAL_TIME_ANALYSIS</span>
+                                <span class="text-muted tiny" style="font-size: 12px;">Xatosiz real-vaqt tahlili</span>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="border-start ps-3" style="border-color: var(--brand-primary) !important; border-width: 3px !important;">
+                            <div class="border-start ps-3" style="border-color: var(--brand-primary) !important; border-width: 2px !important;">
                                 <h3 class="m-0 fw-bold brand-color-text">&lt; 80ms</h3>
-                                <span class="text-muted tiny" style="font-size: 12px; font-family: monospace;">PAGE_LOAD_SPEED</span>
+                                <span class="text-muted tiny" style="font-size: 12px;">Sahifa yuklanish tezligi</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5">
+        <div class="d-flex flex-column align-items-center text-center mb-5">
+            <h2 class="fw-bold" style="letter-spacing: -1px; font-size: 2.3rem;">Mavjud o‘quv va imtihon turlari</h2>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-layers-half"></i></div>
+                    <h4 class="fw-bold mb-2">Standart Testlar</h4>
+                    <p class="text-muted small mb-0">Mavzulashtirilgan va fanlar bo'yicha mukammal savollar to'plami.</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-file-earmark-code"></i></div>
+                    <h4 class="fw-bold mb-2">Kazus Testlar</h4>
+                    <p class="text-muted small mb-0">Amaliy mantiqiy vaziyatlar va muammoli masalalar yechimi.</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-shield-lock"></i></div>
+                    <h4 class="fw-bold mb-2">Yopiq Testlar</h4>
+                    <p class="text-muted small mb-0">Maxsus guruhlar va korporativ imtihonlar uchun yopiq tizim.</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-trophy-fill"></i></div>
+                    <h4 class="fw-bold mb-2">Fan Olimpiadalari</h4>
+                    <p class="text-muted small mb-0">Respublika hamda xalqaro miqyosdagi onlayn bilimlar bellashuvi.</p>
+                </a>
             </div>
         </div>
     </div>
