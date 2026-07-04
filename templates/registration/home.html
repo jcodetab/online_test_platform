@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="uz" class="scroll-smooth">
+<html lang="uz" class="scroll-smooth" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -11,17 +11,15 @@
 
     <link href="{% static 'img/favicon.ico' %}" rel="icon">
 
-    <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=500;600;700;800&family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap 5.3 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        :root {
+        :root, [data-bs-theme="light"] {
             --bg-light-core: #F8FAFC; 
             --card-bg: #FFFFFF;
             --brand-primary: #06BBCC; 
@@ -30,6 +28,30 @@
             --text-main: #0F172A; 
             --text-muted: #64748B;
             --border-clean: #E2E8F0;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --sphere-opacity: 0.12;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.05);
+            /* Duolingo style isometric button border color */
+            --btn-3d-shadow: #0492a0;
+            --btn-sec-shadow: #CBD5E1;
+        }
+
+        [data-bs-theme="dark"] {
+            --bg-light-core: #0B1329; 
+            --card-bg: #131C35;
+            --brand-primary: #06BBCC; 
+            --brand-hover: #22D3EE;
+            --brand-light: rgba(6, 187, 204, 0.15);
+            --text-main: #F1F5F9; 
+            --text-muted: #94A3B8;
+            --border-clean: #1E293B;
+            --nav-bg: rgba(19, 28, 53, 0.8);
+            --sphere-opacity: 0.25;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.25);
+            --btn-3d-shadow: #0492a0;
+            --btn-sec-shadow: #0F172A;
         }
 
         body {
@@ -38,6 +60,7 @@
             color: var(--text-main);
             overflow-x: hidden;
             letter-spacing: -0.1px;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -54,19 +77,20 @@
             height: 100vh;
             z-index: -1;
             background: 
-                radial-gradient(circle at 85% 20%, rgba(6, 187, 204, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 15% 75%, rgba(6, 187, 204, 0.06) 0%, transparent 40%);
+                radial-gradient(circle at 85% 20%, rgba(6, 187, 204, var(--sphere-opacity)) 0%, transparent 45%),
+                radial-gradient(circle at 15% 75%, rgba(6, 187, 204, calc(var(--sphere-opacity) / 2)) 0%, transparent 40%);
             background-size: cover;
+            transition: background 0.4s ease;
         }
 
         /* Apple Style Toza Glassmorphic Navigatsiya */
         .custom-nav {
             border-bottom: 1px solid var(--border-clean);
-            background: rgba(255, 255, 255, 0.8) !important;
+            background: var(--nav-bg) !important;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             padding: 16px 0;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
         }
 
         .brand-text {
@@ -79,40 +103,87 @@
             color: var(--brand-primary) !important;
         }
 
-        /* Duolingo & Apple ilhomlantirilgan Interaktiv Tugmalar */
-        .btn-modern-primary {
+        /* DUOLINGO INSPIRED 3D INTERACTION BUTTONS */
+        .btn-3d-primary {
+            position: relative;
             background-color: var(--brand-primary);
             color: #FFFFFF !important;
             font-weight: 700;
             font-size: 0.95rem;
-            padding: 14px 32px;
-            border-radius: 14px;
+            padding: 14px 28px;
+            border-radius: 16px;
             border: none;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 14px rgba(6, 187, 204, 0.25);
+            border-bottom: 4px solid var(--btn-3d-shadow);
+            transition: all 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn-modern-primary:hover {
-            background-color: var(--brand-hover);
+        .btn-3d-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(6, 187, 204, 0.4);
+            border-bottom-width: 6px;
         }
 
-        .btn-modern-secondary {
-            background: #FFFFFF;
+        .btn-3d-primary:active {
+            transform: translateY(2px);
+            border-bottom-width: 0px;
+            margin-bottom: 4px;
+        }
+
+        .btn-3d-secondary {
+            position: relative;
+            background-color: var(--card-bg);
+            color: var(--text-main) !important;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 14px 28px;
+            border-radius: 16px;
+            border: 2px solid var(--border-clean);
+            border-bottom: 5px solid var(--btn-sec-shadow);
+            transition: all 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-3d-secondary:hover {
+            transform: translateY(-2px);
+            border-bottom-width: 7px;
+            background-color: var(--bg-light-core);
+        }
+
+        .btn-3d-secondary:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
+        /* Search/Explore variant button */
+        .btn-3d-info {
+            position: relative;
+            background-color: var(--brand-light);
             color: var(--brand-primary) !important;
             font-weight: 700;
             font-size: 0.95rem;
-            padding: 14px 32px;
-            border-radius: 14px;
-            border: 2px solid var(--brand-primary);
-            transition: all 0.25s ease;
+            padding: 14px 28px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            border-bottom: 4px solid rgba(6, 187, 204, 0.3);
+            transition: all 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        .btn-modern-secondary:hover {
-            background: var(--brand-light);
+        .btn-3d-info:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(6, 187, 204, 0.1);
+            border-bottom-width: 6px;
+            background-color: rgba(6, 187, 204, 0.15);
+        }
+        .btn-3d-info:active {
+            transform: translateY(2px);
+            border-bottom-width: 0px;
         }
 
         /* Hero Bo'limi */
@@ -125,11 +196,11 @@
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 2.4rem; }
+            .hero-title { font-size: 2.6rem; }
         }
 
         .brand-gradient-text {
-            background: linear-gradient(135deg, var(--text-main) 20%, var(--brand-primary) 100%);
+            background: linear-gradient(135deg, var(--brand-primary) 30%, #22D3EE 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -160,14 +231,9 @@
             border-left: 4px solid #22C55E; 
             border-radius: 16px;
             padding: 18px 22px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+            box-shadow: var(--shadow-md);
             transition: all 0.3s ease;
             animation: floatUI 5s infinite ease-in-out;
-        }
-
-        .orbiting-card:hover {
-            box-shadow: 0 20px 40px rgba(6, 187, 204, 0.15);
-            transform: scale(1.03);
         }
 
         /* Bento Minimal Animatsiyali Kartalar */
@@ -179,12 +245,13 @@
             height: 100%;
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
             position: relative;
+            box-shadow: var(--shadow-sm);
         }
 
         .bento-card:hover {
             border-color: var(--brand-primary);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(6, 187, 204, 0.12);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
         }
 
         .icon-wrapper {
@@ -202,7 +269,7 @@
         }
 
         .bento-card:hover .icon-wrapper {
-            transform: scale(1.15) rotate(8deg);
+            transform: scale(1.1) rotate(8deg);
             background: var(--brand-primary);
             color: #FFFFFF;
         }
@@ -218,14 +285,14 @@
             text-decoration: none !important;
             position: relative;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            box-shadow: var(--shadow-sm);
         }
 
         .interactive-cat-box:hover {
             border-color: var(--brand-primary);
-            background: linear-gradient(145deg, #FFFFFF 0%, var(--brand-light) 100%);
+            background: linear-gradient(145deg, var(--card-bg) 0%, var(--brand-light) 100%);
             transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(6, 187, 204, 0.08);
+            box-shadow: var(--shadow-md);
         }
 
         .cat-arrow {
@@ -242,6 +309,26 @@
             color: var(--brand-primary);
         }
 
+        /* Kun/Tun Rejimi Switcher Dizayni */
+        .theme-toggle-btn {
+            background: var(--brand-light);
+            border: 1px solid var(--border-clean);
+            color: var(--brand-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .theme-toggle-btn:hover {
+            background: var(--brand-primary);
+            color: #FFFFFF;
+            transform: scale(1.05);
+        }
+
         @keyframes pulseGlow {
             0% { transform: scale(0.9); opacity: 0.6; }
             100% { transform: scale(1.1); opacity: 0.9; }
@@ -254,9 +341,10 @@
         }
 
         .footer-clean {
-            background: #FFFFFF;
+            background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
             padding: 70px 0 35px;
+            transition: background-color 0.4s ease, border-top 0.4s ease;
         }
     </style>
 </head>
@@ -270,7 +358,6 @@
 
     {% block content %}{% endblock %}
 
-    <!-- Navbar Minimal Glass -->
     <nav class="navbar navbar-expand-lg sticky-top custom-nav">
         <div class="container px-4">
             <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
@@ -279,32 +366,34 @@
                 </h3>
             </a>
             
-            <!-- Bu yerda ms-auto bo'limi bo'sh qoldirildi, chunki kabinet (profile) tugmasi butunlay olib tashlandi -->
-            <div class="ms-auto d-flex align-items-center gap-3"></div>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="theme-toggle-btn" id="theme-toggle" title="Rejimni o'zgartirish">
+                    <i class="bi bi-sun-fill" id="theme-icon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="hero-section py-5 my-md-2">
         <div class="container px-4">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
                     <h1 class="hero-title mb-4">Onlayn ta’lim uchun <span class="brand-gradient-text">eng toza</span> muhit</h1>
-                    <p class="text-muted fs-5 mb-5" style="font-weight: 400; line-height: 1.7; color: var(--text-muted) !important;">Tezkor testlar, xatosiz tahlillar va ortiqcha chalg'itishlarsiz mukammal platforma — faqat bilimingizni rivojlantirish uchun.</p>
+                    <p class="text-muted fs-5 mb-5" style="font-weight: 400; line-height: 1.7;">Tezkor testlar, xatosiz tahlillar va ortiqcha chalg'itishlarsiz mukammal platforma — faqat bilimingizni rivojlantirish uchun.</p>
                     
                     <div class="d-flex flex-row flex-wrap align-items-center gap-3">
-                        <a href="{% url 'register' %}" class="btn-modern-primary text-decoration-none">
-                            Ro‘yxatdan o‘tish
+                        <a href="{% url 'register' %}" class="btn-3d-primary text-decoration-none">
+                            <i class="bi bi-person-plus-fill me-2"></i> Ro‘yxatdan o‘tish
                         </a>
                         
                         {% if not user.is_authenticated %}
-                            <a href="{% url 'login' %}" class="btn-modern-secondary text-decoration-none">
-                                Kirish
+                            <a href="{% url 'login' %}" class="btn-3d-secondary text-decoration-none">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Kirish
                             </a>
                         {% endif %}
 
-                        <a href="{% url 'search_tests_page' %}" class="btn-modern-secondary text-decoration-none">
-                            <i class="bi bi-collection-play me-2"></i> Testlar bazasi
+                        <a href="{% url 'search_tests_page' %}" class="btn-3d-info text-decoration-none">
+                            <i class="bi bi-search me-2"></i> Testlar bazasi
                         </a>
                     </div>
                 </div>
@@ -317,7 +406,7 @@
                             <div class="d-flex align-items-center gap-3">
                                 <div class="rounded-circle p-2 d-flex" style="background: rgba(34, 197, 94, 0.1); color: #22C55E;"><i class="bi bi-graph-up-arrow fs-5"></i></div>
                                 <div>
-                                    <h6 class="m-0 text-dark small fw-bold">Amaliy Tahlil</h6>
+                                    <h6 class="m-0 small fw-bold">Amaliy Tahlil</h6>
                                     <span class="text-muted tiny" style="font-size: 11px;">Intellektual real-vaqt tizimi</span>
                                 </div>
                             </div>
@@ -328,7 +417,6 @@
         </div>
     </div>
 
-    <!-- Tizimning aniq texnik imkoniyatlariga yo'naltirilgan Bento Grid -->
     <div class="container px-4 py-5">
         <div class="row g-4">
             <div class="col-lg-3 col-sm-6">
@@ -362,9 +450,8 @@
         </div>
     </div>
 
-    <!-- Biz Haqimizda Bo'limi -->
     <div class="container px-4 py-5">
-        <div class="bento-card p-5" style="background: linear-gradient(135deg, #FFFFFF 0%, var(--brand-light) 100%);">
+        <div class="bento-card p-5" style="background: linear-gradient(135deg, var(--card-bg) 0%, var(--brand-light) 100%);">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-7">
                     <h2 class="mb-4 fw-bold" style="letter-spacing: -1.2px; font-size: 2.3rem;">Test platformasiga xush kelibsiz!</h2>
@@ -390,7 +477,6 @@
         </div>
     </div>
 
-    <!-- Yo'nalishlar Grid -->
     <div class="container px-4 py-5">
         <div class="d-flex flex-column align-items-center text-center mb-5">
             <h2 class="fw-bold" style="letter-spacing: -1px; font-size: 2.3rem;">Mavjud o‘quv va imtihon turlari</h2>
@@ -436,7 +522,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer-clean">
         <div class="container px-4">
             <div class="row g-5">
@@ -453,9 +538,9 @@
                 <div class="col-lg-4 col-md-6">
                     <h5 class="fw-bold mb-4">Ijtimoiy tarmoqlar</h5>
                     <div class="d-flex gap-2">
-                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://t.me/jcodetab" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: #FFF;"><i class="bi bi-telegram"></i></a>
-                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="#/" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: #FFF;"><i class="bi bi-facebook"></i></a>
-                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="#/" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: #FFF;"><i class="bi bi-youtube"></i></a>
+                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://t.me/jcodetab" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-telegram"></i></a>
+                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="#/" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-facebook"></i></a>
+                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="#/" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-youtube"></i></a>
                     </div>
                 </div>
             </div>
@@ -463,5 +548,36 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        // LocalStorage tekshirish (oldingi rejimni saqlab qolish uchun)
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-bs-theme', currentTheme);
+        updateIcon(currentTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            let theme = htmlElement.getAttribute('data-bs-theme');
+            if (theme === 'light') {
+                theme = 'dark';
+            } else {
+                theme = 'light';
+            }
+            htmlElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme);
+            updateIcon(theme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'bi bi-moon-stars-fill';
+            } else {
+                themeIcon.className = 'bi bi-sun-fill';
+            }
+        }
+    </script>
 </body>
 </html>
