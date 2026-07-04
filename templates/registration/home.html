@@ -32,6 +32,7 @@
             --sphere-opacity: 0.12;
             --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
             --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.04);
+            --shadow-md-glow: 0 15px 30px rgba(6, 187, 204, 0.15);
             --toggle-bg: #FFFFFF;
         }
 
@@ -48,6 +49,7 @@
             --sphere-opacity: 0.22;
             --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.12);
             --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.22);
+            --shadow-md-glow: 0 15px 30px rgba(6, 187, 204, 0.3);
             --toggle-bg: #1E293B;
         }
 
@@ -183,7 +185,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Grafik Animatsiyalar */
+        /* Grafik Animatsiyalar va Yangi Test Ikona Vizuali */
         .hero-visual-wrapper {
             position: relative;
             width: 100%;
@@ -200,6 +202,68 @@
             border-radius: 50%;
             filter: blur(40px);
             animation: pulseGlow 4s infinite alternate ease-in-out;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .hero-main-icon-box {
+            position: relative;
+            z-index: 2;
+            width: 180px;
+            height: 180px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-clean);
+            box-shadow: var(--shadow-md-glow);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: var(--brand-primary);
+            animation: floatCard 6s infinite ease-in-out;
+        }
+
+        .hero-sub-icon-badge {
+            position: absolute;
+            z-index: 3;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #22D3EE 0%, var(--brand-primary) 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 24px;
+            box-shadow: 0 8px 20px rgba(6, 187, 204, 0.3);
+            bottom: 90px;
+            right: 80px;
+            animation: floatBadge 6s infinite ease-in-out;
+        }
+
+        /* NAV KUN/TUN REJIMI TUGMASI (YANGI PARAGRAFGA MOSLAB KO'CHIRILDI) */
+        .theme-nav-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: var(--toggle-bg);
+            border: 1px solid var(--border-clean);
+            color: var(--brand-primary);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 18px;
+        }
+        
+        .theme-nav-toggle:hover {
+            transform: scale(1.08) rotate(15deg);
+            box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
+            background-color: var(--brand-primary);
+            color: #FFFFFF;
+            border-color: var(--brand-primary);
         }
 
         /* Bento Minimal Animatsiyali Kartalar */
@@ -275,38 +339,19 @@
             color: var(--brand-primary);
         }
 
-        /* EKRAN BURCHAGIDAGI FLOATING KUN/TUN REJIMI TUGMASI */
-        .theme-floating-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background-color: var(--toggle-bg);
-            border: 1px solid var(--border-clean);
-            color: var(--brand-primary);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 9999;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-size: 22px;
-        }
-        
-        .theme-floating-toggle:hover {
-            transform: scale(1.1) rotate(15deg);
-            box-shadow: 0 12px 30px rgba(6, 187, 204, 0.25);
-            background-color: var(--brand-primary);
-            color: #FFFFFF;
-            border-color: var(--brand-primary);
-        }
-
         @keyframes pulseGlow {
             0% { transform: scale(0.95); opacity: 0.5; }
             100% { transform: scale(1.1); opacity: 0.85; }
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
         }
 
         .footer-clean {
@@ -327,10 +372,6 @@
 
     {% block content %}{% endblock %}
 
-    <button class="theme-floating-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
-        <i class="bi bi-sun-fill" id="theme-icon"></i>
-    </button>
-
     <nav class="navbar navbar-expand-lg sticky-top custom-nav">
         <div class="container px-4">
             <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
@@ -338,7 +379,12 @@
                     <i class="bi bi-journal-check me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
                 </h3>
             </a>
-            <div class="ms-auto d-flex align-items-center gap-3"></div>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <!-- KUN/TUN TUGMASI ENDI SHU YERDA - O'NG TOMON YUQORI BURCHAKDA -->
+                <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
+                    <i class="bi bi-sun-fill" id="theme-icon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -346,9 +392,9 @@
         <div class="container px-4">
             <div class="row align-items-center g-5">
                 <div class="col-lg-7 text-center text-lg-start pt-lg-3">
-                    <h1 class="hero-title mb-4">Mugammal bilimlar va chuqur mantiqiy <span class="brand-gradient-text">tahlillar maskani</span></h1>
+                    <h1 class="hero-title mb-4">Chuqur mantiqiy <span class="brand-gradient-text">tahlillar maskani</span></h1>
                     <p class="text-muted fs-5 mb-5" style="font-weight: 400; line-height: 1.8; max-width: 680px;">
-                        TestBorBaza — zamonaviy o‘quv metodologiyalari va xalqaro baholash mezonlari asosida ishlab chiqilgan yangi avlod intellektual ekotizimidir. Bu yerda siz fanlararo standart test topshiriqlaridan tortib, chuqur tahliliy fikrlashni talab etuvchi ilg‘or professional kazus-keyslargacha bo‘lgan keng ma’lumotlar bazasidan foydalana olasiz. Ortiqcha keraksiz reklama bannerlari, chalg‘ituvchi keraksiz rangli bezaklar va og‘ir vizual shovqinlardan butunlay voz kechdik. Saytdagi har bir mikrosekund va har bir piksel faqat sizning shaxsiy intellektual o‘sishingiz, mantiqiy salohiyatingiz hamda yuqori yakuniy natijalarga erishishingiz uchun to‘liq optimallashtirildi.
+                        TestBorBaza — xalqaro baholash mezonlariga asoslangan yangi avlod intellektual onlayn imtihon tizimidir. Platformada standart testlardan tortib professional mantiqiy kazus-keyslargacha bo‘lgan filtrlangan materiallar bazasidan reklamasiz va ortiqcha vizual shovqinlarsiz foydalanishingiz mumkin. Har bir mikrosekund faqat sizning intellektual o‘sishingizga xizmat qiladi.
                     </p>
                     
                     <div class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
@@ -368,9 +414,16 @@
                     </div>
                 </div>
                 
+                <!-- O'NG TOMONDAGI BO'SH JOYGA ZAMONAVIY INTERAKTIV ICON ELEMENTI JOYLASHDI -->
                 <div class="col-lg-5 d-none d-lg-flex justify-content-center">
                     <div class="hero-visual-wrapper">
                         <div class="animated-core-sphere"></div>
+                        <div class="hero-main-icon-box">
+                            <i class="bi bi-cpu-fill"></i>
+                        </div>
+                        <div class="hero-sub-icon-badge">
+                            <i class="bi bi-check-all"></i>
+                        </div>
                     </div>
                 </div>
             </div>
