@@ -24,17 +24,15 @@
             --card-bg: #FFFFFF;
             --brand-primary: #06BBCC; 
             --brand-hover: #05a4b4;
-            --brand-light: rgba(6, 187, 204, 0.08);
+            --brand-light: rgba(6, 187, 204, 0.06);
             --text-main: #0F172A; 
             --text-muted: #64748B;
             --border-clean: #E2E8F0;
             --nav-bg: rgba(255, 255, 255, 0.8);
             --sphere-opacity: 0.12;
             --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.05);
-            /* Duolingo style isometric button border color */
-            --btn-3d-shadow: #0492a0;
-            --btn-sec-shadow: #CBD5E1;
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.04);
+            --toggle-bg: #FFFFFF;
         }
 
         [data-bs-theme="dark"] {
@@ -42,16 +40,15 @@
             --card-bg: #131C35;
             --brand-primary: #06BBCC; 
             --brand-hover: #22D3EE;
-            --brand-light: rgba(6, 187, 204, 0.15);
+            --brand-light: rgba(6, 187, 204, 0.12);
             --text-main: #F1F5F9; 
             --text-muted: #94A3B8;
             --border-clean: #1E293B;
             --nav-bg: rgba(19, 28, 53, 0.8);
-            --sphere-opacity: 0.25;
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.25);
-            --btn-3d-shadow: #0492a0;
-            --btn-sec-shadow: #0F172A;
+            --sphere-opacity: 0.22;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.22);
+            --toggle-bg: #1E293B;
         }
 
         body {
@@ -103,87 +100,68 @@
             color: var(--brand-primary) !important;
         }
 
-        /* DUOLINGO INSPIRED 3D INTERACTION BUTTONS */
-        .btn-3d-primary {
-            position: relative;
-            background-color: var(--brand-primary);
+        /* ZAMONAVIY GLOSSY PILL BUTTONS (APPLE & STRIPE STYLE) */
+        .btn-pill-primary {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-hover) 100%);
             color: #FFFFFF !important;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 0.95rem;
-            padding: 14px 28px;
-            border-radius: 16px;
-            border: none;
-            border-bottom: 4px solid var(--btn-3d-shadow);
-            transition: all 0.1s ease;
+            padding: 14px 32px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(6, 187, 204, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        .btn-3d-primary:hover {
+        .btn-pill-primary:hover {
             transform: translateY(-2px);
-            border-bottom-width: 6px;
+            box-shadow: 0 8px 24px rgba(6, 187, 204, 0.35);
+            filter: brightness(1.05);
         }
 
-        .btn-3d-primary:active {
-            transform: translateY(2px);
-            border-bottom-width: 0px;
-            margin-bottom: 4px;
-        }
-
-        .btn-3d-secondary {
-            position: relative;
-            background-color: var(--card-bg);
+        .btn-pill-secondary {
+            background: var(--card-bg);
             color: var(--text-main) !important;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 0.95rem;
-            padding: 14px 28px;
-            border-radius: 16px;
-            border: 2px solid var(--border-clean);
-            border-bottom: 5px solid var(--btn-sec-shadow);
-            transition: all 0.1s ease;
+            padding: 14px 32px;
+            border-radius: 50px;
+            border: 1px solid var(--border-clean);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
 
-        .btn-3d-secondary:hover {
+        .btn-pill-secondary:hover {
             transform: translateY(-2px);
-            border-bottom-width: 7px;
-            background-color: var(--bg-light-core);
+            border-color: var(--brand-primary);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-light-core);
         }
 
-        .btn-3d-secondary:active {
-            transform: translateY(3px);
-            border-bottom-width: 2px;
-        }
-
-        /* Search/Explore variant button */
-        .btn-3d-info {
-            position: relative;
-            background-color: var(--brand-light);
+        .btn-pill-info {
+            background: var(--brand-light);
             color: var(--brand-primary) !important;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 0.95rem;
-            padding: 14px 28px;
-            border-radius: 16px;
-            border: 2px solid transparent;
-            border-bottom: 4px solid rgba(6, 187, 204, 0.3);
-            transition: all 0.1s ease;
+            padding: 14px 32px;
+            border-radius: 50px;
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
-        .btn-3d-info:hover {
+
+        .btn-pill-info:hover {
             transform: translateY(-2px);
-            border-bottom-width: 6px;
-            background-color: rgba(6, 187, 204, 0.15);
-        }
-        .btn-3d-info:active {
-            transform: translateY(2px);
-            border-bottom-width: 0px;
+            background: rgba(6, 187, 204, 0.15);
+            box-shadow: 0 6px 20px rgba(6, 187, 204, 0.1);
         }
 
         /* Hero Bo'limi */
@@ -216,24 +194,12 @@
         }
 
         .animated-core-sphere {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(6, 187, 204, 0.45) 0%, rgba(6, 187, 204, 0.05) 70%);
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(6, 187, 204, 0.4) 0%, rgba(6, 187, 204, 0.02) 70%);
             border-radius: 50%;
             filter: blur(40px);
             animation: pulseGlow 4s infinite alternate ease-in-out;
-        }
-
-        .orbiting-card {
-            position: absolute;
-            background: var(--card-bg);
-            border: 1px solid var(--border-clean);
-            border-left: 4px solid #22C55E; 
-            border-radius: 16px;
-            padding: 18px 22px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-            animation: floatUI 5s infinite ease-in-out;
         }
 
         /* Bento Minimal Animatsiyali Kartalar */
@@ -309,35 +275,38 @@
             color: var(--brand-primary);
         }
 
-        /* Kun/Tun Rejimi Switcher Dizayni */
-        .theme-toggle-btn {
-            background: var(--brand-light);
+        /* EKRAN BURCHAGIDAGI FLOATING KUN/TUN REJIMI TUGMASI */
+        .theme-floating-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--toggle-bg);
             border: 1px solid var(--border-clean);
             color: var(--brand-primary);
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            z-index: 9999;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 22px;
         }
-        .theme-toggle-btn:hover {
-            background: var(--brand-primary);
+        
+        .theme-floating-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 12px 30px rgba(6, 187, 204, 0.25);
+            background-color: var(--brand-primary);
             color: #FFFFFF;
-            transform: scale(1.05);
+            border-color: var(--brand-primary);
         }
 
         @keyframes pulseGlow {
-            0% { transform: scale(0.9); opacity: 0.6; }
-            100% { transform: scale(1.1); opacity: 0.9; }
-        }
-
-        @keyframes floatUI {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0% { transform: scale(0.95); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 0.85; }
         }
 
         .footer-clean {
@@ -358,6 +327,10 @@
 
     {% block content %}{% endblock %}
 
+    <button class="theme-floating-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
+        <i class="bi bi-sun-fill" id="theme-icon"></i>
+    </button>
+
     <nav class="navbar navbar-expand-lg sticky-top custom-nav">
         <div class="container px-4">
             <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
@@ -365,52 +338,39 @@
                     <i class="bi bi-journal-check me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
                 </h3>
             </a>
-            
-            <div class="ms-auto d-flex align-items-center gap-3">
-                <button class="theme-toggle-btn" id="theme-toggle" title="Rejimni o'zgartirish">
-                    <i class="bi bi-sun-fill" id="theme-icon"></i>
-                </button>
-            </div>
+            <div class="ms-auto d-flex align-items-center gap-3"></div>
         </div>
     </nav>
 
-    <div class="hero-section py-5 my-md-2">
+    <div class="hero-section py-5 my-md-4">
         <div class="container px-4">
             <div class="row align-items-center g-5">
-                <div class="col-lg-6">
-                    <h1 class="hero-title mb-4">Onlayn ta’lim uchun <span class="brand-gradient-text">eng toza</span> muhit</h1>
-                    <p class="text-muted fs-5 mb-5" style="font-weight: 400; line-height: 1.7;">Tezkor testlar, xatosiz tahlillar va ortiqcha chalg'itishlarsiz mukammal platforma — faqat bilimingizni rivojlantirish uchun.</p>
+                <div class="col-lg-7 text-center text-lg-start pt-lg-3">
+                    <h1 class="hero-title mb-4">Mugammal bilimlar va chuqur mantiqiy <span class="brand-gradient-text">tahlillar maskani</span></h1>
+                    <p class="text-muted fs-5 mb-5" style="font-weight: 400; line-height: 1.8; max-width: 680px;">
+                        TestBorBaza — zamonaviy o‘quv metodologiyalari va xalqaro baholash mezonlari asosida ishlab chiqilgan yangi avlod intellektual ekotizimidir. Bu yerda siz fanlararo standart test topshiriqlaridan tortib, chuqur tahliliy fikrlashni talab etuvchi ilg‘or professional kazus-keyslargacha bo‘lgan keng ma’lumotlar bazasidan foydalana olasiz. Ortiqcha keraksiz reklama bannerlari, chalg‘ituvchi keraksiz rangli bezaklar va og‘ir vizual shovqinlardan butunlay voz kechdik. Saytdagi har bir mikrosekund va har bir piksel faqat sizning shaxsiy intellektual o‘sishingiz, mantiqiy salohiyatingiz hamda yuqori yakuniy natijalarga erishishingiz uchun to‘liq optimallashtirildi.
+                    </p>
                     
-                    <div class="d-flex flex-row flex-wrap align-items-center gap-3">
-                        <a href="{% url 'register' %}" class="btn-3d-primary text-decoration-none">
+                    <div class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
+                        <a href="{% url 'register' %}" class="btn-pill-primary text-decoration-none">
                             <i class="bi bi-person-plus-fill me-2"></i> Ro‘yxatdan o‘tish
                         </a>
                         
                         {% if not user.is_authenticated %}
-                            <a href="{% url 'login' %}" class="btn-3d-secondary text-decoration-none">
+                            <a href="{% url 'login' %}" class="btn-pill-secondary text-decoration-none">
                                 <i class="bi bi-box-arrow-in-right me-2"></i> Kirish
                             </a>
                         {% endif %}
 
-                        <a href="{% url 'search_tests_page' %}" class="btn-3d-info text-decoration-none">
+                        <a href="{% url 'search_tests_page' %}" class="btn-pill-info text-decoration-none">
                             <i class="bi bi-search me-2"></i> Testlar bazasi
                         </a>
                     </div>
                 </div>
                 
-                <div class="col-lg-6">
+                <div class="col-lg-5 d-none d-lg-flex justify-content-center">
                     <div class="hero-visual-wrapper">
                         <div class="animated-core-sphere"></div>
-                        
-                        <div class="orbiting-card" style="bottom: 30%; right: 15%; width: 260px; animation-delay: -1s;">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="rounded-circle p-2 d-flex" style="background: rgba(34, 197, 94, 0.1); color: #22C55E;"><i class="bi bi-graph-up-arrow fs-5"></i></div>
-                                <div>
-                                    <h6 class="m-0 small fw-bold">Amaliy Tahlil</h6>
-                                    <span class="text-muted tiny" style="font-size: 11px;">Intellektual real-vaqt tizimi</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -483,7 +443,7 @@
         </div>
         
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <i class="bi bi-arrow-up-right cat-arrow"></i>
                     <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-layers-half"></i></div>
@@ -491,7 +451,7 @@
                     <p class="text-muted small mb-0">Mavzulashtirilgan va fanlar bo'yicha mukammal savollar to'plami.</p>
                 </a>
             </div>
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <i class="bi bi-arrow-up-right cat-arrow"></i>
                     <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-file-earmark-code"></i></div>
@@ -499,7 +459,7 @@
                     <p class="text-muted small mb-0">Amaliy mantiqiy vaziyatlar va muammoli masalalar yechimi.</p>
                 </a>
             </div>
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <i class="bi bi-arrow-up-right cat-arrow"></i>
                     <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-shield-lock"></i></div>
@@ -507,16 +467,12 @@
                     <p class="text-muted small mb-0">Maxsus guruhlar va korporativ imtihonlar uchun yopiq tizim.</p>
                 </a>
             </div>
-            <div class="col-lg-12">
-                <a class="interactive-cat-box d-flex align-items-center justify-content-between p-4" href="{% url 'search_tests_page' %}">
-                    <div class="d-flex align-items-center gap-4">
-                        <div class="fs-2 brand-color-text"><i class="bi bi-trophy-fill"></i></div>
-                        <div>
-                            <h4 class="fw-bold mb-1">Fan Olimpiadalari va Musobaqalar</h4>
-                            <p class="text-muted small mb-0">Respublika hamda xalqaro miqyosdagi onlayn bilimlar bellashuvi.</p>
-                        </div>
-                    </div>
-                    <i class="bi bi-chevron-right fs-5 text-muted pe-3"></i>
+            <div class="col-lg-3 col-md-6">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="mb-4 fs-3 brand-color-text"><i class="bi bi-trophy-fill"></i></div>
+                    <h4 class="fw-bold mb-2">Fan Olimpiadalari</h4>
+                    <p class="text-muted small mb-0">Respublika hamda xalqaro miqyosdagi onlayn bilimlar bellashuvi.</p>
                 </a>
             </div>
         </div>
@@ -539,8 +495,8 @@
                     <h5 class="fw-bold mb-4">Ijtimoiy tarmoqlar</h5>
                     <div class="d-flex gap-2">
                         <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://t.me/jcodetab" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-telegram"></i></a>
-                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="#/" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-facebook"></i></a>
-                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="#/" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-youtube"></i></a>
+                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://www.facebook.com/Jasur Jurakulov" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-facebook"></i></a>
+                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://www.instagram.com/jasurc0der" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -554,7 +510,6 @@
         const themeIcon = document.getElementById('theme-icon');
         const htmlElement = document.documentElement;
 
-        // LocalStorage tekshirish (oldingi rejimni saqlab qolish uchun)
         const currentTheme = localStorage.getItem('theme') || 'light';
         htmlElement.setAttribute('data-bs-theme', currentTheme);
         updateIcon(currentTheme);
