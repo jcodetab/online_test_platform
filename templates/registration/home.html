@@ -28,11 +28,12 @@
             --text-main: #0F172A; 
             --text-muted: #64748B;
             --border-clean: #E2E8F0;
-            --nav-bg: rgba(255, 255, 255, 0.85);
+            --nav-bg: rgba(255, 255, 255, 0.8);
             --sphere-opacity: 0.12;
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.06);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.04);
             --toggle-bg: #FFFFFF;
+            --pulse-green: #22C55E;
         }
 
         [data-bs-theme="dark"] {
@@ -44,11 +45,12 @@
             --text-main: #F1F5F9; 
             --text-muted: #94A3B8;
             --border-clean: #1E293B;
-            --nav-bg: rgba(19, 28, 53, 0.85);
+            --nav-bg: rgba(19, 28, 53, 0.8);
             --sphere-opacity: 0.22;
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.25);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.22);
             --toggle-bg: #1E293B;
+            --pulse-green: #4ADE80;
         }
 
         body {
@@ -80,13 +82,13 @@
             transition: background 0.4s ease;
         }
 
-        /* Glassmorphic Navigatsiya */
+        /* Apple Style Glassmorphic Navigatsiya */
         .custom-nav {
             border-bottom: 1px solid var(--border-clean);
             background: var(--nav-bg) !important;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            padding: 14px 0;
+            padding: 16px 0;
             transition: all 0.4s ease;
         }
 
@@ -100,7 +102,34 @@
             color: var(--brand-primary) !important;
         }
 
-        /* Rejim Tugmasi */
+        /* DATCHIK & STATISTIKA */
+        .status-dashboard {
+            background-color: var(--toggle-bg);
+            border: 1px solid var(--border-clean);
+            padding: 6px 14px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--pulse-green);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            animation: pulse-animation 1.6s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        /* YUQORI O'NG BURCHAKDAGI REJIM TUGMASI */
         .theme-nav-toggle {
             width: 42px;
             height: 42px;
@@ -115,10 +144,12 @@
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-size: 18px;
+            margin-left: auto; /* O'ng burchakka suradi */
         }
 
         .theme-nav-toggle:hover {
             transform: scale(1.08) rotate(15deg);
+            box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
             background-color: var(--brand-primary);
             color: #FFFFFF;
             border-color: var(--brand-primary);
@@ -130,11 +161,11 @@
             color: #FFFFFF !important;
             font-weight: 600;
             font-size: 0.95rem;
-            padding: 14px 28px;
+            padding: 14px 32px;
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 15px rgba(6, 187, 204, 0.25);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(6, 187, 204, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -143,6 +174,7 @@
         .btn-pill-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(6, 187, 204, 0.35);
+            filter: brightness(1.05);
         }
 
         .btn-pill-secondary {
@@ -150,11 +182,11 @@
             color: var(--text-main) !important;
             font-weight: 600;
             font-size: 0.95rem;
-            padding: 14px 28px;
+            padding: 14px 32px;
             border-radius: 50px;
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -164,6 +196,7 @@
             transform: translateY(-2px);
             border-color: var(--brand-primary);
             box-shadow: var(--shadow-md);
+            background: var(--bg-light-core);
         }
 
         .btn-pill-info {
@@ -171,10 +204,10 @@
             color: var(--brand-primary) !important;
             font-weight: 600;
             font-size: 0.95rem;
-            padding: 14px 28px;
+            padding: 14px 32px;
             border-radius: 50px;
             border: 1px solid transparent;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -183,22 +216,36 @@
         .btn-pill-info:hover {
             transform: translateY(-2px);
             background: rgba(6, 187, 204, 0.15);
+            box-shadow: 0 6px 20px rgba(6, 187, 204, 0.1);
         }
 
-        /* HERO MATN VA SHRIFT STILISTIKASI */
+        /* HERO MATN STILISTIKASI */
         .hero-title {
-            font-size: 3.5rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 3.8rem;
             font-weight: 800;
             letter-spacing: -2px;
             line-height: 1.15;
             color: var(--text-main);
         }
 
+        .hero-title span.brand-gradient-text {
+            font-weight: 800;
+        }
+
         .hero-description {
+            font-family: 'Inter', sans-serif;
             font-weight: 400;
             font-size: 1.15rem;
             line-height: 1.75;
+            max-width: 760px;
+            letter-spacing: -0.1px;
             color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.4rem; letter-spacing: -1px; }
+            .hero-description { font-size: 1rem; }
         }
 
         .brand-gradient-text {
@@ -207,129 +254,134 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* HERO SEARCH BOX */
-        .hero-search-wrapper {
-            background: var(--card-bg);
-            border: 1px solid var(--border-clean);
-            border-radius: 50px;
-            padding: 6px 8px 6px 20px;
-            box-shadow: var(--shadow-md);
-            max-width: 600px;
-        }
-
-        .hero-search-input {
-            border: none;
-            background: transparent;
-            outline: none;
-            color: var(--text-main);
+        /* Grafik Animatsiyalar */
+        .hero-visual-wrapper {
+            position: relative;
             width: 100%;
-            font-size: 0.95rem;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* BENTO CARDS */
+        .animated-core-sphere {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(6, 187, 204, 0.4) 0%, rgba(6, 187, 204, 0.02) 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: pulseGlow 4s infinite alternate ease-in-out;
+        }
+
+        /* Bento Minimal Kartalar */
         .bento-card {
             background: var(--card-bg);
             border: 1px solid var(--border-clean);
             border-radius: 22px;
-            padding: 32px 26px;
+            padding: 35px 30px;
             height: 100%;
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
             box-shadow: var(--shadow-sm);
         }
 
         .bento-card:hover {
             border-color: var(--brand-primary);
-            transform: translateY(-5px);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-md);
         }
 
         .icon-wrapper {
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             background: var(--brand-light);
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--brand-primary);
-            font-size: 22px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            font-size: 24px;
+            margin-bottom: 22px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .bento-card:hover .icon-wrapper {
-            transform: scale(1.1) rotate(6deg);
+            transform: scale(1.1) rotate(8deg);
             background: var(--brand-primary);
             color: #FFFFFF;
+            border-color: var(--brand-primary);
         }
 
-        /* INTERAKTIV KATEGORIYALAR */
+        /* MAVJUD O'QUV VA IMTIHON TURLARI - HAR XIL RANG STILISTIKALARI */
         .interactive-cat-box {
             background: var(--card-bg);
             border: 1px solid var(--border-clean);
             border-radius: 20px;
-            padding: 28px 24px;
+            padding: 32px 28px;
             height: 100%;
             display: block;
             text-decoration: none !important;
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: var(--shadow-sm);
         }
 
-        .interactive-cat-box:hover {
-            border-color: var(--brand-primary);
-            background: linear-gradient(145deg, var(--card-bg) 0%, var(--brand-light) 100%);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
+        .interactive-cat-box .cat-icon-bg {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
         .cat-arrow {
             position: absolute;
-            top: 24px;
-            right: 24px;
+            top: 28px;
+            right: 28px;
             color: var(--text-muted);
             font-size: 18px;
             transition: all 0.3s ease;
         }
 
-        .interactive-cat-box:hover .cat-arrow {
-            transform: translate(3px, -3px);
-            color: var(--brand-primary);
-        }
+        /* 1. Standart Testlar (Cyan / Firuza) */
+        .cat-standart .cat-icon-bg { background: rgba(0, 163, 196, 0.1); color: #00A3C4; }
+        .cat-standart .cat-title { color: #00A3C4; }
+        .cat-standart:hover { border-color: #00A3C4; background: linear-gradient(145deg, var(--card-bg) 0%, rgba(0, 163, 196, 0.05) 100%); transform: translateY(-4px); }
+        .cat-standart:hover .cat-arrow { color: #00A3C4; transform: translate(3px, -3px); }
 
-        /* STEP CARD */
-        .step-number {
-            width: 36px;
-            height: 36px;
-            background: var(--brand-light);
-            color: var(--brand-primary);
-            border-radius: 50%;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
+        /* 2. Kazus Testlar (Indigo / Binar Violet) */
+        .cat-kazus .cat-icon-bg { background: rgba(99, 102, 241, 0.1); color: #6366F1; }
+        .cat-kazus .cat-title { color: #6366F1; }
+        .cat-kazus:hover { border-color: #6366F1; background: linear-gradient(145deg, var(--card-bg) 0%, rgba(99, 102, 241, 0.05) 100%); transform: translateY(-4px); }
+        .cat-kazus:hover .cat-arrow { color: #6366F1; transform: translate(3px, -3px); }
+
+        /* 3. Yopiq Testlar (Rose / Ruby Red) */
+        .cat-yopiq .cat-icon-bg { background: rgba(225, 29, 72, 0.1); color: #E11D48; }
+        .cat-yopiq .cat-title { color: #E11D48; }
+        .cat-yopiq:hover { border-color: #E11D48; background: linear-gradient(145deg, var(--card-bg) 0%, rgba(225, 29, 72, 0.05) 100%); transform: translateY(-4px); }
+        .cat-yopiq:hover .cat-arrow { color: #E11D48; transform: translate(3px, -3px); }
+
+        /* 4. Fan Olimpiadalari (Amber / Gold) */
+        .cat-olimpiada .cat-icon-bg { background: rgba(217, 119, 6, 0.1); color: #D97706; }
+        .cat-olimpiada .cat-title { color: #D97706; }
+        .cat-olimpiada:hover { border-color: #D97706; background: linear-gradient(145deg, var(--card-bg) 0%, rgba(217, 119, 6, 0.05) 100%); transform: translateY(-4px); }
+        .cat-olimpiada:hover .cat-arrow { color: #D97706; transform: translate(3px, -3px); }
+
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 0.85; }
         }
 
         .footer-clean {
             background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
-            padding: 60px 0 30px;
-            transition: background-color 0.4s ease;
-        }
-
-        /* RESPONSIVE MEDIA QUERIES */
-        @media (max-width: 991px) {
-            .hero-title { font-size: 2.8rem; }
-            .hero-search-wrapper { max-width: 100%; }
-        }
-
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.2rem; letter-spacing: -1px; text-align: center; }
-            .hero-description { font-size: 1rem; text-align: center; }
-            .btn-action-group { width: 100%; flex-direction: column; }
-            .btn-action-group a { width: 100%; text-align: center; }
+            padding: 70px 0 35px;
+            transition: background-color 0.4s ease, border-top 0.4s ease;
         }
     </style>
 </head>
@@ -343,90 +395,168 @@
 
     {% block content %}{% endblock %}
 
-    <!-- NAVIGATSIYA (FAQAT LOGO, MENYU VA REJIM TOGGLE) -->
     <nav class="navbar navbar-expand-lg sticky-top custom-nav">
-        <div class="container px-3 px-md-4">
+        <div class="container px-4">
             <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
-                <h3 class="m-0 brand-text d-flex align-items-center fs-4 fs-md-3">
+                <h3 class="m-0 brand-text d-flex align-items-center">
                     <i class="bi bi-journal-check me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
                 </h3>
             </a>
-
-            <div class="d-flex align-items-center ms-auto gap-2">
-                <button class="theme-nav-toggle ms-2" id="theme-toggle" title="Rejimni o'zgartirish">
+            
+            <div class="d-flex align-items-center gap-3 ms-auto">
+                <!-- STATIK STATISTIKA DACHIGI -->
+                <div class="status-dashboard d-flex align-items-center gap-2">
+                    <span class="pulse-dot"></span>
+                    <span class="text-muted" id="live-users-count">Live: 162 ta faol</span>
+                </div>
+                
+                <!-- ENG O'NG BURCHAKDAGI KUN/TUN REJIM TUGMASI -->
+                <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
                     <i class="bi bi-sun-fill" id="theme-icon"></i>
                 </button>
-
-                <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                    <i class="bi bi-list fs-2" style="color: var(--text-main);"></i>
-                </button>
-            </div>
-
-            <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold px-3" style="color: var(--text-main);" href="{% url 'search_tests_page' %}">Testlar bazasi</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="btn btn-pill-primary btn-sm px-4 ms-lg-2" href="{% url 'home' %}">Kabinetim</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link fw-semibold px-3" style="color: var(--text-main);" href="{% url 'login' %}">Kirish</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn-pill-primary text-decoration-none py-2 px-4 ms-lg-2" href="{% url 'register' %}">Ro‘yxatdan o‘tish</a>
-                        </li>
-                    {% endif %}
-                </ul>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <div class="hero-section py-4 py-md-5">
-        <div class="container px-3 px-md-4">
+    <div class="hero-section py-5 my-md-4">
+        <div class="container px-4">
             <div class="row align-items-center g-5">
-                <div class="col-lg-7 text-center text-lg-start">
-                    <h1 class="hero-title mb-3">
+                <div class="col-lg-7 text-center text-lg-start pt-lg-3">
+                    <h1 class="hero-title mb-4">
                         Intellektual testlar va yuqori mantiqiy <span class="brand-gradient-text">tahlillar akademiyasi</span>
                     </h1>
-                    <p class="hero-description mb-4">
-                        TestBorBaza — global baholash standartlari asosida mukammallashtirilgan intellektual onlayn ekotizimdir. Oddiy savollardan tortib, chuqur tahliliy fikrlashni talab qiluvchi keys-kazuslargacha bo‘lgan ma’lumotlar bazasi orqali bilimlaringizni sinang.
+                    <p class="hero-description mb-5">
+                        TestBorBaza — global baholash standartlari asosida mukammallashtirilgan intellektual onlayn ekotizimdir. Oddiy va fundamental savollardan tortib, chuqur tahliliy fikrlash hamda professional yondashuvni talab qiluvchi keys-kazuslargacha bo‘lgan eng ilg‘or ma’lumotlar bazasi yordamida o‘z bilimlaringizni real vaqtda sinab ko‘ring.
                     </p>
                     
-                    <!-- Tezkor Qidiruv Inputi -->
-                    <form action="{% url 'search_tests_page' %}" method="GET" class="hero-search-wrapper d-flex align-items-center mb-4 mx-auto mx-lg-0">
-                        <i class="bi bi-search text-muted fs-5 me-2"></i>
-                        <input type="text" name="q" class="hero-search-input" placeholder="Fan, mavzu yoki test nomini kiriting...">
-                        <button type="submit" class="btn-pill-primary py-2 px-4 border-0">Qidirish</button>
-                    </form>
-
-                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3 btn-action-group">
+                    <div class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
                         <a href="{% url 'register' %}" class="btn-pill-primary text-decoration-none">
-                            <i class="bi bi-rocket-takeoff-fill me-2"></i> Bepul boshlash
+                            <i class="bi bi-person-plus-fill me-2"></i> Ro‘yxatdan o‘tish
                         </a>
-                        <a href="{% url 'search_tests_page' %}" class="btn-pill-secondary text-decoration-none">
-                            <i class="bi bi-grid-fill me-2"></i> Barcha testlar
+                        
+                        {% if not user.is_authenticated %}
+                            <a href="{% url 'login' %}" class="btn-pill-secondary text-decoration-none">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Kirish
+                            </a>
+                        {% endif %}
+
+                        <a href="{% url 'search_tests_page' %}" class="btn-pill-info text-decoration-none">
+                            <i class="bi bi-search me-2"></i> Testlar bazasi
                         </a>
                     </div>
                 </div>
                 
                 <div class="col-lg-5 d-none d-lg-flex justify-content-center">
-                    <div class="bento-card p-4 text-center" style="width: 100%; max-width: 380px; background: linear-gradient(145deg, var(--card-bg) 0%, var(--brand-light) 100%);">
-                        <div class="icon-wrapper mx-auto mb-3" style="width: 64px; height: 64px; font-size: 28px;">
-                            <i class="bi bi-award-fill"></i>
-                        </div>
-                        <h4 class="fw-bold mb-2">100% Aniq Tahlil</h4>
-                        <p class="text-muted small mb-4">Har bir test yakunlangach, xatolaringiz ustida ishlash uchun batafsil grafik va izohlar beriladi.</p>
-                        <div class="p-3 border rounded-4 text-start bg-body">
-                            <div class="d-flex justify-content-between small fw-bold mb-1">
-                                <span>O'rtacha aniqlik</span>
-                                <span class="brand-color-text">94%</span>
+                    <div class="hero-visual-wrapper">
+                        <div class="animated-core-sphere"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. MAVJUD O'QUV VA IMTIHON TURLARI (HAR XIL RANG USLUBIDA) -->
+    <div class="container px-4 py-4">
+        <div class="d-flex flex-column align-items-center text-center mb-5">
+            <h2 class="fw-bold" style="letter-spacing: -1px; font-size: 2.3rem;">Mavjud o‘quv va imtihon turlari</h2>
+        </div>
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <!-- STANDART TESTLAR -->
+            <div class="col">
+                <a class="interactive-cat-box cat-standart" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="cat-icon-bg"><i class="bi bi-layers-half"></i></div>
+                    <h4 class="fw-bold mb-2 fs-5 cat-title">Standart Testlar</h4>
+                    <p class="text-muted small mb-0">Mavzulashtirilgan va fanlar bo'yicha mukammal savollar to'plami.</p>
+                </a>
+            </div>
+
+            <!-- KAZUS TESTLAR -->
+            <div class="col">
+                <a class="interactive-cat-box cat-kazus" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="cat-icon-bg"><i class="bi bi-file-earmark-code"></i></div>
+                    <h4 class="fw-bold mb-2 fs-5 cat-title">Kazus Testlar</h4>
+                    <p class="text-muted small mb-0">Amaliy mantiqiy vaziyatlar va muammoli masalalar yechimi.</p>
+                </a>
+            </div>
+
+            <!-- YOPIQ TESTLAR -->
+            <div class="col">
+                <a class="interactive-cat-box cat-yopiq" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="cat-icon-bg"><i class="bi bi-shield-lock"></i></div>
+                    <h4 class="fw-bold mb-2 fs-5 cat-title">Yopiq Testlar</h4>
+                    <p class="text-muted small mb-0">Maxsus guruhlar va korporativ imtihonlar uchun yopiq tizim.</p>
+                </a>
+            </div>
+
+            <!-- FAN OLIMPIADALARI -->
+            <div class="col">
+                <a class="interactive-cat-box cat-olimpiada" href="{% url 'search_tests_page' %}">
+                    <i class="bi bi-arrow-up-right cat-arrow"></i>
+                    <div class="cat-icon-bg"><i class="bi bi-trophy-fill"></i></div>
+                    <h4 class="fw-bold mb-2 fs-5 cat-title">Fan Olimpiadalari</h4>
+                    <p class="text-muted small mb-0">Respublika hamda xalqaro miqyosdagi onlayn bilimlar bellashuvi.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. PLATFORMA AFZALLIKLARI -->
+    <div class="container px-4 py-5">
+        <div class="row g-4">
+            <div class="col-lg-3 col-sm-6">
+                <div class="bento-card">
+                    <div class="icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
+                    <h5 class="mb-3 fw-bold">Qat'iy vaqt nazorati</h5>
+                    <p class="text-muted small mb-0">Har bir savol uchun aniq 1 daqiqalik algoritmik cheklov bilan imtihon realistik boshqariladi.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="bento-card">
+                    <div class="icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
+                    <h5 class="mb-3 fw-bold">Filtrlangan test kutubxonasi</h5>
+                    <p class="text-muted small mb-0">Kazus-keyslar va oddiy savollar backend filtrlari orqali xatosiz, alohida tartibda ajratilgan.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="bento-card">
+                    <div class="icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
+                    <h5 class="mb-3 fw-bold">Tezkor yuklanish tezligi</h5>
+                    <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar 80ms dan kam vaqt ichida barqaror ochiladi.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="bento-card">
+                    <div class="icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
+                    <h5 class="mb-3 fw-bold">Xavfsiz monitoring</h5>
+                    <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni to'liq yopiq va sun'iy intellekt nazoratida.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5">
+        <div class="bento-card p-5" style="background: linear-gradient(135deg, var(--card-bg) 0%, var(--brand-light) 100%);">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-7">
+                    <h2 class="mb-4 fw-bold" style="letter-spacing: -1.2px; font-size: 2.3rem;">Test platformasiga xush kelibsiz!</h2>
+                    <p class="text-muted mb-0">Bizning ekotizimda test topshirish jarayoni xalqaro ta'lim standartlariga to'liq mos keladi. Ortiqcha keraksiz ranglar, bannerlar va og'ir vizual shovqinlardan voz kechdik — asosiy e'tibor faqat intellektual o'sish va natijaga qaratilgan.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-4">
+                        <div class="col-6">
+                            <div class="border-start ps-3" style="border-color: var(--brand-primary) !important; border-width: 3px !important;">
+                                <h3 class="m-0 fw-bold brand-color-text">100%</h3>
+                                <span class="text-muted tiny" style="font-size: 12px;">Xatosiz real-vaqt tahlili</span>
                             </div>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-info" style="width: 94%;"></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="border-start ps-3" style="border-color: var(--brand-primary) !important; border-width: 2px !important;">
+                                <h3 class="m-0 fw-bold brand-color-text">&lt; 80ms</h3>
+                                <span class="text-muted tiny" style="font-size: 12px;">Sahifa yuklanish tezligi</span>
                             </div>
                         </div>
                     </div>
@@ -435,139 +565,27 @@
         </div>
     </div>
 
-    <!-- MAVJUD O'QUV VA IMTIHON TURLARI -->
-    <div class="container px-3 px-md-4 py-4">
-        <div class="d-flex flex-column align-items-center text-center mb-4 mb-md-5">
-            <h2 class="fw-bold fs-2">Mavjud o‘quv va imtihon turlari</h2>
-            <p class="text-muted small">O'zingizga mos bo'limni tanlang va bilimingizni sinang</p>
-        </div>
-        
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 g-md-4">
-            <div class="col">
-                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
-                    <i class="bi bi-arrow-up-right cat-arrow"></i>
-                    <div class="mb-3 fs-3 brand-color-text"><i class="bi bi-layers-half"></i></div>
-                    <h4 class="fw-bold mb-2 fs-5">Standart Testlar</h4>
-                    <p class="text-muted small mb-0">Mavzulashtirilgan va fanlar bo'yicha mukammal savollar to'plami.</p>
-                </a>
-            </div>
-            <div class="col">
-                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
-                    <i class="bi bi-arrow-up-right cat-arrow"></i>
-                    <div class="mb-3 fs-3 brand-color-text"><i class="bi bi-file-earmark-code"></i></div>
-                    <h4 class="fw-bold mb-2 fs-5">Kazus Testlar</h4>
-                    <p class="text-muted small mb-0">Amaliy mantiqiy vaziyatlar va muammoli masalalar yechimi.</p>
-                </a>
-            </div>
-            <div class="col">
-                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
-                    <i class="bi bi-arrow-up-right cat-arrow"></i>
-                    <div class="mb-3 fs-3 brand-color-text"><i class="bi bi-shield-lock"></i></div>
-                    <h4 class="fw-bold mb-2 fs-5">Yopiq Testlar</h4>
-                    <p class="text-muted small mb-0">Maxsus guruhlar va korporativ imtihonlar uchun yopiq tizim.</p>
-                </a>
-            </div>
-            <div class="col">
-                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
-                    <i class="bi bi-arrow-up-right cat-arrow"></i>
-                    <div class="mb-3 fs-3 brand-color-text"><i class="bi bi-trophy-fill"></i></div>
-                    <h4 class="fw-bold mb-2 fs-5">Fan Olimpiadalari</h4>
-                    <p class="text-muted small mb-0">Respublika va xalqaro miqyosdagi onlayn bilimlar bellashuvi.</p>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- PLATFORMA QANDAY ISHLAYDI? (YANGI QADAMLAR BO'LIMI) -->
-    <div class="container px-3 px-md-4 py-5">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold fs-2">Platforma qanday ishlaydi?</h2>
-            <p class="text-muted small">Atigi 3 ta oddiy qadamda test topshirishni boshlang</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="bento-card">
-                    <div class="step-number">1</div>
-                    <h5 class="fw-bold mb-2">Ro'yxatdan o'ting</h5>
-                    <p class="text-muted small mb-0">Platformada shaxsiy kabinetingizni yarating va natijalaringizni saqlab boring.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="bento-card">
-                    <div class="step-number">2</div>
-                    <h5 class="fw-bold mb-2">Testni tanlang</h5>
-                    <p class="text-muted small mb-0">Minglab fanlar va kazuslar orasidan o'zingizga keraklisini qidirib toping.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="bento-card">
-                    <div class="step-number">3</div>
-                    <h5 class="fw-bold mb-2">Natija va Tahlil</h5>
-                    <p class="text-muted small mb-0">Testni yakunlang va darhol qayerda xato qilganingizni batafsil ko'ring.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PLATFORMA AFZALLIKLARI -->
-    <div class="container px-3 px-md-4 py-4">
-        <div class="row g-3 g-md-4">
-            <div class="col-lg-3 col-sm-6">
-                <div class="bento-card">
-                    <div class="icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
-                    <h5 class="mb-2 fw-bold fs-6">Qat'iy vaqt nazorati</h5>
-                    <p class="text-muted small mb-0">Har bir savol uchun aniq vaqt cheklovi bilan imtihon realistik boshqariladi.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="bento-card">
-                    <div class="icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
-                    <h5 class="mb-2 fw-bold fs-6">Filtrlangan bazalar</h5>
-                    <p class="text-muted small mb-0">Kazus va oddiy savollar backend filtrlari orqali xatosiz ajratilgan.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="bento-card">
-                    <div class="icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
-                    <h5 class="mb-2 fw-bold fs-6">Tezkor yuklanish</h5>
-                    <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar juda tez va barqaror ochiladi.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="bento-card">
-                    <div class="icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
-                    <h5 class="mb-2 fw-bold fs-6">Xavfsiz monitoring</h5>
-                    <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni shaffof kechadi.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="footer-clean mt-5">
-        <div class="container px-3 px-md-4">
-            <div class="row g-4 g-md-5">
+    <footer class="footer-clean">
+        <div class="container px-4">
+            <div class="row g-5">
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="fw-bold mb-3">testborbaza<span class="brand-color-text">.uz</span></h5>
+                    <h5 class="fw-bold mb-4">testborbaza<span class="brand-color-text">.uz</span></h5>
                     <p class="small text-muted" style="line-height: 1.6;">Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.</p>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="fw-bold mb-3">Biz bilan bog‘lanish</h5>
-                    <p class="mb-2 small text-muted"><i class="bi bi-geo-alt me-2 brand-color-text"></i>Samarqand shahar</p>
-                    <p class="mb-2 small text-muted"><i class="bi bi-telephone me-2 brand-color-text"></i>+998995772836</p>
-                    <p class="mb-2 small text-muted"><i class="bi bi-telegram me-2 brand-color-text"></i>@jcodetab</p>
+                    <h5 class="fw-bold mb-4">Biz bilan bog‘lanish</h5>
+                    <p class="mb-2 small text-muted"><i class="bi bi-geo-alt me-3 brand-color-text"></i>Samarqand shahar</p>
+                    <p class="mb-2 small text-muted"><i class="bi bi-telephone me-3 brand-color-text"></i>+998995772836</p>
+                    <p class="mb-2 small text-muted"><i class="bi bi-telegram me-3 brand-color-text"></i>@jcodetab</p>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="fw-bold mb-3">Ijtimoiy tarmoqlar</h5>
+                    <h5 class="fw-bold mb-4">Ijtimoiy tarmoqlar</h5>
                     <div class="d-flex gap-2">
                         <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://t.me/jcodetab" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-telegram"></i></a>
                         <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://www.facebook.com/Jasur Jurakulov" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-facebook"></i></a>
                         <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://www.instagram.com/jasurc0der" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-instagram"></i></a>
                     </div>
                 </div>
-            </div>
-            <div class="border-top mt-4 pt-3 text-center text-muted small">
-                © 2026 testborbaza.uz. Barcha huquqlar himoyalangan.
             </div>
         </div>
     </footer>
