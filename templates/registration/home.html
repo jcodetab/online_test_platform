@@ -28,12 +28,11 @@
             --text-main: #0F172A; 
             --text-muted: #64748B;
             --border-clean: #E2E8F0;
-            --nav-bg: rgba(255, 255, 255, 0.8);
+            --nav-bg: rgba(255, 255, 255, 0.85);
             --sphere-opacity: 0.12;
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.06);
             --toggle-bg: #FFFFFF;
-            --pulse-green: #22C55E;
         }
 
         [data-bs-theme="dark"] {
@@ -45,12 +44,11 @@
             --text-main: #F1F5F9; 
             --text-muted: #94A3B8;
             --border-clean: #1E293B;
-            --nav-bg: rgba(19, 28, 53, 0.8);
+            --nav-bg: rgba(19, 28, 53, 0.85);
             --sphere-opacity: 0.22;
             --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.12);
             --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.22);
             --toggle-bg: #1E293B;
-            --pulse-green: #4ADE80;
         }
 
         body {
@@ -102,33 +100,6 @@
             color: var(--brand-primary) !important;
         }
 
-        /* DATCHIK & STATISTIKA */
-        .status-dashboard {
-            background-color: var(--toggle-bg);
-            border: 1px solid var(--border-clean);
-            padding: 6px 14px;
-            border-radius: 30px;
-            box-shadow: var(--shadow-sm);
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--pulse-green);
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-            animation: pulse-animation 1.6s infinite;
-        }
-
-        @keyframes pulse-animation {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-
         /* YUQORI O'NG BURCHAKDAGI REJIM TUGMASI */
         .theme-nav-toggle {
             width: 42px;
@@ -144,79 +115,84 @@
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-size: 18px;
-            margin-left: auto; /* O'ng burchakka suradi */
         }
 
         .theme-nav-toggle:hover {
             transform: scale(1.08) rotate(15deg);
-            box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
+            box-shadow: 0 4px 12px rgba(6, 187, 204, 0.25);
             background-color: var(--brand-primary);
             color: #FFFFFF;
             border-color: var(--brand-primary);
         }
 
-        /* GLOSSY PILL BUTTONS */
-        .btn-pill-primary {
-            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-hover) 100%);
+        /* ZAMONAVIY GLOSSY PILL BUTTONS */
+        .btn-modern-primary {
+            background: linear-gradient(135deg, #06BBCC 0%, #0284C7 100%);
             color: #FFFFFF !important;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.95rem;
-            padding: 14px 32px;
+            padding: 14px 34px;
             border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 15px rgba(6, 187, 204, 0.2);
+            border: none;
+            box-shadow: 0 8px 20px rgba(6, 187, 204, 0.25);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            letter-spacing: -0.2px;
         }
 
-        .btn-pill-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(6, 187, 204, 0.35);
-            filter: brightness(1.05);
+        .btn-modern-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(6, 187, 204, 0.38);
+            filter: brightness(1.08);
         }
 
-        .btn-pill-secondary {
+        .btn-modern-secondary {
             background: var(--card-bg);
             color: var(--text-main) !important;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.95rem;
-            padding: 14px 32px;
+            padding: 14px 34px;
             border-radius: 50px;
-            border: 1px solid var(--border-clean);
+            border: 1.5px solid var(--border-clean);
             box-shadow: var(--shadow-sm);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            letter-spacing: -0.2px;
         }
 
-        .btn-pill-secondary:hover {
-            transform: translateY(-2px);
+        .btn-modern-secondary:hover {
+            transform: translateY(-3px) scale(1.02);
             border-color: var(--brand-primary);
+            color: var(--brand-primary) !important;
             box-shadow: var(--shadow-md);
-            background: var(--bg-light-core);
+            background: var(--card-bg);
         }
 
-        .btn-pill-info {
-            background: var(--brand-light);
+        .btn-modern-info {
+            background: rgba(6, 187, 204, 0.1);
             color: var(--brand-primary) !important;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.95rem;
-            padding: 14px 32px;
+            padding: 14px 34px;
             border-radius: 50px;
-            border: 1px solid transparent;
+            border: 1.5px solid rgba(6, 187, 204, 0.2);
+            backdrop-filter: blur(8px);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            letter-spacing: -0.2px;
         }
 
-        .btn-pill-info:hover {
-            transform: translateY(-2px);
-            background: rgba(6, 187, 204, 0.15);
-            box-shadow: 0 6px 20px rgba(6, 187, 204, 0.1);
+        .btn-modern-info:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: rgba(6, 187, 204, 0.2);
+            border-color: var(--brand-primary);
+            box-shadow: 0 8px 24px rgba(6, 187, 204, 0.2);
         }
 
         /* HERO MATN STILISTIKASI */
@@ -271,45 +247,6 @@
             border-radius: 50%;
             filter: blur(40px);
             animation: pulseGlow 4s infinite alternate ease-in-out;
-        }
-
-        /* Bento Minimal Kartalar */
-        .bento-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-clean);
-            border-radius: 22px;
-            padding: 35px 30px;
-            height: 100%;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            position: relative;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .bento-card:hover {
-            border-color: var(--brand-primary);
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .icon-wrapper {
-            width: 52px;
-            height: 52px;
-            background: var(--brand-light);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--brand-primary);
-            font-size: 24px;
-            margin-bottom: 22px;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .bento-card:hover .icon-wrapper {
-            transform: scale(1.1) rotate(8deg);
-            background: var(--brand-primary);
-            color: #FFFFFF;
-            border-color: var(--brand-primary);
         }
 
         /* MAVJUD O'QUV VA IMTIHON TURLARI - HAR XIL RANG STILISTIKALARI */
@@ -372,6 +309,51 @@
         .cat-olimpiada:hover .cat-arrow { color: #D97706; transform: translate(3px, -3px); }
 
 
+        /* PLATFORMA AFZALLIKLARI - RANGLI IKNOMANING BENTO KARTOCHKASI STILI */
+        .bento-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-clean);
+            border-radius: 24px;
+            padding: 38px 30px;
+            height: 100%;
+            transition: all 0.35 cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-icon-wrapper {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* 1-Karta: Vaqt nazorati (Cyan Blue) */
+        .feature-card-1 .feature-icon-wrapper { background: rgba(0, 163, 196, 0.12); color: #00A3C4; }
+        .feature-card-1:hover { border-color: #00A3C4; transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0, 163, 196, 0.12); }
+        .feature-card-1:hover .feature-icon-wrapper { background: #00A3C4; color: #FFFFFF; transform: scale(1.1) rotate(6deg); }
+
+        /* 2-Karta: Filtrlangan (Emerald Green) */
+        .feature-card-2 .feature-icon-wrapper { background: rgba(16, 185, 129, 0.12); color: #10B981; }
+        .feature-card-2:hover { border-color: #10B981; transform: translateY(-6px); box-shadow: 0 12px 30px rgba(16, 185, 129, 0.12); }
+        .feature-card-2:hover .feature-icon-wrapper { background: #10B981; color: #FFFFFF; transform: scale(1.1) rotate(6deg); }
+
+        /* 3-Karta: Tezkor yuklanish (Amber Orange) */
+        .feature-card-3 .feature-icon-wrapper { background: rgba(245, 158, 11, 0.12); color: #F59E0B; }
+        .feature-card-3:hover { border-color: #F59E0B; transform: translateY(-6px); box-shadow: 0 12px 30px rgba(245, 158, 11, 0.12); }
+        .feature-card-3:hover .feature-icon-wrapper { background: #F59E0B; color: #FFFFFF; transform: scale(1.1) rotate(6deg); }
+
+        /* 4-Karta: Xavfsiz monitoring (Indigo Purple) */
+        .feature-card-4 .feature-icon-wrapper { background: rgba(99, 102, 241, 0.12); color: #6366F1; }
+        .feature-card-4:hover { border-color: #6366F1; transform: translateY(-6px); box-shadow: 0 12px 30px rgba(99, 102, 241, 0.12); }
+        .feature-card-4:hover .feature-icon-wrapper { background: #6366F1; color: #FFFFFF; transform: scale(1.1) rotate(6deg); }
+
+
         @keyframes pulseGlow {
             0% { transform: scale(0.95); opacity: 0.5; }
             100% { transform: scale(1.1); opacity: 0.85; }
@@ -395,6 +377,7 @@
 
     {% block content %}{% endblock %}
 
+    <!-- NAVIGATSIYA -->
     <nav class="navbar navbar-expand-lg sticky-top custom-nav">
         <div class="container px-4">
             <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
@@ -403,14 +386,8 @@
                 </h3>
             </a>
             
-            <div class="d-flex align-items-center gap-3 ms-auto">
-                <!-- STATIK STATISTIKA DACHIGI -->
-                <div class="status-dashboard d-flex align-items-center gap-2">
-                    <span class="pulse-dot"></span>
-                    <span class="text-muted" id="live-users-count">Live: 162 ta faol</span>
-                </div>
-                
-                <!-- ENG O'NG BURCHAKDAGI KUN/TUN REJIM TUGMASI -->
+            <!-- ENG O'NG BURCHAKDAGI KUN/TUN REJIM TUGMASI -->
+            <div class="ms-auto">
                 <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
                     <i class="bi bi-sun-fill" id="theme-icon"></i>
                 </button>
@@ -418,6 +395,7 @@
         </div>
     </nav>
 
+    <!-- HERO SECTION (ASOSIY BO'LIM) -->
     <div class="hero-section py-5 my-md-4">
         <div class="container px-4">
             <div class="row align-items-center g-5">
@@ -429,18 +407,19 @@
                         TestBorBaza — global baholash standartlari asosida mukammallashtirilgan intellektual onlayn ekotizimdir. Oddiy va fundamental savollardan tortib, chuqur tahliliy fikrlash hamda professional yondashuvni talab qiluvchi keys-kazuslargacha bo‘lgan eng ilg‘or ma’lumotlar bazasi yordamida o‘z bilimlaringizni real vaqtda sinab ko‘ring.
                     </p>
                     
+                    <!-- YANGI SHAKLDAGI ZAMONAVIY TUGMALAR -->
                     <div class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
-                        <a href="{% url 'register' %}" class="btn-pill-primary text-decoration-none">
+                        <a href="{% url 'register' %}" class="btn-modern-primary text-decoration-none">
                             <i class="bi bi-person-plus-fill me-2"></i> Ro‘yxatdan o‘tish
                         </a>
                         
                         {% if not user.is_authenticated %}
-                            <a href="{% url 'login' %}" class="btn-pill-secondary text-decoration-none">
+                            <a href="{% url 'login' %}" class="btn-modern-secondary text-decoration-none">
                                 <i class="bi bi-box-arrow-in-right me-2"></i> Kirish
                             </a>
                         {% endif %}
 
-                        <a href="{% url 'search_tests_page' %}" class="btn-pill-info text-decoration-none">
+                        <a href="{% url 'search_tests_page' %}" class="btn-modern-info text-decoration-none">
                             <i class="bi bi-search me-2"></i> Testlar bazasi
                         </a>
                     </div>
@@ -504,33 +483,33 @@
         </div>
     </div>
 
-    <!-- 2. PLATFORMA AFZALLIKLARI -->
+    <!-- 2. PLATFORMA AFZALLIKLARI (RASMDAGI KARTOCHKALAR HAR XIL RANGLI IKONALAR BILAN) -->
     <div class="container px-4 py-5">
         <div class="row g-4">
             <div class="col-lg-3 col-sm-6">
-                <div class="bento-card">
-                    <div class="icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
+                <div class="bento-card feature-card-1">
+                    <div class="feature-icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
                     <h5 class="mb-3 fw-bold">Qat'iy vaqt nazorati</h5>
                     <p class="text-muted small mb-0">Har bir savol uchun aniq 1 daqiqalik algoritmik cheklov bilan imtihon realistik boshqariladi.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
-                <div class="bento-card">
-                    <div class="icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
+                <div class="bento-card feature-card-2">
+                    <div class="feature-icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
                     <h5 class="mb-3 fw-bold">Filtrlangan test kutubxonasi</h5>
                     <p class="text-muted small mb-0">Kazus-keyslar va oddiy savollar backend filtrlari orqali xatosiz, alohida tartibda ajratilgan.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
-                <div class="bento-card">
-                    <div class="icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
+                <div class="bento-card feature-card-3">
+                    <div class="feature-icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
                     <h5 class="mb-3 fw-bold">Tezkor yuklanish tezligi</h5>
                     <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar 80ms dan kam vaqt ichida barqaror ochiladi.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
-                <div class="bento-card">
-                    <div class="icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
+                <div class="bento-card feature-card-4">
+                    <div class="feature-icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
                     <h5 class="mb-3 fw-bold">Xavfsiz monitoring</h5>
                     <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni to'liq yopiq va sun'iy intellekt nazoratida.</p>
                 </div>
@@ -538,6 +517,7 @@
         </div>
     </div>
 
+    <!-- BANNER BLOCK -->
     <div class="container px-4 py-5">
         <div class="bento-card p-5" style="background: linear-gradient(135deg, var(--card-bg) 0%, var(--brand-light) 100%);">
             <div class="row g-5 align-items-center">
@@ -565,6 +545,7 @@
         </div>
     </div>
 
+    <!-- FOOTER -->
     <footer class="footer-clean">
         <div class="container px-4">
             <div class="row g-5">
