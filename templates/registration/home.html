@@ -11,7 +11,7 @@
 
     <link href="{% static 'img/favicon.ico' %}" rel="icon">
 
-    <!-- GOOGLE FONTS (Syne, Outfit, Plus Jakarta Sans) -->
+    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -69,8 +69,9 @@
         .educate-nav-container {
             max-width: 1240px;
             margin: 0 auto;
-            position: relative;
-            z-index: 100;
+            position: sticky;
+            top: 15px;
+            z-index: 1000;
         }
 
         .custom-nav {
@@ -79,6 +80,7 @@
             box-shadow: var(--shadow-sm);
             padding: 10px 24px !important;
             border: 1px solid var(--border-clean);
+            backdrop-filter: blur(10px);
         }
 
         .brand-text {
@@ -95,19 +97,18 @@
         .nav-link {
             font-weight: 600;
             color: var(--text-main) !important;
-            padding: 8px 18px !important;
+            padding: 8px 16px !important;
             font-size: 0.95rem;
             transition: all 0.2s ease;
         }
 
         .nav-link:hover {
             color: var(--brand-primary) !important;
-            transform: translateY(-1px);
         }
 
         .theme-nav-toggle {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             border-radius: var(--btn-radius);
             background-color: var(--bg-hero);
             border: 1px solid var(--border-clean);
@@ -124,12 +125,19 @@
             color: #FFFFFF;
         }
 
-        /* HERO TITLE & TEXT */
+        /* HERO SECTION */
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 40px 0;
+        }
+
         .hero-title {
             font-family: 'Syne', sans-serif;
-            font-size: 3.1rem;
+            font-size: 3.2rem;
             font-weight: 800;
-            letter-spacing: -1px;
+            letter-spacing: -1.2px;
             line-height: 1.15;
         }
 
@@ -142,18 +150,18 @@
 
         .hero-desc {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.55;
+            font-size: 1.1rem;
+            line-height: 1.6;
             color: var(--text-muted);
             max-width: 520px;
         }
 
-        /* KVADRAT SHAKLDAGI TUGMALAR */
+        /* KVADRAT TUGMALAR */
         .btn-sq-login {
             background-color: var(--brand-primary) !important;
             color: #FFFFFF !important;
             font-weight: 700;
-            padding: 12px 28px;
+            padding: 12px 30px;
             border-radius: var(--btn-radius);
             border: none;
             box-shadow: 0 8px 20px rgba(0, 187, 167, 0.25);
@@ -165,7 +173,7 @@
 
         .btn-sq-login:hover {
             background-color: var(--brand-hover) !important;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: 0 12px 25px rgba(0, 187, 167, 0.35);
         }
 
@@ -173,7 +181,7 @@
             background-color: var(--card-bg) !important;
             color: var(--text-main) !important;
             font-weight: 700;
-            padding: 12px 28px;
+            padding: 12px 30px;
             border-radius: var(--btn-radius);
             border: 2px solid var(--border-clean);
             box-shadow: var(--shadow-sm);
@@ -186,7 +194,7 @@
         .btn-sq-register:hover {
             border-color: var(--brand-primary);
             color: var(--brand-primary) !important;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
 
         .btn-sq-dashboard {
@@ -194,7 +202,7 @@
             color: #FFFFFF !important;
             font-weight: 700;
             font-size: 0.9rem;
-            padding: 10px 22px;
+            padding: 9px 20px;
             border-radius: var(--btn-radius);
             border: none;
             box-shadow: 0 4px 12px rgba(0, 187, 167, 0.2);
@@ -204,16 +212,11 @@
             text-decoration: none !important;
         }
 
-        .btn-sq-dashboard:hover {
-            background-color: var(--brand-hover) !important;
-            transform: translateY(-2px);
-        }
-
-        /* HERO GRAPHICS & AURA EFFECT */
+        /* HERO GRAPHICS - NATURAL CONTAINER */
         .hero-graphics-container {
             position: relative;
             width: 100%;
-            max-width: 520px;
+            max-width: 480px;
             margin: 0 auto;
             display: flex;
             align-items: flex-end;
@@ -222,49 +225,53 @@
 
         .hero-aura-bg {
             position: absolute;
-            width: 380px;
-            height: 380px;
-            background: radial-gradient(circle, rgba(0,187,167,0.35) 0%, rgba(0,187,167,0) 70%);
+            width: 360px;
+            height: 360px;
+            background: radial-gradient(circle, rgba(0,187,167,0.3) 0%, rgba(0,187,167,0) 70%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
-            filter: blur(20px);
+            filter: blur(25px);
             animation: pulseAura 4s ease-in-out infinite alternate;
         }
 
         @keyframes pulseAura {
-            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
-            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.9; }
+        }
+
+        /* QIZ RASMI MASKING BILAN (TABIIY NIKOLASH) */
+        .student-img-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 360px;
+            height: 500px;
+            overflow: hidden;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
         }
 
         .student-girl-img {
-            position: relative;
-            z-index: 2;
+            height: 100%;
             width: auto;
-            height: 480px;
-            max-height: 80vh;
             object-fit: cover;
-            /* Rasmning chap tarafidagi mini-kartochkani qirqib tashlash */
-            clip-path: inset(0 0 0 17%);
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.12));
+            object-position: right bottom;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
         }
 
         .floating-stat-badge {
             position: absolute;
-            bottom: 20px;
-            left: 0;
+            bottom: 25px;
+            left: -20px;
             z-index: 3;
             background: var(--card-bg);
             border-radius: var(--btn-radius);
-            padding: 10px 18px;
+            padding: 12px 20px;
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
-        }
-
-        .floating-stat-badge:hover {
-            transform: translateY(-4px);
         }
 
         /* CARDS & BENTO */
@@ -281,14 +288,14 @@
         }
 
         .interactive-cat-box:hover, .bento-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             border-color: var(--brand-primary);
             box-shadow: var(--shadow-md);
         }
 
         .cat-icon-bg, .feature-icon-wrapper {
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             border-radius: var(--btn-radius);
             background: var(--brand-light);
             color: var(--brand-primary);
@@ -296,31 +303,57 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            margin-bottom: 18px;
         }
 
-        .interactive-cat-box:hover .cat-icon-bg, .bento-card:hover .feature-icon-wrapper {
+        /* BACK TO TOP TUGMASI */
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 45px;
+            height: 45px;
+            border-radius: var(--btn-radius);
             background: var(--brand-primary);
             color: #FFFFFF;
-            transform: scale(1.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            text-decoration: none !important;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
         }
 
-        /* FOOTER STYLES */
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--brand-hover);
+            color: #FFFFFF;
+            transform: translateY(-3px);
+        }
+
+        /* FOOTER */
         .footer-clean {
             background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
-            padding: 50px 0 30px;
+            padding: 45px 0 25px;
         }
 
         .social-btn {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             border-radius: var(--btn-radius);
             background-color: var(--bg-hero);
             border: 1px solid var(--border-clean);
             color: var(--brand-primary);
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             text-decoration: none !important;
@@ -330,13 +363,33 @@
         .social-btn:hover {
             background-color: var(--brand-primary);
             color: #FFFFFF;
-            transform: translateY(-2px);
         }
 
+        /* RESPONSIVE DESIGN (MOBILE) */
         @media (max-width: 991px) {
-            .hero-title { font-size: 2.5rem; }
-            .student-girl-img { height: 380px; }
-            .floating-stat-badge { left: 10px; bottom: 10px; }
+            .hero-section {
+                padding: 20px 0;
+                text-align: center;
+            }
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            .hero-desc {
+                margin: 0 auto 24px;
+                font-size: 1rem;
+            }
+            .student-img-wrapper {
+                width: 280px;
+                height: 380px;
+            }
+            .floating-stat-badge {
+                left: 0;
+                bottom: 10px;
+                padding: 8px 14px;
+            }
+            .educate-nav-container {
+                top: 5px;
+            }
         }
     </style>
 </head>
@@ -349,7 +402,7 @@
     {% block content %}{% endblock %}
 
     <!-- MAIN NAVBAR -->
-    <div class="educate-nav-container px-3 mt-2">
+    <div class="educate-nav-container px-3">
         <nav class="navbar navbar-expand-lg custom-nav">
             <div class="container-fluid p-0">
                 <a href="#top" class="navbar-brand d-flex align-items-center">
@@ -403,7 +456,7 @@
     </div>
 
     <!-- HERO SECTION -->
-    <div class="hero-section py-3 my-1">
+    <div class="hero-section">
         <div class="container px-4">
             <div class="row align-items-center g-4">
                 
@@ -433,18 +486,19 @@
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
                     <div class="hero-graphics-container">
                         
-                        <!-- ORQA FONDAGI AURA YORUGLIK EFFEKTI -->
                         <div class="hero-aura-bg"></div>
 
-                        <!-- QIZ RASMI (CLIP-PATH BILAN KESILGAN) -->
-                        <img src="{% static 'img/student.png' %}" alt="Student Girl" class="student-girl-img">
+                        <!-- STUDENT GIRL WRAPPER -->
+                        <div class="student-img-wrapper">
+                            <img src="{% static 'img/student.png' %}" alt="Student Girl" class="student-girl-img">
+                        </div>
 
                         <!-- FLOATING BADGE -->
                         <div class="floating-stat-badge d-flex align-items-center gap-3">
-                            <h2 class="fw-bold m-0 brand-color-text">30k+</h2>
+                            <h2 class="fw-bold m-0 brand-color-text fs-3">30k+</h2>
                             <div class="lh-1">
-                                <span class="fw-bold d-block">Faol o'quvchilar</span>
-                                <small class="text-muted">Onlayn bilim oluvchilar</small>
+                                <span class="fw-bold d-block small">Faol o'quvchilar</span>
+                                <small class="text-muted style-tiny">Onlayn bilim oluvchilar</small>
                             </div>
                         </div>
 
@@ -508,28 +562,28 @@
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="100">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
-                    <h5 class="mb-3 fw-bold">VAQT NAZORATI</h5>
+                    <h5 class="mb-3 fw-bold fs-6">VAQT NAZORATI</h5>
                     <p class="text-muted small mb-0">Har bir savol uchun aniq algoritmik vaqt cheklovi o'rnatilgan.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="200">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
-                    <h5 class="mb-3 fw-bold">FILTRLANGAN BAZA</h5>
+                    <h5 class="mb-3 fw-bold fs-6">FILTRLANGAN BAZA</h5>
                     <p class="text-muted small mb-0">Kazus va oddiy savollar backend filtrlari orqali xatosiz ajratilgan.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="300">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
-                    <h5 class="mb-3 fw-bold">TEZKOR YUKLANISH</h5>
+                    <h5 class="mb-3 fw-bold fs-6">TEZKOR YUKLANISH</h5>
                     <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar juda tez ochiladi.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="400">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
-                    <h5 class="mb-3 fw-bold">XAVFSIZ MONITORING</h5>
+                    <h5 class="mb-3 fw-bold fs-6">XAVFSIZ MONITORING</h5>
                     <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni adolatli va yopiq.</p>
                 </div>
             </div>
@@ -555,18 +609,23 @@
         </div>
     </div>
 
+    <!-- YUQORIGA QAYTISH TUGMASI (BACK TO TOP) -->
+    <a href="#top" class="back-to-top" id="backToTopBtn" title="Yuqoriga chiqish">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
     <!-- FOOTER -->
     <footer class="footer-clean mt-5">
         <div class="container px-4">
             <div class="row g-4 align-items-center">
-                <!-- PLATFORMA NOMI VA TA'RIFI -->
-                <div class="col-lg-4 text-center text-lg-start">
+                <!-- PLATFORMA NOMI -->
+                <div class="col-lg-4 col-md-12 text-center text-lg-start">
                     <h5 class="fw-bold mb-2 fs-4">testborbaza<span class="brand-color-text">.uz</span></h5>
                     <p class="small text-muted mb-0">Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.</p>
                 </div>
 
                 <!-- BIZ BILAN BOG'LANISH -->
-                <div class="col-lg-4 text-center">
+                <div class="col-lg-4 col-md-6 text-center">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Biz bilan bog‘lanish</h6>
                     <div class="d-flex flex-column gap-2 small text-muted align-items-center">
                         <span><i class="bi bi-geo-alt me-2 brand-color-text"></i>Samarqand shahar</span>
@@ -576,7 +635,7 @@
                 </div>
 
                 <!-- IJTIMOIY TARMOQLAR -->
-                <div class="col-lg-4 text-center text-lg-end">
+                <div class="col-lg-4 col-md-6 text-center text-lg-end">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Ijtimoiy tarmoqlar</h6>
                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
                         <a href="https://t.me/jcodetab" target="_blank" class="social-btn" title="Telegram">
@@ -606,11 +665,12 @@
     
     <script>
         AOS.init({
-            duration: 900,
+            duration: 800,
             once: true,
             easing: 'ease-out-cubic'
         });
 
+        // Theme Toggle
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const htmlElement = document.documentElement;
@@ -630,6 +690,16 @@
         function updateIcon(theme) {
             themeIcon.className = (theme === 'dark') ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
         }
+
+        // Back to top button logic
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('active');
+            } else {
+                backToTopBtn.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
