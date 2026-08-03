@@ -70,7 +70,7 @@
             max-width: 1240px;
             margin: 0 auto;
             position: sticky;
-            top: 15px;
+            top: 20px;
             z-index: 1000;
         }
 
@@ -78,7 +78,7 @@
             background: var(--card-bg) !important;
             border-radius: var(--btn-radius);
             box-shadow: var(--shadow-sm);
-            padding: 10px 24px !important;
+            padding: 12px 24px !important;
             border: 1px solid var(--border-clean);
             backdrop-filter: blur(10px);
         }
@@ -125,12 +125,12 @@
             color: #FFFFFF;
         }
 
-        /* HERO SECTION */
+        /* HERO SECTION - ERKIN VA KATTA BLOK */
         .hero-section {
-            min-height: 80vh;
+            min-height: 85vh;
             display: flex;
             align-items: center;
-            padding: 40px 0;
+            padding: 60px 0 40px 0;
         }
 
         .hero-title {
@@ -138,7 +138,7 @@
             font-size: 3.2rem;
             font-weight: 800;
             letter-spacing: -1.2px;
-            line-height: 1.15;
+            line-height: 1.18;
         }
 
         .hero-title-highlight {
@@ -151,7 +151,7 @@
         .hero-desc {
             font-family: 'Outfit', sans-serif;
             font-size: 1.1rem;
-            line-height: 1.6;
+            line-height: 1.65;
             color: var(--text-muted);
             max-width: 520px;
         }
@@ -161,7 +161,7 @@
             background-color: var(--brand-primary) !important;
             color: #FFFFFF !important;
             font-weight: 700;
-            padding: 12px 30px;
+            padding: 14px 32px;
             border-radius: var(--btn-radius);
             border: none;
             box-shadow: 0 8px 20px rgba(0, 187, 167, 0.25);
@@ -181,7 +181,7 @@
             background-color: var(--card-bg) !important;
             color: var(--text-main) !important;
             font-weight: 700;
-            padding: 12px 30px;
+            padding: 14px 32px;
             border-radius: var(--btn-radius);
             border: 2px solid var(--border-clean);
             box-shadow: var(--shadow-sm);
@@ -212,11 +212,11 @@
             text-decoration: none !important;
         }
 
-        /* HERO GRAPHICS - NATURAL CONTAINER */
+        /* HERO GRAPHICS & QIZ RASMI INTEGRATSIYASI */
         .hero-graphics-container {
             position: relative;
             width: 100%;
-            max-width: 480px;
+            max-width: 550px;
             margin: 0 auto;
             display: flex;
             align-items: flex-end;
@@ -225,14 +225,14 @@
 
         .hero-aura-bg {
             position: absolute;
-            width: 360px;
-            height: 360px;
-            background: radial-gradient(circle, rgba(0,187,167,0.3) 0%, rgba(0,187,167,0) 70%);
-            top: 50%;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(0, 187, 167, 0.35) 0%, rgba(0, 187, 167, 0) 70%);
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
-            filter: blur(25px);
+            filter: blur(30px);
             animation: pulseAura 4s ease-in-out infinite alternate;
         }
 
@@ -241,37 +241,42 @@
             100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.9; }
         }
 
-        /* QIZ RASMI MASKING BILAN (TABIIY NIKOLASH) */
         .student-img-wrapper {
             position: relative;
             z-index: 2;
-            width: 360px;
-            height: 500px;
-            overflow: hidden;
+            width: 100%;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
             align-items: flex-end;
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         }
 
         .student-girl-img {
-            height: 100%;
+            height: 540px;
             width: auto;
-            object-fit: cover;
-            object-position: right bottom;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
+            max-width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.12));
         }
 
         .floating-stat-badge {
             position: absolute;
-            bottom: 25px;
-            left: -20px;
+            bottom: 30px;
+            left: -10px;
             z-index: 3;
             background: var(--card-bg);
-            border-radius: var(--btn-radius);
-            padding: 12px 20px;
+            border-radius: 12px;
+            padding: 12px 22px;
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
+        }
+
+        /* SECTION SEPARATION */
+        .section-space {
+            margin-top: 60px;
+            padding-top: 40px;
         }
 
         /* CARDS & BENTO */
@@ -343,12 +348,12 @@
         .footer-clean {
             background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
-            padding: 45px 0 25px;
+            padding: 55px 0 30px;
         }
 
         .social-btn {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: var(--btn-radius);
             background-color: var(--bg-hero);
             border: 1px solid var(--border-clean);
@@ -363,13 +368,15 @@
         .social-btn:hover {
             background-color: var(--brand-primary);
             color: #FFFFFF;
+            transform: translateY(-2px);
         }
 
-        /* RESPONSIVE DESIGN (MOBILE) */
+        /* RESPONSIVE DESIGN */
         @media (max-width: 991px) {
             .hero-section {
-                padding: 20px 0;
+                padding: 30px 0;
                 text-align: center;
+                min-height: auto;
             }
             .hero-title {
                 font-size: 2.3rem;
@@ -378,17 +385,19 @@
                 margin: 0 auto 24px;
                 font-size: 1rem;
             }
-            .student-img-wrapper {
-                width: 280px;
+            .student-girl-img {
                 height: 380px;
             }
             .floating-stat-badge {
-                left: 0;
+                left: 10px;
                 bottom: 10px;
                 padding: 8px 14px;
             }
             .educate-nav-container {
-                top: 5px;
+                top: 10px;
+            }
+            .section-space {
+                margin-top: 30px;
             }
         }
     </style>
@@ -458,15 +467,15 @@
     <!-- HERO SECTION -->
     <div class="hero-section">
         <div class="container px-4">
-            <div class="row align-items-center g-4">
+            <div class="row align-items-center g-5">
                 
                 <!-- CHAP TARAFI -->
                 <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right" data-aos-duration="1000">
-                    <h1 class="hero-title mb-3">
+                    <h1 class="hero-title mb-4">
                         <span class="hero-title-highlight">Intellektual testlar</span> va yuqori mantiqiy tahlillar platformasi
                     </h1>
                     
-                    <p class="hero-desc mb-4">
+                    <p class="hero-desc mb-5">
                         Xalqaro mezonlarga moslashtirilgan bilim ekotizimi. Amaliy mantiq, kazus masalalar hamda real vaqt rejimida aniq va tezkor natijalar tahlili.
                     </p>
                     
@@ -498,7 +507,7 @@
                             <h2 class="fw-bold m-0 brand-color-text fs-3">30k+</h2>
                             <div class="lh-1">
                                 <span class="fw-bold d-block small">Faol o'quvchilar</span>
-                                <small class="text-muted style-tiny">Onlayn bilim oluvchilar</small>
+                                <small class="text-muted">Onlayn bilim oluvchilar</small>
                             </div>
                         </div>
 
@@ -509,8 +518,8 @@
         </div>
     </div>
 
-    <!-- 1. MAVJUD O'QUV VA IMTIHON TURLARI -->
-    <div id="exam-types" class="container px-4 py-5">
+    <!-- 1. MAVJUD O'QUV VA IMTIHON TURLARI (PASTDA TURADI, BIRINCHI EKRANDA KO'RINMAYDI) -->
+    <div id="exam-types" class="container px-4 section-space">
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="fw-bold fs-2">Mavjud o‘quv va imtihon turlari</h2>
             <p class="text-muted">O'zingizga mos yo'nalishni tanlang va bilimingizni sinab ko'ring</p>
@@ -614,17 +623,20 @@
         <i class="bi bi-arrow-up"></i>
     </a>
 
-    <!-- FOOTER -->
+    <!-- FOOTER (TARTIBLANGAN VA SIMMETRIK) -->
     <footer class="footer-clean mt-5">
         <div class="container px-4">
-            <div class="row g-4 align-items-center">
-                <!-- PLATFORMA NOMI -->
+            <div class="row g-4 justify-content-between align-items-start">
+                
+                <!-- 1. PLATFORMA NOMI VA TA'RIFI -->
                 <div class="col-lg-4 col-md-12 text-center text-lg-start">
-                    <h5 class="fw-bold mb-2 fs-4">testborbaza<span class="brand-color-text">.uz</span></h5>
-                    <p class="small text-muted mb-0">Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.</p>
+                    <h5 class="fw-bold mb-3 fs-4">testborbaza<span class="brand-color-text">.uz</span></h5>
+                    <p class="small text-muted mb-0 style-desc" style="max-width: 320px;">
+                        Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.
+                    </p>
                 </div>
 
-                <!-- BIZ BILAN BOG'LANISH -->
+                <!-- 2. BIZ BILAN BOG'LANISH -->
                 <div class="col-lg-4 col-md-6 text-center">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Biz bilan bog‘lanish</h6>
                     <div class="d-flex flex-column gap-2 small text-muted align-items-center">
@@ -634,7 +646,7 @@
                     </div>
                 </div>
 
-                <!-- IJTIMOIY TARMOQLAR -->
+                <!-- 3. IJTIMOIY TARMOQLAR -->
                 <div class="col-lg-4 col-md-6 text-center text-lg-end">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Ijtimoiy tarmoqlar</h6>
                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
@@ -649,6 +661,7 @@
                         </a>
                     </div>
                 </div>
+
             </div>
 
             <hr class="my-4 border-clean">
