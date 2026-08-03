@@ -11,30 +11,31 @@
 
     <link href="{% static 'img/favicon.ico' %}" rel="icon">
 
-    <!-- FONTS -->
+    <!-- GOOGLE FONTS (Syne, Outfit, Plus Jakarta Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=500;600;700;800&family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
     <!-- BOOTSTRAP & ICONS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- AOS ANIMATION KUTUBXONASI -->
+    <!-- AOS ANIMATION -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root, [data-bs-theme="light"] {
-            --bg-hero: #F0FDF8; 
+            --bg-hero: #F4FBF7; 
             --card-bg: #FFFFFF;
             --brand-primary: #00BBA7; 
             --brand-hover: #009686;
             --brand-light: rgba(0, 187, 167, 0.08);
             --text-main: #0F172A; 
-            --text-muted: #64748B;
+            --text-muted: #475569;
             --border-clean: #E2E8F0;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.04);
             --shadow-md: 0 15px 30px rgba(0, 187, 167, 0.12);
+            --btn-radius: 8px;
         }
 
         [data-bs-theme="dark"] {
@@ -48,10 +49,11 @@
             --border-clean: #1E293B;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.15);
             --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.25);
+            --btn-radius: 8px;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-hero);
             color: var(--text-main);
             overflow-x: hidden;
@@ -63,24 +65,7 @@
             color: var(--text-main);
         }
 
-        /* TOP HEADER BAR */
-        .top-bar {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            background: transparent;
-            padding-top: 12px;
-            padding-bottom: 12px;
-        }
-
-        .top-bar a {
-            color: var(--text-muted);
-            transition: color 0.2s ease;
-        }
-        .top-bar a:hover {
-            color: var(--brand-primary);
-        }
-
-        /* EDUCATE STYLE NAVBAR */
+        /* NAVBAR STYLES */
         .educate-nav-container {
             max-width: 1240px;
             margin: 0 auto;
@@ -90,13 +75,14 @@
 
         .custom-nav {
             background: var(--card-bg) !important;
-            border-radius: 50px;
+            border-radius: var(--btn-radius);
             box-shadow: var(--shadow-sm);
-            padding: 10px 24px !important;
+            padding: 12px 24px !important;
             border: 1px solid var(--border-clean);
         }
 
         .brand-text {
+            font-family: 'Syne', sans-serif;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: var(--text-main) !important;
@@ -120,9 +106,9 @@
         }
 
         .theme-nav-toggle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            border-radius: var(--btn-radius);
             background-color: var(--bg-hero);
             border: 1px solid var(--border-clean);
             color: var(--brand-primary);
@@ -136,161 +122,154 @@
         .theme-nav-toggle:hover {
             background-color: var(--brand-primary);
             color: #FFFFFF;
-            transform: scale(1.05);
         }
 
-        /* HERO SECTION & CIRCLE HIGHLIGHT */
+        /* HERO TITLE & TEXT */
         .hero-title {
-            font-size: 3.5rem;
+            font-family: 'Syne', sans-serif;
+            font-size: 3.6rem;
             font-weight: 800;
             letter-spacing: -1.5px;
-            line-height: 1.18;
+            line-height: 1.15;
         }
 
-        .circle-highlight {
-            position: relative;
-            display: inline-block;
-            z-index: 1;
-            padding: 0 8px;
+        .hero-title-highlight {
+            color: var(--brand-primary);
+            background: linear-gradient(135deg, var(--brand-primary) 0%, #008675 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .circle-highlight::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -48%) rotate(-2deg);
-            width: 108%;
-            height: 125%;
-            border: 2px solid var(--brand-primary);
-            border-radius: 50%;
-            z-index: -1;
+        .hero-desc {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            line-height: 1.65;
+            color: var(--text-muted);
+            max-width: 540px;
         }
 
-        /* HERO BUTTONS */
-        .btn-hero-login {
+        /* KVADRAT SHAKLDAGI TUGMALAR */
+        .btn-sq-login {
             background-color: var(--brand-primary) !important;
             color: #FFFFFF !important;
             font-weight: 700;
-            padding: 14px 34px;
-            border-radius: 50px;
+            padding: 14px 32px;
+            border-radius: var(--btn-radius);
             border: none;
-            box-shadow: 0 8px 20px rgba(0, 187, 167, 0.28);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 20px rgba(0, 187, 167, 0.25);
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             text-decoration: none !important;
         }
 
-        .btn-hero-login:hover {
+        .btn-sq-login:hover {
             background-color: var(--brand-hover) !important;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 14px 28px rgba(0, 187, 167, 0.38);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 187, 167, 0.35);
         }
 
-        .btn-hero-register {
+        .btn-sq-register {
             background-color: var(--card-bg) !important;
             color: var(--text-main) !important;
             font-weight: 700;
-            padding: 14px 34px;
-            border-radius: 50px;
+            padding: 14px 32px;
+            border-radius: var(--btn-radius);
             border: 2px solid var(--border-clean);
             box-shadow: var(--shadow-sm);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             text-decoration: none !important;
         }
 
-        .btn-hero-register:hover {
+        .btn-sq-register:hover {
             border-color: var(--brand-primary);
             color: var(--brand-primary) !important;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+            transform: translateY(-3px);
         }
 
-        /* IXCHAM KABINET TUGMASI */
-        .btn-compact-dashboard {
+        .btn-sq-dashboard {
             background-color: var(--brand-primary) !important;
             color: #FFFFFF !important;
             font-weight: 700;
-            font-size: 0.88rem;
-            padding: 8px 18px;
-            border-radius: 50px;
+            font-size: 0.9rem;
+            padding: 10px 22px;
+            border-radius: var(--btn-radius);
             border: none;
-            box-shadow: 0 4px 12px rgba(0, 187, 167, 0.22);
+            box-shadow: 0 4px 12px rgba(0, 187, 167, 0.2);
             transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
             text-decoration: none !important;
         }
 
-        .btn-compact-dashboard:hover {
+        .btn-sq-dashboard:hover {
             background-color: var(--brand-hover) !important;
             transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0, 187, 167, 0.35);
         }
 
-        /* RIGHT GRAPHIC & GIRL PLACEHOLDER CONTAINER */
+        /* HERO GRAPHICS & AURA EFFECT */
         .hero-graphics-container {
             position: relative;
             width: 100%;
-            max-width: 480px;
-            height: 480px;
+            max-width: 520px;
             margin: 0 auto;
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
         }
 
-        .green-bg-circle {
+        .hero-aura-bg {
             position: absolute;
             width: 380px;
             height: 380px;
-            background: rgba(0, 187, 167, 0.12);
-            border: 2px dashed var(--brand-primary);
-            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,187,167,0.35) 0%, rgba(0,187,167,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 1;
-            animation: spinCircle 40s linear infinite;
+            filter: blur(20px);
+            animation: pulseAura 4s ease-in-out infinite alternate;
         }
 
-        @keyframes spinCircle {
-            100% { transform: rotate(360deg); }
+        @keyframes pulseAura {
+            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
         }
 
-        /* QIZ RASMI JOYI (BO'SH/READY) */
         .student-girl-img {
             position: relative;
             z-index: 2;
-            max-height: 460px;
-            width: auto;
+            width: 100%;
+            max-height: 520px;
             object-fit: contain;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.08));
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.12));
         }
 
         .floating-stat-badge {
             position: absolute;
-            bottom: 10px;
+            bottom: 20px;
             left: -10px;
             z-index: 3;
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 16px 24px;
+            border-radius: var(--btn-radius);
+            padding: 14px 22px;
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
         }
 
         .floating-stat-badge:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
         }
 
         /* CARDS & BENTO */
-        .interactive-cat-box, .bento-card {
+        .interactive-cat-box, .bento-card, .about-card {
             background: var(--card-bg);
             border: 1px solid var(--border-clean);
-            border-radius: 22px;
-            padding: 32px 28px;
+            border-radius: 16px;
+            padding: 28px 24px;
             height: 100%;
             text-decoration: none !important;
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -305,35 +284,55 @@
         }
 
         .cat-icon-bg, .feature-icon-wrapper {
-            width: 54px;
-            height: 54px;
-            border-radius: 16px;
+            width: 52px;
+            height: 52px;
+            border-radius: var(--btn-radius);
             background: var(--brand-light);
             color: var(--brand-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            margin-bottom: 22px;
+            font-size: 24px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
         }
 
         .interactive-cat-box:hover .cat-icon-bg, .bento-card:hover .feature-icon-wrapper {
             background: var(--brand-primary);
             color: #FFFFFF;
-            transform: scale(1.08) rotate(5deg);
+            transform: scale(1.05);
         }
 
+        /* FOOTER STYLES */
         .footer-clean {
             background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
-            padding: 60px 0 30px;
+            padding: 50px 0 30px;
+        }
+
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--btn-radius);
+            background-color: var(--bg-hero);
+            border: 1px solid var(--border-clean);
+            color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none !important;
+            transition: all 0.25s ease;
+        }
+
+        .social-btn:hover {
+            background-color: var(--brand-primary);
+            color: #FFFFFF;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 991px) {
-            .hero-title { font-size: 2.5rem; }
-            .top-bar { display: none; }
-            .floating-stat-badge { left: 10px; bottom: 0; }
+            .hero-title { font-size: 2.7rem; }
+            .floating-stat-badge { left: 10px; bottom: 10px; }
         }
     </style>
 </head>
@@ -345,24 +344,8 @@
 
     {% block content %}{% endblock %}
 
-    <!-- TOP HEADER BAR -->
-    <div class="top-bar d-none d-lg-block">
-        <div class="container px-4 d-flex justify-content-between align-items-center">
-            <div class="d-flex gap-4">
-                <span><i class="bi bi-telephone me-2 brand-color-text"></i>+998 (99) 577-28-36</span>
-                <span><i class="bi bi-envelope me-2 brand-color-text"></i>info@testborbaza.uz</span>
-                <span><i class="bi bi-geo-alt me-2 brand-color-text"></i>Samarqand shahar</span>
-            </div>
-            <div class="d-flex gap-3 align-items-center">
-                <a href="https://t.me/jcodetab" target="_blank"><i class="bi bi-telegram"></i></a>
-                <a href="https://www.facebook.com/Jasur Jurakulov" target="_blank"><i class="bi bi-facebook"></i></a>
-                <a href="https://www.instagram.com/jasurc0der" target="_blank"><i class="bi bi-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-
     <!-- MAIN NAVBAR -->
-    <div class="educate-nav-container px-3 mt-2">
+    <div class="educate-nav-container px-3 mt-3">
         <nav class="navbar navbar-expand-lg custom-nav">
             <div class="container-fluid p-0">
                 <a href="#top" class="navbar-brand d-flex align-items-center">
@@ -377,17 +360,17 @@
 
                 <div class="collapse navbar-collapse" id="educateNavbar">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                        <!-- BOSH SAHIFA -->
                         <li class="nav-item">
                             <a class="nav-link" href="#top">Bosh sahifa</a>
                         </li>
-                        <!-- TESTLAR BAZASI -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'search_tests_page' %}">Testlar bazasi</a>
                         </li>
-                        <!-- IMTIHON TURLARI -->
                         <li class="nav-item">
                             <a class="nav-link" href="#exam-types">Imtihon turlari</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features-section">Afzalliklar</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#about-section">Biz haqimizda</a>
@@ -400,13 +383,12 @@
                         </button>
 
                         {% if user.is_authenticated %}
-                            <!-- IXCHAM KABINET TUGMASI -->
-                            <a href="{% url 'dashboard' %}" class="btn-compact-dashboard">
+                            <a href="{% url 'dashboard' %}" class="btn-sq-dashboard">
                                 Kabinet <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
                             </a>
                         {% else %}
                             <a href="{% url 'login' %}" class="btn btn-link text-decoration-none text-dark fw-bold px-2">Kirish</a>
-                            <a href="{% url 'register' %}" class="btn-compact-dashboard">
+                            <a href="{% url 'register' %}" class="btn-sq-dashboard">
                                 Ro'yxatdan o'tish <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
                             </a>
                         {% endif %}
@@ -417,41 +399,41 @@
     </div>
 
     <!-- HERO SECTION -->
-    <div class="hero-section py-5 my-2">
+    <div class="hero-section py-5 my-3">
         <div class="container px-4">
             <div class="row align-items-center g-5">
                 
-                <!-- CHAP TARAFI: BANNER TEXT -->
+                <!-- CHAP TARAFI -->
                 <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right" data-aos-duration="1000">
                     <h1 class="hero-title mb-4">
-                        Intellektual testlar va yuqori <span class="circle-highlight">mantiqiy</span> tahlillar platformasi
+                        <span class="hero-title-highlight">Intellektual testlar</span> va yuqori mantiqiy tahlillar platformasi
                     </h1>
                     
-                    <!-- REAL VA BOYITILGAN MATN -->
-                    <p class="text-muted fs-5 mb-5" style="line-height: 1.75;">
-                        TestBorBaza — xalqaro baholash mezonlariga moslashtirilgan zamonaviy ta'lim ekotizimi. Boshlang'ich fundamental savollardan tortib, chuqur tahliliy fikrlash va amaliy muammolarni hal qilishni talab etuvchi keys-kazuslargacha bo'lgan mukammal savollar bazasidan foydalanib, o'z bilim darajangizni real vaqt rejimida baholang.
+                    <p class="hero-desc mb-5">
+                        Xalqaro mezonlarga moslashtirilgan bilim ekotizimi. Amaliy mantiq, kazus masalalar hamda real vaqt rejimida aniq va tezkor natijalar tahlili.
                     </p>
                     
-                    <!-- DUGMALAR: KIRISH VA RO'YXATDAN O'TISH -->
+                    <!-- DUGMALAR -->
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
-                        <a href="{% url 'login' %}" class="btn-hero-login">
+                        <a href="{% url 'login' %}" class="btn-sq-login">
                             <i class="bi bi-box-arrow-in-right me-2"></i> Kirish
                         </a>
 
-                        <a href="{% url 'register' %}" class="btn-hero-register">
+                        <a href="{% url 'register' %}" class="btn-sq-register">
                             <i class="bi bi-person-plus-fill me-2"></i> Ro'yxatdan o'tish
                         </a>
                     </div>
                 </div>
                 
-                <!-- O'NG TARAFI: QIZ RASMI UCHUN BO'SH JOY (PLACEHOLDER) -->
+                <!-- O'NG TARAFI: QIZ RASMI VA ORQA GLOW FON -->
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
                     <div class="hero-graphics-container">
-                        <!-- ORQA FON AYLANASI -->
-                        <div class="green-bg-circle"></div>
+                        
+                        <!-- ORQA FONDAGI AURA YORUGLIK EFFEKTI -->
+                        <div class="hero-aura-bg"></div>
 
-                        <!-- QIZ RASMI (Aynan shu teg ishlatiladi) -->
-                        <img src="{% static 'img/student.png' %}" alt="Student Girl" class="student-girl-img img-fluid">
+                        <!-- QIZ RASMI -->
+                        <img src="{% static 'img/student.png' %}" alt="Student Girl" class="student-girl-img">
 
                         <!-- FLOATING BADGE -->
                         <div class="floating-stat-badge d-flex align-items-center gap-3">
@@ -461,6 +443,7 @@
                                 <small class="text-muted">Onlayn bilim oluvchilar</small>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -511,34 +494,58 @@
     </div>
 
     <!-- 2. PLATFORMA AFZALLIKLARI -->
-    <div id="about-section" class="container px-4 py-4">
+    <div id="features-section" class="container px-4 py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="fw-bold fs-2">Platforma Afzalliklari</h2>
+            <p class="text-muted">TestBorBaza tizimi sizga taqdim etadigan imkoniyatlar</p>
+        </div>
+
         <div class="row g-4">
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="100">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
-                    <h5 class="mb-3 fw-bold">Vaqt nazorati</h5>
+                    <h5 class="mb-3 fw-bold">VAQT NAZORATI</h5>
                     <p class="text-muted small mb-0">Har bir savol uchun aniq algoritmik vaqt cheklovi o'rnatilgan.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="200">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
-                    <h5 class="mb-3 fw-bold">Filtrlangan baza</h5>
+                    <h5 class="mb-3 fw-bold">FILTRLANGAN BAZA</h5>
                     <p class="text-muted small mb-0">Kazus va oddiy savollar backend filtrlari orqali xatosiz ajratilgan.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="300">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
-                    <h5 class="mb-3 fw-bold">Tezkor yuklanish</h5>
+                    <h5 class="mb-3 fw-bold">TEZKOR YUKLANISH</h5>
                     <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar juda tez ochiladi.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="400">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
-                    <h5 class="mb-3 fw-bold">Xavfsiz monitoring</h5>
+                    <h5 class="mb-3 fw-bold">XAVFSIZ MONITORING</h5>
                     <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni adolatli va yopiq.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. BIZ HAQIMIZDA (ABOUT US SECTION) -->
+    <div id="about-section" class="container px-4 py-5">
+        <div class="about-card p-4 p-md-5" data-aos="fade-up">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold fs-2 mb-3">Biz haqimizda</h2>
+                    <p class="text-muted fs-5 mb-0" style="line-height: 1.7;">
+                        <strong class="brand-color-text">TestBorBaza</strong> — zamonaviy ta'lim texnologiyalari va onlayn imtihon tizimlarini avtomatlashtirishga qaratilgan ekotizimdir. Biz o'quvchilar, talabalar va soha mutaxassislari uchun bilim darajasini obyektiv va shaffof baholash imkoniyatini beramiz.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <a href="{% url 'register' %}" class="btn-sq-login">
+                        <i class="bi bi-rocket-takeoff me-2"></i> Boshlash
+                    </a>
                 </div>
             </div>
         </div>
@@ -547,25 +554,44 @@
     <!-- FOOTER -->
     <footer class="footer-clean mt-5">
         <div class="container px-4">
-            <div class="row g-5">
-                <div class="col-lg-4 col-md-6">
-                    <h5 class="fw-bold mb-4">testborbaza<span class="brand-color-text">.uz</span></h5>
-                    <p class="small text-muted" style="line-height: 1.6;">Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.</p>
+            <div class="row g-4 align-items-center">
+                <!-- PLATFORMA NOMI VA TA'RIFI -->
+                <div class="col-lg-4 text-center text-lg-start">
+                    <h5 class="fw-bold mb-2 fs-4">testborbaza<span class="brand-color-text">.uz</span></h5>
+                    <p class="small text-muted mb-0">Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.</p>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <h5 class="fw-bold mb-4">Biz bilan bog‘lanish</h5>
-                    <p class="mb-2 small text-muted"><i class="bi bi-geo-alt me-3 brand-color-text"></i>Samarqand shahar</p>
-                    <p class="mb-2 small text-muted"><i class="bi bi-telephone me-3 brand-color-text"></i>+998 (99) 577-28-36</p>
-                    <p class="mb-2 small text-muted"><i class="bi bi-telegram me-3 brand-color-text"></i>@jcodetab</p>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <h5 class="fw-bold mb-4">Ijtimoiy tarmoqlar</h5>
-                    <div class="d-flex gap-2">
-                        <a class="btn btn-light btn-sm rounded-circle border d-flex align-items-center justify-content-center" href="https://t.me/jcodetab" style="width: 38px; height: 38px;"><i class="bi bi-telegram text-success"></i></a>
-                        <a class="btn btn-light btn-sm rounded-circle border d-flex align-items-center justify-content-center" href="https://www.facebook.com/Jasur Jurakulov" style="width: 38px; height: 38px;"><i class="bi bi-facebook text-success"></i></a>
-                        <a class="btn btn-light btn-sm rounded-circle border d-flex align-items-center justify-content-center" href="https://www.instagram.com/jasurc0der" style="width: 38px; height: 38px;"><i class="bi bi-instagram text-success"></i></a>
+
+                <!-- BIZ BILAN BOG'LANISH -->
+                <div class="col-lg-4 text-center">
+                    <h6 class="fw-bold mb-3 text-uppercase fs-6">Biz bilan bog‘lanish</h6>
+                    <div class="d-flex flex-column gap-2 small text-muted align-items-center">
+                        <span><i class="bi bi-geo-alt me-2 brand-color-text"></i>Samarqand shahar</span>
+                        <span><i class="bi bi-telephone me-2 brand-color-text"></i>+998 (99) 577-28-36</span>
+                        <span><i class="bi bi-telegram me-2 brand-color-text"></i>@jcodetab</span>
                     </div>
                 </div>
+
+                <!-- IJTIMOIY TARMOQLAR -->
+                <div class="col-lg-4 text-center text-lg-end">
+                    <h6 class="fw-bold mb-3 text-uppercase fs-6">Ijtimoiy tarmoqlar</h6>
+                    <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
+                        <a href="https://t.me/jcodetab" target="_blank" class="social-btn" title="Telegram">
+                            <i class="bi bi-telegram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/Jasur Jurakulov" target="_blank" class="social-btn" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/jasurc0der" target="_blank" class="social-btn" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4 border-clean">
+
+            <div class="text-center small text-muted">
+                © 2026 TestBorBaza. Barcha huquqlar himoyalangan.
             </div>
         </div>
     </footer>
@@ -575,14 +601,12 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-        // AOS Animatsiyani faollashtirish
         AOS.init({
-            duration: 800,
+            duration: 900,
             once: true,
             easing: 'ease-out-cubic'
         });
 
-        // Theme Toggle Script
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const htmlElement = document.documentElement;
