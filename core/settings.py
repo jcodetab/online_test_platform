@@ -69,6 +69,7 @@ SESSION_COOKIE_HTTPONLY = True
 
 INSTALLED_APPS = [
 
+    'unfold',
     'jazzmin',
 
 
