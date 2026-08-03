@@ -17,40 +17,35 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
-    
-    <!-- AOS ANIMATION KUTUBXONASI -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root, [data-bs-theme="light"] {
-            --bg-light-core: #F8FAFC; 
+            --bg-light-core: #F4FBF8; 
             --card-bg: #FFFFFF;
-            --brand-primary: #4F46E5; 
-            --brand-hover: #4338CA;
-            --brand-cyan: #06B6D4;
-            --brand-light: rgba(79, 70, 229, 0.06);
+            --brand-primary: #00BBA7; 
+            --brand-hover: #009686;
+            --brand-light: rgba(0, 187, 167, 0.08);
             --text-main: #0F172A; 
             --text-muted: #64748B;
             --border-clean: #E2E8F0;
-            --nav-bg: rgba(255, 255, 255, 0.85);
+            --nav-bg: #FFFFFF;
             --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 15px 30px rgba(0, 187, 167, 0.08);
             --toggle-bg: #FFFFFF;
         }
 
         [data-bs-theme="dark"] {
-            --bg-light-core: #090D16; 
-            --card-bg: #111827;
-            --brand-primary: #6366F1; 
-            --brand-hover: #818CF8;
-            --brand-cyan: #22D3EE;
-            --brand-light: rgba(99, 102, 241, 0.12);
-            --text-main: #F8FAFC; 
+            --bg-light-core: #0B1329; 
+            --card-bg: #131C35;
+            --brand-primary: #00BBA7; 
+            --brand-hover: #22D3EE;
+            --brand-light: rgba(0, 187, 167, 0.15);
+            --text-main: #F1F5F9; 
             --text-muted: #94A3B8;
             --border-clean: #1E293B;
-            --nav-bg: rgba(17, 24, 39, 0.85);
+            --nav-bg: #131C35;
             --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.12);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.25);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.22);
             --toggle-bg: #1E293B;
         }
 
@@ -68,28 +63,31 @@
             color: var(--text-main);
         }
 
-        .ambient-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 45%),
-                radial-gradient(circle at 15% 75%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
-            background-size: cover;
+        /* TOP HEADER BAR */
+        .top-bar {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-clean);
+            background: var(--card-bg);
+        }
+
+        /* EDUCATE STYLE NAVBAR */
+        .educate-nav-wrapper {
+            margin-top: -15px;
+            z-index: 1020;
         }
 
         .custom-nav {
-            border-bottom: 1px solid var(--border-clean);
             background: var(--nav-bg) !important;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 16px 0;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            padding: 12px 24px;
+            border: 1px solid var(--border-clean);
         }
 
         .brand-text {
             font-weight: 800;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             color: var(--text-main) !important;
         }
 
@@ -97,392 +95,421 @@
             color: var(--brand-primary) !important;
         }
 
-        .theme-nav-toggle {
-            width: 44px; height: 44px;
-            border-radius: 14px;
-            background-color: var(--toggle-bg);
-            border: 1px solid var(--border-clean);
-            color: var(--brand-primary);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            font-size: 19px;
-        }
-
-        .theme-nav-toggle:hover {
-            transform: translateY(-2px) scale(1.05);
-            border-color: var(--brand-primary);
-        }
-
-        .btn-modern-primary {
-            background: linear-gradient(135deg, var(--brand-primary) 0%, #3730A3 100%) !important;
-            color: #FFFFFF !important;
-            font-weight: 700; font-size: 0.95rem;
-            padding: 13px 28px; border-radius: 14px; border: none;
-            box-shadow: 0 8px 22px rgba(79, 70, 229, 0.28);
-            transition: all 0.3s ease;
-            display: inline-flex; align-items: center; justify-content: center;
-        }
-
-        .btn-modern-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 14px 30px rgba(79, 70, 229, 0.42);
-        }
-
-        .btn-modern-secondary {
-            background: var(--card-bg);
+        .nav-link {
+            font-weight: 600;
             color: var(--text-main) !important;
-            font-weight: 700; font-size: 0.95rem;
-            padding: 13px 28px; border-radius: 14px;
-            border: 1px solid var(--border-clean);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            display: inline-flex; align-items: center; justify-content: center;
+            padding: 8px 16px !important;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
         }
 
-        .btn-modern-secondary:hover {
-            transform: translateY(-3px);
-            border-color: var(--brand-primary);
+        .nav-link:hover {
             color: var(--brand-primary) !important;
         }
 
-        .hero-title {
-            font-size: 3.6rem; font-weight: 800;
-            letter-spacing: -2px; line-height: 1.15;
-        }
-
-        .hero-description {
-            font-size: 1.15rem; line-height: 1.7;
-            color: var(--text-muted);
-        }
-
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.3rem; }
-        }
-
-        .brand-gradient-text {
-            background: linear-gradient(135deg, var(--brand-primary) 30%, var(--brand-cyan) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* INTERAKTIV WIDGET CARD */
-        .widget-preview-card {
-            background: var(--card-bg);
+        /* TOGGLE BUTTON */
+        .theme-nav-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-light-core);
             border: 1px solid var(--border-clean);
+            color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-nav-toggle:hover {
+            background-color: var(--brand-primary);
+            color: #FFFFFF;
+        }
+
+        /* HERO SECTION & CIRCLE HIGHLIGHT */
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.2;
+        }
+
+        .circle-highlight {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .circle-highlight::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 115%;
+            height: 120%;
+            border: 2px solid var(--brand-primary);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* BUTTONS */
+        .btn-educate-primary {
+            background-color: var(--brand-primary) !important;
+            color: #FFFFFF !important;
+            font-weight: 700;
+            padding: 14px 32px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 187, 167, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .btn-educate-primary:hover {
+            background-color: var(--brand-hover) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0, 187, 167, 0.35);
+        }
+
+        .btn-play-video {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #0B1329;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .btn-play-video:hover {
+            transform: scale(1.1);
+            color: #FFFFFF;
+        }
+
+        /* RIGHT GRAPHIC CONTAINER (NO GIRL IMAGE) */
+        .hero-graphics-container {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            height: 450px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .green-bg-circle {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            background: rgba(0, 187, 167, 0.12);
+            border: 2px dashed var(--brand-primary);
+            border-radius: 50%;
+            z-index: 1;
+            animation: spinCircle 35s linear infinite;
+        }
+
+        @keyframes spinCircle {
+            100% { transform: rotate(360deg); }
+        }
+
+        .dashboard-mock-card {
+            position: relative;
+            z-index: 2;
+            background: var(--card-bg);
             border-radius: 24px;
             padding: 28px;
+            border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-md);
             width: 100%;
         }
 
-        .option-item {
-            border: 1px solid var(--border-clean);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            display: flex; align-items: center; justify-content: space-between;
-        }
-
-        .option-item.correct {
-            border-color: #10B981;
-            background: rgba(16, 185, 129, 0.08);
-            color: #10B981;
-            font-weight: 600;
-        }
-
-        .interactive-cat-box {
+        .floating-stat-badge {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            z-index: 3;
             background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px 24px;
             border: 1px solid var(--border-clean);
-            border-radius: 20px;
-            padding: 32px 28px; height: 100%;
-            display: block; text-decoration: none !important;
-            transition: all 0.35s ease;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .interactive-cat-box:hover {
-            transform: translateY(-6px);
             box-shadow: var(--shadow-md);
         }
 
-        .cat-icon-bg {
-            width: 50px; height: 50px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; margin-bottom: 20px;
-        }
-
-        .cat-standart .cat-icon-bg { background: rgba(79, 70, 229, 0.1); color: #4F46E5; }
-        .cat-kazus .cat-icon-bg { background: rgba(6, 182, 212, 0.1); color: #06B6D4; }
-        .cat-yopiq .cat-icon-bg { background: rgba(225, 29, 72, 0.1); color: #E11D48; }
-        .cat-olimpiada .cat-icon-bg { background: rgba(245, 158, 11, 0.1); color: #F59E0B; }
-
-        .bento-card {
+        /* CATEGORIES & CARDS */
+        .interactive-cat-box, .bento-card {
             background: var(--card-bg);
             border: 1px solid var(--border-clean);
-            border-radius: 24px;
-            padding: 32px 26px; height: 100%;
-            transition: all 0.35s ease;
+            border-radius: 20px;
+            padding: 30px;
+            height: 100%;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
             box-shadow: var(--shadow-sm);
+            display: block;
         }
 
-        .bento-card:hover {
-            transform: translateY(-4px);
+        .interactive-cat-box:hover, .bento-card:hover {
+            transform: translateY(-5px);
             border-color: var(--brand-primary);
+            box-shadow: var(--shadow-md);
         }
 
-        .feature-icon-wrapper {
-            width: 50px; height: 50px;
+        .cat-icon-bg, .feature-icon-wrapper {
+            width: 52px;
+            height: 52px;
             border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 22px; margin-bottom: 20px;
-            background: var(--brand-light); color: var(--brand-primary);
-        }
-
-        .stat-value {
-            font-size: 2.3rem; font-weight: 800;
+            background: var(--brand-light);
             color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
         .footer-clean {
             background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
-            padding: 70px 0 35px;
+            padding: 60px 0 30px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.3rem; }
+            .top-bar { display: none; }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="ambient-bg"></div>
-
     <input type="hidden" id="user-auth-status" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     <div id="page-type" data-page="home"></div>
 
     {% block content %}{% endblock %}
 
-    <!-- NAVIGATSIYA -->
-    <nav class="navbar navbar-expand-lg sticky-top custom-nav">
-        <div class="container px-4">
-            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
-                <h3 class="m-0 brand-text d-flex align-items-center">
-                    <i class="bi bi-journal-check me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
-                </h3>
-            </a>
-            
-            <button class="theme-nav-toggle ms-auto" id="theme-toggle" title="Rejimni o'zgartirish">
-                <i class="bi bi-sun-fill" id="theme-icon"></i>
-            </button>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION -->
-    <div class="hero-section py-5 my-md-2">
-        <div class="container px-4">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-7 text-center text-lg-start" data-aos="fade-right" data-aos-duration="1000">
-                    <span class="badge bg-indigo-subtle text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 mb-3 fw-semibold">
-                        <i class="bi bi-cpu me-1"></i> Intellektual Ta'lim Ekotizimi
-                    </span>
-                    <h1 class="hero-title mb-4">
-                        Intellektual testlar va mantiqiy <span class="brand-gradient-text">tahlillar akademiyasi</span>
-                    </h1>
-                    <p class="hero-description mb-5">
-                        TestBorBaza — xalqaro baholash standartlariga mos zamonaviy ekotizim. Boshlang‘ich savollardan tortib chuqur mantiqiy keys-kazuslargacha bo‘lgan bazada o‘z bilimingizni real vaqt rejimida sinang.
-                    </p>
-                    
-                    <div class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
-                        <a href="{% url 'search_tests_page' %}" class="btn-modern-primary text-decoration-none">
-                            <i class="bi bi-play-circle-fill me-2"></i> Testlarni boshlash
-                        </a>
-                        
-                        {% if not user.is_authenticated %}
-                            <a href="{% url 'register' %}" class="btn-modern-secondary text-decoration-none">
-                                <i class="bi bi-person-plus-fill me-2"></i> Ro‘yxatdan o‘tish
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
-                
-                <!-- JONLI TEST WIDGET (DOIRA O'RNIGA) -->
-                <div class="col-lg-5 d-none d-lg-flex justify-content-center" data-aos="fade-left" data-aos-duration="1000">
-                    <div class="widget-preview-card">
-                        <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
-                            <span class="badge bg-danger-subtle text-danger"><i class="bi bi-stopwatch me-1"></i> 00:42</span>
-                            <span class="small text-muted fw-semibold">Savol 3 / 15</span>
-                        </div>
-                        <h6 class="fw-bold mb-3">Fuqarolik huquqiy kazusi: Majburiyat bajarilmagan hollarda...</h6>
-                        
-                        <div class="option-item">
-                            <span>A) Sud qarorisiz undirilmaydi</span>
-                            <i class="bi bi-circle"></i>
-                        </div>
-                        <div class="option-item correct">
-                            <span>B) Shartnoma shartlariga muvofiq</span>
-                            <i class="bi bi-check-circle-fill"></i>
-                        </div>
-                        <div class="option-item">
-                            <span>C) Har doim 15% penya qo'llaniladi</span>
-                            <i class="bi bi-circle"></i>
-                        </div>
-                        
-                        <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center">
-                            <span class="small text-success fw-bold"><i class="bi bi-shield-check me-1"></i> AI Tahlil faol</span>
-                            <span class="btn btn-sm btn-primary px-3 rounded-3">Keyingisi</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- TOP HEADER BAR (EDUCATE STYLE) -->
+    <div class="top-bar py-2 d-none d-lg-block">
+        <div class="container px-4 d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-4">
+                <span><i class="bi bi-telephone me-2 brand-color-text"></i>+998 (99) 577-28-36</span>
+                <span><i class="bi bi-envelope me-2 brand-color-text"></i>info@testborbaza.uz</span>
+                <span><i class="bi bi-geo-alt me-2 brand-color-text"></i>Samarqand shahar</span>
+            </div>
+            <div class="d-flex gap-3 align-items-center">
+                <a href="https://t.me/jcodetab" class="text-muted text-decoration-none"><i class="bi bi-telegram"></i></a>
+                <a href="https://www.facebook.com/Jasur Jurakulov" class="text-muted text-decoration-none"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/jasurc0der" class="text-muted text-decoration-none"><i class="bi bi-instagram"></i></a>
             </div>
         </div>
     </div>
 
-    <!-- JONLI STATISTIKA BLOKI -->
-    <div class="container px-4 py-3" data-aos="fade-up">
-        <div class="bento-card p-4">
-            <div class="row text-center g-4">
-                <div class="col-6 col-md-3">
-                    <div class="stat-value">12,500+</div>
-                    <span class="text-muted small">Yechilgan testlar</span>
+    <!-- MAIN NAVBAR -->
+    <div class="container px-4 educate-nav-wrapper sticky-top">
+        <nav class="navbar navbar-expand-lg custom-nav">
+            <div class="container-fluid p-0">
+                <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                    <h3 class="m-0 brand-text d-flex align-items-center fs-4">
+                        <i class="bi bi-mortarboard-fill me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
+                    </h3>
+                </a>
+
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="educateNavbar">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Bosh sahifa</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'search_tests_page' %}">Testlar</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Olimpiadalar</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Biz haqimizda</a></li>
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
+                            <i class="bi bi-sun-fill" id="theme-icon"></i>
+                        </button>
+
+                        {% if user.is_authenticated %}
+                            <a href="#" class="btn btn-educate-primary rounded-pill">Kabinetga o'tish <i class="bi bi-arrow-right ms-1"></i></a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-outline-dark rounded-pill px-4 fw-bold">Kirish</a>
+                            <a href="{% url 'register' %}" class="btn btn-educate-primary rounded-pill">Ro'yxatdan o'tish <i class="bi bi-arrow-right ms-1"></i></a>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-value">99.9%</div>
-                    <span class="text-muted small">Tizim barqarorligi</span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="hero-section py-5 my-3">
+        <div class="container px-4">
+            <div class="row align-items-center g-5">
+                
+                <!-- CHAP TARAFI: BANNER TEXT -->
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="hero-title mb-4">
+                        Intellektual testlar va yuqori <span class="circle-highlight">mantiqiy</span> tahlillar platformasi
+                    </h1>
+                    <p class="text-muted fs-5 mb-5" style="line-height: 1.7;">
+                        Oddiy savollardan tortib chuqur tahliliy fikrlashni talab qiluvchi kazus-keyslargacha bo'lgan eng zamonaviy onlayn imtihon ekotizimi.
+                    </p>
+                    
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-4">
+                        <a href="{% url 'search_tests_page' %}" class="btn btn-educate-primary rounded-pill">
+                            Explore All Tests <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="#" class="btn-play-video text-decoration-none">
+                                <i class="bi bi-play-fill"></i>
+                            </a>
+                            <span class="fw-bold fs-6">Watch Demo</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-value">&lt; 80ms</div>
-                    <span class="text-muted small">Yuklanish tezligi</span>
+                
+                <!-- O'NG TARAFI: INTERFAOL CARD (QIZ RASMI O'RNIGA TAYYORLANDI) -->
+                <div class="col-lg-6">
+                    <div class="hero-graphics-container">
+                        <div class="green-bg-circle"></div>
+
+                        <!-- INTERAKTIV DASHBOARD MOCKUP CARD -->
+                        <div class="dashboard-mock-card">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-success-subtle p-3 rounded-circle text-success fs-4">
+                                        <i class="bi bi-award-fill"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold m-0">Natijalar Tahlili</h5>
+                                        <small class="text-muted">Real-vaqt monitoringi</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2">LIVE</span>
+                            </div>
+
+                            <div class="p-3 bg-light rounded-4 mb-3 border">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small fw-semibold">Mantiqiy Kazuslar</span>
+                                    <span class="small fw-bold text-success">94%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" style="width: 94%"></div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-light rounded-4 border">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small fw-semibold">Olimpiada Testlari</span>
+                                    <span class="small fw-bold text-info">88%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-info" style="width: 88%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FLOATING BADGE -->
+                        <div class="floating-stat-badge d-flex align-items-center gap-3">
+                            <h2 class="fw-bold m-0 brand-color-text">30k+</h2>
+                            <div class="lh-1">
+                                <span class="fw-bold d-block">Total Students</span>
+                                <small class="text-muted">Faol foydalanuvchilar</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-value">100%</div>
-                    <span class="text-muted small">Aniq va shaffof tahlil</span>
-                </div>
+
             </div>
         </div>
     </div>
 
     <!-- 1. MAVJUD O'QUV VA IMTIHON TURLARI -->
     <div class="container px-4 py-5">
-        <div class="d-flex flex-column align-items-center text-center mb-5" data-aos="fade-up">
-            <h2 class="fw-bold" style="letter-spacing: -1px; font-size: 2.3rem;">Mavjud o‘quv va imtihon turlari</h2>
-            <p class="text-muted">Yo'nalishingizga mos keladigan test formatini tanlang</p>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold fs-2">Mavjud o‘quv va imtihon turlari</h2>
+            <p class="text-muted">O'zingizga mos bo'limni tanlang va bilimingizni sinang</p>
         </div>
         
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-            <div class="col" data-aos="fade-up" data-aos-delay="100">
-                <a class="interactive-cat-box cat-standart" href="{% url 'search_tests_page' %}">
+            <div class="col">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <div class="cat-icon-bg"><i class="bi bi-layers-half"></i></div>
-                    <h4 class="fw-bold mb-2 fs-5 cat-title">Standart Testlar</h4>
+                    <h4 class="fw-bold mb-2 fs-5">Standart Testlar</h4>
                     <p class="text-muted small mb-0">Mavzulashtirilgan va fanlar bo'yicha mukammal savollar to'plami.</p>
                 </a>
             </div>
 
-            <div class="col" data-aos="fade-up" data-aos-delay="200">
-                <a class="interactive-cat-box cat-kazus" href="{% url 'search_tests_page' %}">
+            <div class="col">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <div class="cat-icon-bg"><i class="bi bi-file-earmark-code"></i></div>
-                    <h4 class="fw-bold mb-2 fs-5 cat-title">Kazus Testlar</h4>
+                    <h4 class="fw-bold mb-2 fs-5">Kazus Testlar</h4>
                     <p class="text-muted small mb-0">Amaliy mantiqiy vaziyatlar va muammoli masalalar yechimi.</p>
                 </a>
             </div>
 
-            <div class="col" data-aos="fade-up" data-aos-delay="300">
-                <a class="interactive-cat-box cat-yopiq" href="{% url 'search_tests_page' %}">
+            <div class="col">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <div class="cat-icon-bg"><i class="bi bi-shield-lock"></i></div>
-                    <h4 class="fw-bold mb-2 fs-5 cat-title">Yopiq Testlar</h4>
+                    <h4 class="fw-bold mb-2 fs-5">Yopiq Testlar</h4>
                     <p class="text-muted small mb-0">Maxsus guruhlar va korporativ imtihonlar uchun yopiq tizim.</p>
                 </a>
             </div>
 
-            <div class="col" data-aos="fade-up" data-aos-delay="400">
-                <a class="interactive-cat-box cat-olimpiada" href="{% url 'search_tests_page' %}">
+            <div class="col">
+                <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <div class="cat-icon-bg"><i class="bi bi-trophy-fill"></i></div>
-                    <h4 class="fw-bold mb-2 fs-5 cat-title">Fan Olimpiadalari</h4>
+                    <h4 class="fw-bold mb-2 fs-5">Fan Olimpiadalari</h4>
                     <p class="text-muted small mb-0">Respublika hamda xalqaro miqyosdagi onlayn bilimlar bellashuvi.</p>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- REYTING VA FOYDALANUVCHILAR BO'LIMI -->
-    <div class="container px-4 py-4" data-aos="fade-up">
-        <div class="bento-card p-4">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-6">
-                    <h3 class="fw-bold mb-3">Eng yuqori natijalar (Haftalik Reyting)</h3>
-                    <p class="text-muted mb-4">Platformada eng ko'p ball to'plagan va xatosiz test yechgan o'quvchilar ro'yxati.</p>
-                    
-                    <div class="d-flex align-items-center justify-content-between p-3 mb-2 rounded-3 border">
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="fw-bold text-warning fs-5">#1</span>
-                            <div>
-                                <h6 class="m-0 fw-bold">Jasur Djuraqulov</h6>
-                                <span class="text-muted small">98% aniqlik • 1,450 XP</span>
-                            </div>
-                        </div>
-                        <span class="badge bg-success-subtle text-success">A'lo</span>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-between p-3 rounded-3 border">
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="fw-bold text-secondary fs-5">#2</span>
-                            <div>
-                                <h6 class="m-0 fw-bold">Sardor Alimov</h6>
-                                <span class="text-muted small">95% aniqlik • 1,200 XP</span>
-                            </div>
-                        </div>
-                        <span class="badge bg-primary-subtle text-primary">Yuqori</span>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="p-4 rounded-4" style="background: var(--brand-light);">
-                        <h4 class="fw-bold mb-3">Siz ham reytingga kiring!</h4>
-                        <p class="text-muted small mb-4">Ro'yxatdan o'ting, bilimingizni sinang hamda faol o'quvchilar safidan joy oling.</p>
-                        <a href="{% url 'search_tests_page' %}" class="btn btn-modern-primary text-decoration-none">Reytingni ko'rish</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- 2. PLATFORMA AFZALLIKLARI -->
-    <div class="container px-4 py-5">
+    <div class="container px-4 py-4">
         <div class="row g-4">
-            <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-lg-3 col-sm-6">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
-                    <h5 class="mb-3 fw-bold fs-6">Qat'iy vaqt nazorati</h5>
-                    <p class="text-muted small mb-0">Har bir savol uchun aniq 1 daqiqalik algoritmik cheklov bilan imtihon boshqariladi.</p>
+                    <h5 class="mb-3 fw-bold">Vaqt nazorati</h5>
+                    <p class="text-muted small mb-0">Har bir savol uchun aniq algoritmik vaqt cheklovi o'rnatilgan.</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="200">
+            <div class="col-lg-3 col-sm-6">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
-                    <h5 class="mb-3 fw-bold fs-6">Filtrlangan kutubxona</h5>
-                    <p class="text-muted small mb-0">Kazus-keyslar va oddiy savollar backend filtrlari orqali xatosiz ajratilgan.</p>
+                    <h5 class="mb-3 fw-bold">Filtrlangan baza</h5>
+                    <p class="text-muted small mb-0">Kazus va oddiy savollar backend filtrlari orqali xatosiz ajratilgan.</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="300">
+            <div class="col-lg-3 col-sm-6">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
-                    <h5 class="mb-3 fw-bold fs-6">Tezkor yuklanish</h5>
-                    <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar 80ms dan kam vaqtda ochiladi.</p>
+                    <h5 class="mb-3 fw-bold">Tezkor yuklanish</h5>
+                    <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar juda tez ochiladi.</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="400">
+            <div class="col-lg-3 col-sm-6">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
-                    <h5 class="mb-3 fw-bold fs-6">Xavfsiz monitoring</h5>
-                    <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni to'liq yopiq va adolatli.</p>
+                    <h5 class="mb-3 fw-bold">Xavfsiz monitoring</h5>
+                    <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni adolatli va yopiq.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- FOOTER -->
-    <footer class="footer-clean">
+    <footer class="footer-clean mt-5">
         <div class="container px-4">
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6">
@@ -492,15 +519,15 @@
                 <div class="col-lg-4 col-md-6">
                     <h5 class="fw-bold mb-4">Biz bilan bog‘lanish</h5>
                     <p class="mb-2 small text-muted"><i class="bi bi-geo-alt me-3 brand-color-text"></i>Samarqand shahar</p>
-                    <p class="mb-2 small text-muted"><i class="bi bi-telephone me-3 brand-color-text"></i>+998995772836</p>
+                    <p class="mb-2 small text-muted"><i class="bi bi-telephone me-3 brand-color-text"></i>+998 (99) 577-28-36</p>
                     <p class="mb-2 small text-muted"><i class="bi bi-telegram me-3 brand-color-text"></i>@jcodetab</p>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <h5 class="fw-bold mb-4">Ijtimoiy tarmoqlar</h5>
                     <div class="d-flex gap-2">
-                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://t.me/jcodetab" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-telegram"></i></a>
-                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://www.facebook.com/Jasur Jurakulov" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-facebook"></i></a>
-                        <a class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" href="https://www.instagram.com/jasurc0der" style="width: 38px; height: 38px; border: 1px solid var(--border-clean); color: var(--brand-primary); background: transparent;"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-light btn-sm rounded-circle border d-flex align-items-center justify-content-center" href="https://t.me/jcodetab" style="width: 38px; height: 38px;"><i class="bi bi-telegram text-success"></i></a>
+                        <a class="btn btn-light btn-sm rounded-circle border d-flex align-items-center justify-content-center" href="https://www.facebook.com/Jasur Jurakulov" style="width: 38px; height: 38px;"><i class="bi bi-facebook text-success"></i></a>
+                        <a class="btn btn-light btn-sm rounded-circle border d-flex align-items-center justify-content-center" href="https://www.instagram.com/jasurc0der" style="width: 38px; height: 38px;"><i class="bi bi-instagram text-success"></i></a>
                     </div>
                 </div>
             </div>
@@ -508,15 +535,8 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            easing: 'ease-out-cubic'
-        });
-
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const htmlElement = document.documentElement;
