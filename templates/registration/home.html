@@ -77,7 +77,7 @@
             background: var(--card-bg) !important;
             border-radius: var(--btn-radius);
             box-shadow: var(--shadow-sm);
-            padding: 12px 24px !important;
+            padding: 10px 24px !important;
             border: 1px solid var(--border-clean);
         }
 
@@ -127,9 +127,9 @@
         /* HERO TITLE & TEXT */
         .hero-title {
             font-family: 'Syne', sans-serif;
-            font-size: 3.6rem;
+            font-size: 3.1rem;
             font-weight: 800;
-            letter-spacing: -1.5px;
+            letter-spacing: -1px;
             line-height: 1.15;
         }
 
@@ -142,10 +142,10 @@
 
         .hero-desc {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.15rem;
-            line-height: 1.65;
+            font-size: 1.05rem;
+            line-height: 1.55;
             color: var(--text-muted);
-            max-width: 540px;
+            max-width: 520px;
         }
 
         /* KVADRAT SHAKLDAGI TUGMALAR */
@@ -153,7 +153,7 @@
             background-color: var(--brand-primary) !important;
             color: #FFFFFF !important;
             font-weight: 700;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: var(--btn-radius);
             border: none;
             box-shadow: 0 8px 20px rgba(0, 187, 167, 0.25);
@@ -173,7 +173,7 @@
             background-color: var(--card-bg) !important;
             color: var(--text-main) !important;
             font-weight: 700;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: var(--btn-radius);
             border: 2px solid var(--border-clean);
             box-shadow: var(--shadow-sm);
@@ -241,20 +241,23 @@
         .student-girl-img {
             position: relative;
             z-index: 2;
-            width: 100%;
-            max-height: 520px;
-            object-fit: contain;
+            width: auto;
+            height: 480px;
+            max-height: 80vh;
+            object-fit: cover;
+            /* Rasmning chap tarafidagi mini-kartochkani qirqib tashlash */
+            clip-path: inset(0 0 0 17%);
             filter: drop-shadow(0 20px 30px rgba(0,0,0,0.12));
         }
 
         .floating-stat-badge {
             position: absolute;
             bottom: 20px;
-            left: -10px;
+            left: 0;
             z-index: 3;
             background: var(--card-bg);
             border-radius: var(--btn-radius);
-            padding: 14px 22px;
+            padding: 10px 18px;
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
@@ -331,7 +334,8 @@
         }
 
         @media (max-width: 991px) {
-            .hero-title { font-size: 2.7rem; }
+            .hero-title { font-size: 2.5rem; }
+            .student-girl-img { height: 380px; }
             .floating-stat-badge { left: 10px; bottom: 10px; }
         }
     </style>
@@ -345,7 +349,7 @@
     {% block content %}{% endblock %}
 
     <!-- MAIN NAVBAR -->
-    <div class="educate-nav-container px-3 mt-3">
+    <div class="educate-nav-container px-3 mt-2">
         <nav class="navbar navbar-expand-lg custom-nav">
             <div class="container-fluid p-0">
                 <a href="#top" class="navbar-brand d-flex align-items-center">
@@ -399,21 +403,21 @@
     </div>
 
     <!-- HERO SECTION -->
-    <div class="hero-section py-5 my-3">
+    <div class="hero-section py-3 my-1">
         <div class="container px-4">
-            <div class="row align-items-center g-5">
+            <div class="row align-items-center g-4">
                 
                 <!-- CHAP TARAFI -->
                 <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right" data-aos-duration="1000">
-                    <h1 class="hero-title mb-4">
+                    <h1 class="hero-title mb-3">
                         <span class="hero-title-highlight">Intellektual testlar</span> va yuqori mantiqiy tahlillar platformasi
                     </h1>
                     
-                    <p class="hero-desc mb-5">
+                    <p class="hero-desc mb-4">
                         Xalqaro mezonlarga moslashtirilgan bilim ekotizimi. Amaliy mantiq, kazus masalalar hamda real vaqt rejimida aniq va tezkor natijalar tahlili.
                     </p>
                     
-                    <!-- DUGMALAR -->
+                    <!-- TUGMALAR -->
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
                         <a href="{% url 'login' %}" class="btn-sq-login">
                             <i class="bi bi-box-arrow-in-right me-2"></i> Kirish
@@ -432,7 +436,7 @@
                         <!-- ORQA FONDAGI AURA YORUGLIK EFFEKTI -->
                         <div class="hero-aura-bg"></div>
 
-                        <!-- QIZ RASMI -->
+                        <!-- QIZ RASMI (CLIP-PATH BILAN KESILGAN) -->
                         <img src="{% static 'img/student.png' %}" alt="Student Girl" class="student-girl-img">
 
                         <!-- FLOATING BADGE -->
