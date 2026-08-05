@@ -35,7 +35,7 @@
             --border-clean: #E2E8F0;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.04);
             --shadow-md: 0 15px 30px rgba(0, 187, 167, 0.12);
-            --btn-radius: 8px;
+            --btn-radius: 10px;
         }
 
         [data-bs-theme="dark"] {
@@ -49,7 +49,7 @@
             --border-clean: #1E293B;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.15);
             --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.25);
-            --btn-radius: 8px;
+            --btn-radius: 10px;
         }
 
         body {
@@ -70,7 +70,7 @@
             max-width: 1240px;
             margin: 0 auto;
             position: sticky;
-            top: 20px;
+            top: 15px;
             z-index: 1000;
         }
 
@@ -125,12 +125,12 @@
             color: #FFFFFF;
         }
 
-        /* HERO SECTION - ERKIN VA KATTA BLOK */
+        /* HERO SECTION */
         .hero-section {
-            min-height: 85vh;
+            min-height: 80vh;
             display: flex;
             align-items: center;
-            padding: 60px 0 40px 0;
+            padding: 40px 0 20px 0;
         }
 
         .hero-title {
@@ -156,7 +156,7 @@
             max-width: 520px;
         }
 
-        /* KVADRAT TUGMALAR */
+        /* BUTTONS */
         .btn-sq-login {
             background-color: var(--brand-primary) !important;
             color: #FFFFFF !important;
@@ -212,11 +212,11 @@
             text-decoration: none !important;
         }
 
-        /* HERO GRAPHICS & QIZ RASMI INTEGRATSIYASI */
+        /* HERO GRAPHICS */
         .hero-graphics-container {
             position: relative;
             width: 100%;
-            max-width: 550px;
+            max-width: 500px;
             margin: 0 auto;
             display: flex;
             align-items: flex-end;
@@ -225,10 +225,10 @@
 
         .hero-aura-bg {
             position: absolute;
-            width: 420px;
-            height: 420px;
-            background: radial-gradient(circle, rgba(0, 187, 167, 0.35) 0%, rgba(0, 187, 167, 0) 70%);
-            top: 45%;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(0, 187, 167, 0.3) 0%, rgba(0, 187, 167, 0) 70%);
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
@@ -248,12 +248,10 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         }
 
         .student-girl-img {
-            height: 540px;
+            height: 480px;
             width: auto;
             max-width: 100%;
             object-fit: contain;
@@ -262,24 +260,23 @@
 
         .floating-stat-badge {
             position: absolute;
-            bottom: 30px;
-            left: -10px;
+            bottom: 20px;
+            left: 0px;
             z-index: 3;
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 12px 22px;
+            border-radius: 14px;
+            padding: 12px 20px;
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
         }
 
-        /* SECTION SEPARATION */
+        /* CARDS & BENTO */
         .section-space {
-            margin-top: 60px;
-            padding-top: 40px;
+            margin-top: 40px;
+            padding-top: 20px;
         }
 
-        /* CARDS & BENTO */
         .interactive-cat-box, .bento-card, .about-card {
             background: var(--card-bg);
             border: 1px solid var(--border-clean);
@@ -289,7 +286,8 @@
             text-decoration: none !important;
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: var(--shadow-sm);
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
 
         .interactive-cat-box:hover, .bento-card:hover {
@@ -309,9 +307,10 @@
             justify-content: center;
             font-size: 24px;
             margin-bottom: 18px;
+            flex-shrink: 0;
         }
 
-        /* BACK TO TOP TUGMASI */
+        /* BACK TO TOP */
         .back-to-top {
             position: fixed;
             bottom: 25px;
@@ -371,33 +370,34 @@
             transform: translateY(-2px);
         }
 
-        /* RESPONSIVE DESIGN */
         @media (max-width: 991px) {
             .hero-section {
-                padding: 30px 0;
+                padding: 20px 0;
                 text-align: center;
                 min-height: auto;
             }
             .hero-title {
-                font-size: 2.3rem;
+                font-size: 2.2rem;
             }
             .hero-desc {
                 margin: 0 auto 24px;
                 font-size: 1rem;
             }
             .student-girl-img {
-                height: 380px;
+                height: 360px;
             }
             .floating-stat-badge {
-                left: 10px;
+                left: 50%;
+                transform: translateX(-50%);
                 bottom: 10px;
-                padding: 8px 14px;
+                padding: 8px 16px;
+                width: max-content;
+            }
+            .floating-stat-badge:hover {
+                transform: translateX(-50%);
             }
             .educate-nav-container {
                 top: 10px;
-            }
-            .section-space {
-                margin-top: 30px;
             }
         }
     </style>
@@ -407,8 +407,6 @@
 
     <input type="hidden" id="user-auth-status" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     <div id="page-type" data-page="home"></div>
-
-    {% block content %}{% endblock %}
 
     <!-- MAIN NAVBAR -->
     <div class="educate-nav-container px-3">
@@ -443,7 +441,7 @@
                         </li>
                     </ul>
 
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3 justify-content-center justify-content-lg-end pt-2 pt-lg-0">
                         <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
                             <i class="bi bi-sun-fill" id="theme-icon"></i>
                         </button>
@@ -464,6 +462,7 @@
         </nav>
     </div>
 
+    {% block content %}
     <!-- HERO SECTION -->
     <div class="hero-section">
         <div class="container px-4">
@@ -475,14 +474,14 @@
                         <span class="hero-title-highlight">Intellektual testlar</span> va yuqori mantiqiy tahlillar platformasi
                     </h1>
                     
-                    <p class="hero-desc mb-5">
+                    <p class="hero-desc mb-4">
                         Xalqaro mezonlarga moslashtirilgan bilim ekotizimi. Amaliy mantiq, kazus masalalar hamda real vaqt rejimida aniq va tezkor natijalar tahlili.
                     </p>
                     
                     <!-- TUGMALAR -->
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
-                        <a href="{% url 'login' %}" class="btn-sq-login">
-                            <i class="bi bi-box-arrow-in-right me-2"></i> Kirish
+                        <a href="{% url 'search_tests_page' %}" class="btn-sq-login">
+                            <i class="bi bi-play-circle-fill me-2"></i> Testlarni boshlash
                         </a>
 
                         <a href="{% url 'register' %}" class="btn-sq-register">
@@ -490,35 +489,12 @@
                         </a>
                     </div>
                 </div>
-                
-                <!-- O'NG TARAFI: QIZ RASMI VA ORQA GLOW FON -->
-                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
-                    <div class="hero-graphics-container">
-                        
-                        <div class="hero-aura-bg"></div>
-
-                        <!-- STUDENT GIRL WRAPPER -->
-                        <div class="student-img-wrapper">
-                            <img src="{% static 'img/student.png' %}" alt="Student Girl" class="student-girl-img">
-                        </div>
-
-                        <!-- FLOATING BADGE -->
-                        <div class="floating-stat-badge d-flex align-items-center gap-3">
-                            <h2 class="fw-bold m-0 brand-color-text fs-3">30k+</h2>
-                            <div class="lh-1">
-                                <span class="fw-bold d-block small">Faol o'quvchilar</span>
-                                <small class="text-muted">Onlayn bilim oluvchilar</small>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
 
             </div>
         </div>
     </div>
 
-    <!-- 1. MAVJUD O'QUV VA IMTIHON TURLARI (PASTDA TURADI, BIRINCHI EKRANDA KO'RINMAYDI) -->
+    <!-- 1. MAVJUD O'QUV VA IMTIHON TURLARI -->
     <div id="exam-types" class="container px-4 section-space">
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="fw-bold fs-2">Mavjud o‘quv va imtihon turlari</h2>
@@ -571,35 +547,35 @@
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="100">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
-                    <h5 class="mb-3 fw-bold fs-6">VAQT NAZORATI</h5>
+                    <h5 class="mb-3 fw-bold fs-6 text-uppercase">Vaqt Nazorati</h5>
                     <p class="text-muted small mb-0">Har bir savol uchun aniq algoritmik vaqt cheklovi o'rnatilgan.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="200">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
-                    <h5 class="mb-3 fw-bold fs-6">FILTRLANGAN BAZA</h5>
+                    <h5 class="mb-3 fw-bold fs-6 text-uppercase">Filtrlangan Baza</h5>
                     <p class="text-muted small mb-0">Kazus va oddiy savollar backend filtrlari orqali xatosiz ajratilgan.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="300">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-lightning-charge-fill"></i></div>
-                    <h5 class="mb-3 fw-bold fs-6">TEZKOR YUKLANISH</h5>
+                    <h5 class="mb-3 fw-bold fs-6 text-uppercase">Tezkor Yuklanish</h5>
                     <p class="text-muted small mb-0">Minimalist kod tuzilishi hisobiga sahifalar juda tez ochiladi.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="400">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-shield-lock-fill"></i></div>
-                    <h5 class="mb-3 fw-bold fs-6">XAVFSIZ MONITORING</h5>
+                    <h5 class="mb-3 fw-bold fs-6 text-uppercase">Xavfsiz Monitoring</h5>
                     <p class="text-muted small mb-0">Imtihon topshirish va natijalarni hisoblash jarayoni adolatli va yopiq.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 3. BIZ HAQIMIZDA (ABOUT US SECTION) -->
+    <!-- 3. BIZ HAQIMIZDA -->
     <div id="about-section" class="container px-4 py-5">
         <div class="about-card p-4 p-md-5" data-aos="fade-up">
             <div class="row align-items-center g-4">
@@ -609,7 +585,7 @@
                         <strong class="brand-color-text">TestBorBaza</strong> — zamonaviy ta'lim texnologiyalari va onlayn imtihon tizimlarini avtomatlashtirishga qaratilgan ekotizimdir. Biz o'quvchilar, talabalar va soha mutaxassislari uchun bilim darajasini obyektiv va shaffof baholash imkoniyatini beramiz.
                     </p>
                 </div>
-                <div class="col-lg-4 text-center">
+                <div class="col-lg-4 text-center text-lg-end">
                     <a href="{% url 'register' %}" class="btn-sq-login">
                         <i class="bi bi-rocket-takeoff me-2"></i> Boshlash
                     </a>
@@ -617,26 +593,25 @@
             </div>
         </div>
     </div>
+    {% endblock %}
 
-    <!-- YUQORIGA QAYTISH TUGMASI (BACK TO TOP) -->
+    <!-- YUQORIGA QAYTISH TUGMASI -->
     <a href="#top" class="back-to-top" id="backToTopBtn" title="Yuqoriga chiqish">
         <i class="bi bi-arrow-up"></i>
     </a>
 
-    <!-- FOOTER (TARTIBLANGAN VA SIMMETRIK) -->
+    <!-- FOOTER -->
     <footer class="footer-clean mt-5">
         <div class="container px-4">
             <div class="row g-4 justify-content-between align-items-start">
                 
-                <!-- 1. PLATFORMA NOMI VA TA'RIFI -->
                 <div class="col-lg-4 col-md-12 text-center text-lg-start">
                     <h5 class="fw-bold mb-3 fs-4">testborbaza<span class="brand-color-text">.uz</span></h5>
-                    <p class="small text-muted mb-0 style-desc" style="max-width: 320px;">
+                    <p class="small text-muted mb-0 style-desc mx-auto mx-lg-0" style="max-width: 320px;">
                         Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.
                     </p>
                 </div>
 
-                <!-- 2. BIZ BILAN BOG'LANISH -->
                 <div class="col-lg-4 col-md-6 text-center">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Biz bilan bog‘lanish</h6>
                     <div class="d-flex flex-column gap-2 small text-muted align-items-center">
@@ -646,14 +621,13 @@
                     </div>
                 </div>
 
-                <!-- 3. IJTIMOIY TARMOQLAR -->
                 <div class="col-lg-4 col-md-6 text-center text-lg-end">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Ijtimoiy tarmoqlar</h6>
                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
                         <a href="https://t.me/jcodetab" target="_blank" class="social-btn" title="Telegram">
                             <i class="bi bi-telegram"></i>
                         </a>
-                        <a href="https://www.facebook.com/Jasur Jurakulov" target="_blank" class="social-btn" title="Facebook">
+                        <a href="https://www.facebook.com" target="_blank" class="social-btn" title="Facebook">
                             <i class="bi bi-facebook"></i>
                         </a>
                         <a href="https://www.instagram.com/jasurc0der" target="_blank" class="social-btn" title="Instagram">
