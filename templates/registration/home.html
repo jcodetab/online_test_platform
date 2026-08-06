@@ -78,7 +78,7 @@
             background: var(--card-bg) !important;
             border-radius: var(--btn-radius);
             box-shadow: var(--shadow-sm);
-            padding: 12px 24px !important;
+            padding: 10px 20px !important;
             border: 1px solid var(--border-clean);
             backdrop-filter: blur(10px);
         }
@@ -97,7 +97,7 @@
         .nav-link {
             font-weight: 600;
             color: var(--text-main) !important;
-            padding: 8px 16px !important;
+            padding: 6px 14px !important;
             font-size: 0.95rem;
             transition: all 0.2s ease;
         }
@@ -107,8 +107,8 @@
         }
 
         .theme-nav-toggle {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: var(--btn-radius);
             background-color: var(--bg-hero);
             border: 1px solid var(--border-clean);
@@ -135,10 +135,10 @@
 
         .hero-title {
             font-family: 'Syne', sans-serif;
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            letter-spacing: -1.2px;
-            line-height: 1.18;
+            letter-spacing: -1px;
+            line-height: 1.25;
         }
 
         .hero-title-highlight {
@@ -150,7 +150,7 @@
 
         .hero-desc {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             line-height: 1.65;
             color: var(--text-muted);
             max-width: 520px;
@@ -201,8 +201,8 @@
             background-color: var(--brand-primary) !important;
             color: #FFFFFF !important;
             font-weight: 700;
-            font-size: 0.9rem;
-            padding: 9px 20px;
+            font-size: 0.88rem;
+            padding: 8px 18px;
             border-radius: var(--btn-radius);
             border: none;
             box-shadow: 0 4px 12px rgba(0, 187, 167, 0.2);
@@ -212,11 +212,11 @@
             text-decoration: none !important;
         }
 
-        /* HERO GRAPHICS */
+        /* HERO GRAPHICS (O'NG TOMON PNG RASM SOZLAMALARI) */
         .hero-graphics-container {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             margin: 0 auto;
             display: flex;
             align-items: flex-end;
@@ -225,14 +225,14 @@
 
         .hero-aura-bg {
             position: absolute;
-            width: 380px;
-            height: 380px;
-            background: radial-gradient(circle, rgba(0, 187, 167, 0.3) 0%, rgba(0, 187, 167, 0) 70%);
+            width: 340px;
+            height: 340px;
+            background: radial-gradient(circle, rgba(0, 187, 167, 0.25) 0%, rgba(0, 187, 167, 0) 70%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
-            filter: blur(30px);
+            filter: blur(25px);
             animation: pulseAura 4s ease-in-out infinite alternate;
         }
 
@@ -251,21 +251,21 @@
         }
 
         .student-girl-img {
-            height: 480px;
+            height: 460px;
             width: auto;
             max-width: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.12));
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08));
         }
 
         .floating-stat-badge {
             position: absolute;
-            bottom: 20px;
-            left: 0px;
+            bottom: 25px;
+            left: -10px;
             z-index: 3;
             background: var(--card-bg);
             border-radius: 14px;
-            padding: 12px 20px;
+            padding: 10px 18px;
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
@@ -343,16 +343,37 @@
             transform: translateY(-3px);
         }
 
-        /* FOOTER */
+        /* FOOTER & ALOQA TARTIBI */
         .footer-clean {
             background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
             padding: 55px 0 30px;
         }
 
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .contact-item i {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--brand-light);
+            color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
         .social-btn {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             border-radius: var(--btn-radius);
             background-color: var(--bg-hero);
             border: 1px solid var(--border-clean);
@@ -370,22 +391,61 @@
             transform: translateY(-2px);
         }
 
+        /* MOBIL EKRAONLAR UCHUN MAXSUS ADAPTIV STYLES */
         @media (max-width: 991px) {
+            .educate-nav-container {
+                top: 8px;
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+
+            .custom-nav {
+                padding: 8px 14px !important;
+            }
+
+            /* Toggler tugmasini chapga va ixcham qilish */
+            .navbar-toggler-custom {
+                order: -1;
+                padding: 4px 8px;
+                font-size: 1.1rem;
+                border: 1px solid var(--border-clean);
+                border-radius: 8px;
+                background-color: var(--bg-hero);
+                color: var(--text-main);
+                line-height: 1;
+            }
+
+            .navbar-collapse {
+                margin-top: 12px;
+                padding-top: 10px;
+                border-top: 1px solid var(--border-clean);
+            }
+
+            .nav-link {
+                padding: 8px 0 !important;
+                font-size: 0.9rem;
+            }
+
             .hero-section {
                 padding: 20px 0;
                 text-align: center;
                 min-height: auto;
             }
+
             .hero-title {
-                font-size: 2.2rem;
+                font-size: 2.1rem;
+                line-height: 1.3;
             }
+
             .hero-desc {
                 margin: 0 auto 24px;
-                font-size: 1rem;
+                font-size: 0.98rem;
             }
+
             .student-girl-img {
-                height: 360px;
+                height: 340px;
             }
+
             .floating-stat-badge {
                 left: 50%;
                 transform: translateX(-50%);
@@ -393,11 +453,9 @@
                 padding: 8px 16px;
                 width: max-content;
             }
+
             .floating-stat-badge:hover {
                 transform: translateX(-50%);
-            }
-            .educate-nav-container {
-                top: 10px;
             }
         }
     </style>
@@ -412,15 +470,17 @@
     <div class="educate-nav-container px-3">
         <nav class="navbar navbar-expand-lg custom-nav">
             <div class="container-fluid p-0">
-                <a href="#top" class="navbar-brand d-flex align-items-center">
-                    <h3 class="m-0 brand-text d-flex align-items-center fs-4">
+                
+                <!-- Mobil menyu toggler tugmasi (Chap tomonda va ixcham) -->
+                <button class="navbar-toggler navbar-toggler-custom me-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
+                    <span class="navbar-toggler-icon" style="width: 1.2em; height: 1.2em;"></span>
+                </button>
+
+                <a href="#top" class="navbar-brand d-flex align-items-center me-auto me-lg-4">
+                    <h3 class="m-0 brand-text d-flex align-items-center fs-5">
                         <i class="bi bi-mortarboard-fill me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
                     </h3>
                 </a>
-
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
                 <div class="collapse navbar-collapse" id="educateNavbar">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
@@ -441,7 +501,7 @@
                         </li>
                     </ul>
 
-                    <div class="d-flex align-items-center gap-3 justify-content-center justify-content-lg-end pt-2 pt-lg-0">
+                    <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-2 pt-lg-0">
                         <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
                             <i class="bi bi-sun-fill" id="theme-icon"></i>
                         </button>
@@ -451,13 +511,14 @@
                                 Kabinet <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
                             </a>
                         {% else %}
-                            <a href="{% url 'login' %}" class="btn btn-link text-decoration-none text-dark fw-bold px-2">Kirish</a>
+                            <a href="{% url 'login' %}" class="btn btn-link text-decoration-none text-dark fw-bold px-2 style-login-link fs-6">Kirish</a>
                             <a href="{% url 'register' %}" class="btn-sq-dashboard">
                                 Ro'yxatdan o'tish <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
                             </a>
                         {% endif %}
                     </div>
                 </div>
+
             </div>
         </nav>
     </div>
@@ -468,10 +529,15 @@
         <div class="container px-4">
             <div class="row align-items-center g-5">
                 
-                <!-- CHAP TARAFI -->
+                <!-- CHAP TARAFI (SARLAVHA VA MATN) -->
                 <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right" data-aos-duration="1000">
+                    
+                    <!-- Sarlavha (4-5 qatorli mantiqiy tartibda) -->
                     <h1 class="hero-title mb-4">
-                        <span class="hero-title-highlight">Intellektual testlar</span> va yuqori mantiqiy tahlillar platformasi
+                        <span class="hero-title-highlight">Intellektual testlar</span> <br>
+                        va yuqori mantiqiy tahlillar <br>
+                        platformasi hamda zamonaviy <br>
+                        baza ekotizimi
                     </h1>
                     
                     <p class="hero-desc mb-4">
@@ -487,6 +553,31 @@
                         <a href="{% url 'register' %}" class="btn-sq-register">
                             <i class="bi bi-person-plus-fill me-2"></i> Ro'yxatdan o'tish
                         </a>
+                    </div>
+                </div>
+
+                <!-- O'NG TARAFI (PNG RASM VA NUSHONLAR) -->
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="hero-graphics-container">
+                        <div class="hero-aura-bg"></div>
+                        <div class="student-img-wrapper">
+                            <!-- PNG rasm loyihangiz static yo'li orqali ulangan -->
+                            <img src="{% static 'img/teacher.png' %}" alt="Ustoz / Talaba" class="student-girl-img">
+                        </div>
+                        
+                        <!-- Suza oladigan dinamik ma'lumot nishoni -->
+                        <div class="floating-stat-badge">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="cat-icon-bg mb-0" style="width: 42px; height: 42px; font-size: 20px;">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold m-0 fs-6">10,000+</h6>
+                                    <small class="text-muted" style="font-size: 0.78rem;">Mantiqiy & Kazus Testlar</small>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -612,12 +703,22 @@
                     </p>
                 </div>
 
-                <div class="col-lg-4 col-md-6 text-center">
+                <!-- ALOQA QISMI (TARTIBLANGAN ICONLAR BILAN) -->
+                <div class="col-lg-4 col-md-6 text-center text-md-start">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Biz bilan bog‘lanish</h6>
-                    <div class="d-flex flex-column gap-2 small text-muted align-items-center">
-                        <span><i class="bi bi-geo-alt me-2 brand-color-text"></i>Samarqand shahar</span>
-                        <span><i class="bi bi-telephone me-2 brand-color-text"></i>+998 (99) 577-28-36</span>
-                        <span><i class="bi bi-telegram me-2 brand-color-text"></i>@jcodetab</span>
+                    <div class="d-flex flex-column gap-3 justify-content-center justify-content-md-start">
+                        <div class="contact-item">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>Samarqand shahar</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-telephone"></i>
+                            <span>+998 (99) 577-28-36</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-telegram"></i>
+                            <span>@jcodetab</span>
+                        </div>
                     </div>
                 </div>
 
@@ -640,7 +741,8 @@
 
             <hr class="my-4 border-clean">
 
-            <div class="text-center small text-muted">
+            <!-- COPYRIGHT YOZUG'I (CHAP TOMONGA SOZLANGAN) -->
+            <div class="text-start small text-muted">
                 © 2026 TestBorBaza. Barcha huquqlar himoyalangan.
             </div>
         </div>
