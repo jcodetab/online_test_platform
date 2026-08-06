@@ -65,11 +65,11 @@
             color: var(--text-main);
         }
 
-        /* NAVBAR STYLES - SARLAVHA BILAN CHIZIQDA TEKISLANGAN */
+        /* NAVBAR STYLES */
         .educate-nav-container {
             width: 100%;
             position: sticky;
-            top: 15px;
+            top: 20px;
             z-index: 1000;
         }
 
@@ -124,17 +124,17 @@
             color: #FFFFFF;
         }
 
-        /* HERO SECTION */
+        /* HERO SECTION (TEPADAN BO'SHLIQ QO'SHILDI VA PASTROQQA TUSHIRILDI) */
         .hero-section {
-            min-height: 80vh;
+            min-height: 82vh;
             display: flex;
             align-items: center;
-            padding: 30px 0 20px 0;
+            padding: 65px 0 50px 0; /* Tepadan bo'shliq oshirildi */
         }
 
         .hero-title {
             font-family: 'Syne', sans-serif;
-            font-size: 2.9rem;
+            font-size: 2.85rem;
             font-weight: 800;
             letter-spacing: -1px;
             line-height: 1.25;
@@ -211,33 +211,81 @@
             text-decoration: none !important;
         }
 
-        /* HERO GRAPHICS (TEACHER_2.PNG SOZLAMALARI) */
+        /* HERO GRAPHICS (O'QITUVCHI ATROFIDAGI YANGI ANIMATSIYA VA FONLAR) */
         .hero-graphics-container {
             position: relative;
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             margin: 0 auto;
             display: flex;
             align-items: flex-end;
             justify-content: center;
         }
 
+        /* 1. Pulsatsiyalanuvchi aura nur */
         .hero-aura-bg {
             position: absolute;
-            width: 360px;
-            height: 360px;
-            background: radial-gradient(circle, rgba(0, 187, 167, 0.28) 0%, rgba(0, 187, 167, 0) 70%);
-            top: 55%;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(0, 187, 167, 0.3) 0%, rgba(0, 187, 167, 0) 70%);
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
-            filter: blur(28px);
+            filter: blur(30px);
             animation: pulseAura 4s ease-in-out infinite alternate;
         }
 
         @keyframes pulseAura {
-            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.5; }
-            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.9; }
+            0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.4; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.85; }
+        }
+
+        /* 2. Aylanuvchi geometrik halqa (Orbit) */
+        .orbit-ring {
+            position: absolute;
+            width: 390px;
+            height: 390px;
+            border: 2px dashed rgba(0, 187, 167, 0.35);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            margin-top: -195px;
+            margin-left: -195px;
+            z-index: 1;
+            animation: rotateOrbit 25s linear infinite;
+        }
+
+        @keyframes rotateOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 3. Atrofida suzuvchi interaktiv ikonkalar */
+        .floating-icon {
+            position: absolute;
+            z-index: 3;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-clean);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--brand-primary);
+            animation: floatUpDown 3s ease-in-out infinite alternate;
+        }
+
+        .icon-pos-1 { top: 15px; left: 20px; animation-delay: 0s; }
+        .icon-pos-2 { top: 120px; right: 5px; animation-delay: 1s; color: #F59E0B; }
+        .icon-pos-3 { bottom: 90px; left: -10px; animation-delay: 1.8s; color: #6366F1; }
+
+        @keyframes floatUpDown {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-12px) rotate(6deg); }
         }
 
         .student-img-wrapper {
@@ -250,17 +298,22 @@
         }
 
         .student-girl-img {
-            height: 470px;
+            height: 460px;
             width: auto;
             max-width: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08));
+            filter: drop-shadow(0 18px 30px rgba(0, 187, 167, 0.18));
+            transition: transform 0.3s ease;
         }
 
-        /* SUZUVCHI REAL FUNKSIYA NISHONLARI */
+        .student-girl-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* SUZUVCHI STATISTIKA NISHONLARI */
         .floating-stat-badge {
             position: absolute;
-            z-index: 3;
+            z-index: 4;
             background: var(--card-bg);
             border-radius: 14px;
             padding: 10px 18px;
@@ -270,12 +323,12 @@
         }
 
         .badge-left {
-            bottom: 30px;
+            bottom: 20px;
             left: -15px;
         }
 
         .badge-right {
-            top: 40px;
+            top: 45px;
             right: -10px;
         }
 
@@ -432,7 +485,7 @@
             }
 
             .hero-section {
-                padding: 20px 0;
+                padding: 25px 0 10px 0;
                 text-align: center;
                 min-height: auto;
             }
@@ -448,18 +501,25 @@
             }
 
             .student-girl-img {
-                height: 340px;
+                height: 350px;
+            }
+
+            .orbit-ring {
+                width: 290px;
+                height: 290px;
+                margin-top: -145px;
+                margin-left: -145px;
             }
 
             .badge-left {
                 left: 50%;
                 transform: translateX(-50%);
-                bottom: 10px;
+                bottom: 5px;
                 padding: 8px 16px;
                 width: max-content;
             }
 
-            .badge-right {
+            .badge-right, .floating-icon {
                 display: none;
             }
         }
@@ -471,18 +531,18 @@
     <input type="hidden" id="user-auth-status" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     <div id="page-type" data-page="home"></div>
 
-    <!-- MAIN NAVBAR (SARLAVHA BILAN CHIZIQDA TEKISLANGAN) -->
+    <!-- MAIN NAVBAR -->
     <div class="container px-3 px-lg-4">
         <div class="educate-nav-container">
             <nav class="navbar navbar-expand-lg custom-nav">
                 <div class="container-fluid p-0">
                     
-                    <!-- Mobil menyu toggler tugmasi (Chap tomonda) -->
+                    <!-- Mobil menyu toggler -->
                     <button class="navbar-toggler navbar-toggler-custom me-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
                         <span class="navbar-toggler-icon" style="width: 1.2em; height: 1.2em;"></span>
                     </button>
 
-                    <!-- LOGO: TEST BAZASI MUHITIDAGI ZAMONAVIY LOGO -->
+                    <!-- LOGO -->
                     <a href="#top" class="navbar-brand d-flex align-items-center me-auto me-lg-4">
                         <h3 class="m-0 brand-text d-flex align-items-center fs-5">
                             <i class="bi bi-journal-check me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
@@ -532,15 +592,13 @@
     </div>
 
     {% block content %}
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION (PASTROQQA CHIROYLI TUSHIRILGAN) -->
     <div class="hero-section">
         <div class="container px-3 px-lg-4">
             <div class="row align-items-center g-5">
                 
-                <!-- CHAP TARAFI (SARLAVHA VA MATN - VERTIKAL TEKISLANGAN) -->
+                <!-- CHAP TARAFI -->
                 <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right" data-aos-duration="1000">
-                    
-                    <!-- Sarlavha (3 qatorli mantiqiy tartibda) -->
                     <h1 class="hero-title mb-4">
                         <span class="hero-title-highlight">Intellektual testlar</span> <br>
                         va yuqori mantiqiy <br>
@@ -563,16 +621,25 @@
                     </div>
                 </div>
 
-                <!-- O'NG TARAFI (TEACHER_2.PNG RASMI VA NISHONLAR) -->
+                <!-- O'NG TARAFI (INTERAKTIV ANIMATSIYALI O'QITUVCHI RASMI) -->
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
                     <div class="hero-graphics-container">
+                        
+                        <!-- Fon auras va aylanuvchi orbit halqasi -->
                         <div class="hero-aura-bg"></div>
+                        <div class="orbit-ring"></div>
+
+                        <!-- Suzuvchi interaktiv ta'lim ikonkalari -->
+                        <div class="floating-icon icon-pos-1" title="A'lo natija"><i class="bi bi-award-fill"></i></div>
+                        <div class="floating-icon icon-pos-2" title="Mantiqiy masalalar"><i class="bi bi-lightbulb-fill"></i></div>
+                        <div class="floating-icon icon-pos-3" title="Test tahlili"><i class="bi bi-card-checklist"></i></div>
+
+                        <!-- O'qituvchi rasmi -->
                         <div class="student-img-wrapper">
-                            <!-- Qo'shilgan teacher_2.png rasmi -->
                             <img src="{% static 'img/teacher.png' %}" alt="Ustoz / Talaba" class="student-girl-img">
                         </div>
                         
-                        <!-- 1-Nishon (Testlar soni) -->
+                        <!-- 1-Nishon -->
                         <div class="floating-stat-badge badge-left">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="cat-icon-bg mb-0" style="width: 40px; height: 40px; font-size: 18px;">
@@ -585,7 +652,7 @@
                             </div>
                         </div>
 
-                        <!-- 2-Nishon (Aniq Tahlil ko'rsatkichi) -->
+                        <!-- 2-Nishon -->
                         <div class="floating-stat-badge badge-right">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
