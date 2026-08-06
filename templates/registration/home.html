@@ -65,10 +65,9 @@
             color: var(--text-main);
         }
 
-        /* NAVBAR STYLES - MATN BILEN TEKISLASH UCHUN SOZLANGAN */
+        /* NAVBAR STYLES - SARLAVHA BILAN CHIZIQDA TEKISLANGAN */
         .educate-nav-container {
-            max-width: 1240px;
-            margin: 0 auto;
+            width: 100%;
             position: sticky;
             top: 15px;
             z-index: 1000;
@@ -135,7 +134,7 @@
 
         .hero-title {
             font-family: 'Syne', sans-serif;
-            font-size: 2.8rem;
+            font-size: 2.9rem;
             font-weight: 800;
             letter-spacing: -1px;
             line-height: 1.25;
@@ -212,7 +211,7 @@
             text-decoration: none !important;
         }
 
-        /* HERO GRAPHICS */
+        /* HERO GRAPHICS (TEACHER_2.PNG SOZLAMALARI) */
         .hero-graphics-container {
             position: relative;
             width: 100%;
@@ -225,14 +224,14 @@
 
         .hero-aura-bg {
             position: absolute;
-            width: 340px;
-            height: 340px;
-            background: radial-gradient(circle, rgba(0, 187, 167, 0.25) 0%, rgba(0, 187, 167, 0) 70%);
-            top: 50%;
+            width: 360px;
+            height: 360px;
+            background: radial-gradient(circle, rgba(0, 187, 167, 0.28) 0%, rgba(0, 187, 167, 0) 70%);
+            top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
-            filter: blur(25px);
+            filter: blur(28px);
             animation: pulseAura 4s ease-in-out infinite alternate;
         }
 
@@ -251,17 +250,16 @@
         }
 
         .student-girl-img {
-            height: 460px;
+            height: 470px;
             width: auto;
             max-width: 100%;
             object-fit: contain;
             filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08));
         }
 
+        /* SUZUVCHI REAL FUNKSIYA NISHONLARI */
         .floating-stat-badge {
             position: absolute;
-            bottom: 25px;
-            left: -10px;
             z-index: 3;
             background: var(--card-bg);
             border-radius: 14px;
@@ -269,6 +267,16 @@
             border: 1px solid var(--border-clean);
             box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
+        }
+
+        .badge-left {
+            bottom: 30px;
+            left: -15px;
+        }
+
+        .badge-right {
+            top: 40px;
+            right: -10px;
         }
 
         /* CARDS & BENTO */
@@ -395,8 +403,6 @@
         @media (max-width: 991px) {
             .educate-nav-container {
                 top: 8px;
-                padding-left: 12px !important;
-                padding-right: 12px !important;
             }
 
             .custom-nav {
@@ -445,7 +451,7 @@
                 height: 340px;
             }
 
-            .floating-stat-badge {
+            .badge-left {
                 left: 50%;
                 transform: translateX(-50%);
                 bottom: 10px;
@@ -453,8 +459,8 @@
                 width: max-content;
             }
 
-            .floating-stat-badge:hover {
-                transform: translateX(-50%);
+            .badge-right {
+                display: none;
             }
         }
     </style>
@@ -465,78 +471,80 @@
     <input type="hidden" id="user-auth-status" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     <div id="page-type" data-page="home"></div>
 
-    <!-- MAIN NAVBAR (PX-0 BILAN SARLAVHA MATNIGA TEKISLANGAN) -->
-    <div class="educate-nav-container px-0">
-        <nav class="navbar navbar-expand-lg custom-nav">
-            <div class="container-fluid p-0">
-                
-                <!-- Mobil menyu toggler tugmasi (Chap tomonda) -->
-                <button class="navbar-toggler navbar-toggler-custom me-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
-                    <span class="navbar-toggler-icon" style="width: 1.2em; height: 1.2em;"></span>
-                </button>
+    <!-- MAIN NAVBAR (SARLAVHA BILAN CHIZIQDA TEKISLANGAN) -->
+    <div class="container px-3 px-lg-4">
+        <div class="educate-nav-container">
+            <nav class="navbar navbar-expand-lg custom-nav">
+                <div class="container-fluid p-0">
+                    
+                    <!-- Mobil menyu toggler tugmasi (Chap tomonda) -->
+                    <button class="navbar-toggler navbar-toggler-custom me-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
+                        <span class="navbar-toggler-icon" style="width: 1.2em; height: 1.2em;"></span>
+                    </button>
 
-                <a href="#top" class="navbar-brand d-flex align-items-center me-auto me-lg-4">
-                    <h3 class="m-0 brand-text d-flex align-items-center fs-5">
-                        <i class="bi bi-mortarboard-fill me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
-                    </h3>
-                </a>
+                    <!-- LOGO: TEST BAZASI MUHITIDAGI ZAMONAVIY LOGO -->
+                    <a href="#top" class="navbar-brand d-flex align-items-center me-auto me-lg-4">
+                        <h3 class="m-0 brand-text d-flex align-items-center fs-5">
+                            <i class="bi bi-journal-check me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
+                        </h3>
+                    </a>
 
-                <div class="collapse navbar-collapse" id="educateNavbar">
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#top">Bosh sahifa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'search_tests_page' %}">Testlar bazasi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#exam-types">Imtihon turlari</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#features-section">Afzalliklar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#about-section">Biz haqimizda</a>
-                        </li>
-                    </ul>
+                    <div class="collapse navbar-collapse" id="educateNavbar">
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#top">Bosh sahifa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'search_tests_page' %}">Testlar bazasi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#exam-types">Imtihon turlari</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#features-section">Afzalliklar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about-section">Biz haqimizda</a>
+                            </li>
+                        </ul>
 
-                    <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-2 pt-lg-0">
-                        <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
-                            <i class="bi bi-sun-fill" id="theme-icon"></i>
-                        </button>
+                        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-2 pt-lg-0">
+                            <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
+                                <i class="bi bi-sun-fill" id="theme-icon"></i>
+                            </button>
 
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'dashboard' %}" class="btn-sq-dashboard">
-                                Kabinet <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
-                            </a>
-                        {% else %}
-                            <a href="{% url 'login' %}" class="btn btn-link text-decoration-none text-dark fw-bold px-2 style-login-link fs-6">Kirish</a>
-                            <a href="{% url 'register' %}" class="btn-sq-dashboard">
-                                Ro'yxatdan o'tish <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
-                            </a>
-                        {% endif %}
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'dashboard' %}" class="btn-sq-dashboard">
+                                    Kabinet <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'login' %}" class="btn btn-link text-decoration-none text-dark fw-bold px-2 style-login-link fs-6">Kirish</a>
+                                <a href="{% url 'register' %}" class="btn-sq-dashboard">
+                                    Ro'yxatdan o'tish <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
 
-            </div>
-        </nav>
+                </div>
+            </nav>
+        </div>
     </div>
 
     {% block content %}
     <!-- HERO SECTION -->
     <div class="hero-section">
-        <div class="container px-0">
-            <div class="row align-items-center g-5 m-0">
+        <div class="container px-3 px-lg-4">
+            <div class="row align-items-center g-5">
                 
-                <!-- CHAP TARAFI (SARLAVHA VA MATN) -->
-                <div class="col-lg-6 text-center text-lg-start p-0" data-aos="fade-right" data-aos-duration="1000">
+                <!-- CHAP TARAFI (SARLAVHA VA MATN - VERTIKAL TEKISLANGAN) -->
+                <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right" data-aos-duration="1000">
                     
-                    <!-- Sarlavha (Aniq 4 qatorga bo'lingan) -->
+                    <!-- Sarlavha (3 qatorli mantiqiy tartibda) -->
                     <h1 class="hero-title mb-4">
                         <span class="hero-title-highlight">Intellektual testlar</span> <br>
                         va yuqori mantiqiy <br>
-                        tahlillar platformasi <br>
-                        hamda online baza
+                        tahlillar platformasi
                     </h1>
                     
                     <p class="hero-desc mb-4">
@@ -555,24 +563,35 @@
                     </div>
                 </div>
 
-                <!-- O'NG TARAFI (STUDENT.PNG RASMI) -->
+                <!-- O'NG TARAFI (TEACHER_2.PNG RASMI VA NISHONLAR) -->
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
                     <div class="hero-graphics-container">
                         <div class="hero-aura-bg"></div>
                         <div class="student-img-wrapper">
-                            <!-- Papkangizda bor bo'lgan student.png fayli ulangan -->
-                            <img src="{% static 'img/student.png' %}" alt="Ustoz / Talaba" class="student-girl-img">
+                            <!-- Qo'shilgan teacher_2.png rasmi -->
+                            <img src="{% static 'img/teacher_2.png' %}" alt="Ustoz / Talaba" class="student-girl-img">
                         </div>
                         
-                        <!-- Suza oladigan nishon -->
-                        <div class="floating-stat-badge">
+                        <!-- 1-Nishon (Testlar soni) -->
+                        <div class="floating-stat-badge badge-left">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="cat-icon-bg mb-0" style="width: 42px; height: 42px; font-size: 20px;">
+                                <div class="cat-icon-bg mb-0" style="width: 40px; height: 40px; font-size: 18px;">
                                     <i class="bi bi-check-circle-fill"></i>
                                 </div>
                                 <div>
                                     <h6 class="fw-bold m-0 fs-6">10,000+</h6>
-                                    <small class="text-muted" style="font-size: 0.78rem;">Mantiqiy & Kazus Testlar</small>
+                                    <small class="text-muted" style="font-size: 0.75rem;">Mantiqiy & Kazus Testlar</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2-Nishon (Aniq Tahlil ko'rsatkichi) -->
+                        <div class="floating-stat-badge badge-right">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
+                                <div>
+                                    <h6 class="fw-bold m-0 fs-6">99.4%</h6>
+                                    <small class="text-muted" style="font-size: 0.72rem;">Tezkor Natija Tahlili</small>
                                 </div>
                             </div>
                         </div>
@@ -585,13 +604,13 @@
     </div>
 
     <!-- 1. MAVJUD O'QUV VA IMTIHON TURLARI -->
-    <div id="exam-types" class="container px-0 section-space">
+    <div id="exam-types" class="container px-3 px-lg-4 section-space">
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="fw-bold fs-2">Mavjud o‘quv va imtihon turlari</h2>
             <p class="text-muted">O'zingizga mos yo'nalishni tanlang va bilimingizni sinab ko'ring</p>
         </div>
         
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 m-0">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
             <div class="col" data-aos="fade-up" data-aos-delay="100">
                 <a class="interactive-cat-box" href="{% url 'search_tests_page' %}">
                     <div class="cat-icon-bg"><i class="bi bi-layers-half"></i></div>
@@ -627,13 +646,13 @@
     </div>
 
     <!-- 2. PLATFORMA AFZALLIKLARI -->
-    <div id="features-section" class="container px-0 py-5">
+    <div id="features-section" class="container px-3 px-lg-4 py-5">
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="fw-bold fs-2">Platforma Afzalliklari</h2>
             <p class="text-muted">TestBorBaza tizimi sizga taqdim etadigan imkoniyatlar</p>
         </div>
 
-        <div class="row g-4 m-0">
+        <div class="row g-4">
             <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="100">
                 <div class="bento-card">
                     <div class="feature-icon-wrapper"><i class="bi bi-stopwatch-fill"></i></div>
@@ -666,16 +685,16 @@
     </div>
 
     <!-- 3. BIZ HAQIMIZDA -->
-    <div id="about-section" class="container px-0 py-5">
+    <div id="about-section" class="container px-3 px-lg-4 py-5">
         <div class="about-card p-4 p-md-5" data-aos="fade-up">
-            <div class="row align-items-center g-4 m-0">
-                <div class="col-lg-8 p-0">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
                     <h2 class="fw-bold fs-2 mb-3">Biz haqimizda</h2>
                     <p class="text-muted fs-5 mb-0" style="line-height: 1.7;">
                         <strong class="brand-color-text">TestBorBaza</strong> — zamonaviy ta'lim texnologiyalari va onlayn imtihon tizimlarini avtomatlashtirishga qaratilgan ekotizimdir. Biz o'quvchilar, talabalar va soha mutaxassislari uchun bilim darajasini obyektiv va shaffof baholash imkoniyatini beramiz.
                     </p>
                 </div>
-                <div class="col-lg-4 text-center text-lg-end p-0">
+                <div class="col-lg-4 text-center text-lg-end">
                     <a href="{% url 'register' %}" class="btn-sq-login">
                         <i class="bi bi-rocket-takeoff me-2"></i> Boshlash
                     </a>
@@ -692,10 +711,10 @@
 
     <!-- FOOTER -->
     <footer class="footer-clean mt-5">
-        <div class="container px-0">
-            <div class="row g-4 justify-content-between align-items-start m-0">
+        <div class="container px-3 px-lg-4">
+            <div class="row g-4 justify-content-between align-items-start">
                 
-                <div class="col-lg-4 col-md-12 text-center text-lg-start p-0">
+                <div class="col-lg-4 col-md-12 text-center text-lg-start">
                     <h5 class="fw-bold mb-3 fs-4">testborbaza<span class="brand-color-text">.uz</span></h5>
                     <p class="small text-muted mb-0 style-desc mx-auto mx-lg-0" style="max-width: 320px;">
                         Eng sifatli, tezkor va zamonaviy talablar asosida yaratilgan yangi avlod test platformasi.
@@ -703,7 +722,7 @@
                 </div>
 
                 <!-- ALOQA QISMI -->
-                <div class="col-lg-4 col-md-6 text-center text-md-start p-0">
+                <div class="col-lg-4 col-md-6 text-center text-md-start">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Biz bilan bog‘lanish</h6>
                     <div class="d-flex flex-column gap-3 justify-content-center justify-content-md-start">
                         <div class="contact-item">
@@ -721,7 +740,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 text-center text-lg-end p-0">
+                <div class="col-lg-4 col-md-6 text-center text-lg-end">
                     <h6 class="fw-bold mb-3 text-uppercase fs-6">Ijtimoiy tarmoqlar</h6>
                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
                         <a href="https://t.me/jcodetab" target="_blank" class="social-btn" title="Telegram">
