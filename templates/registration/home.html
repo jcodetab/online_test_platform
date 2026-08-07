@@ -14,7 +14,7 @@
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
     <!-- BOOTSTRAP & ICONS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,33 +25,37 @@
 
     <style>
         :root, [data-bs-theme="light"] {
-            --bg-hero: #F4FBF7; 
+            --bg-hero: #F2FAF6; 
             --card-bg: #FFFFFF;
             --brand-primary: #00BBA7; 
-            --brand-suit: #008675; /* O'qituvchi formasi rangi */
+            --brand-suit: #008675;
             --brand-hover: #007063;
             --brand-light: rgba(0, 187, 167, 0.08);
+            --brand-accent: #FFB800;
             --text-main: #0F172A; 
             --text-muted: #475569;
             --border-clean: #E2E8F0;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 15px 30px rgba(0, 187, 167, 0.12);
-            --btn-radius: 10px;
+            --shadow-md: 0 15px 35px rgba(0, 187, 167, 0.12);
+            --shadow-glow: 0 0 25px rgba(0, 187, 167, 0.35);
+            --btn-radius: 12px;
         }
 
         [data-bs-theme="dark"] {
-            --bg-hero: #0B1329; 
-            --card-bg: #131C35;
+            --bg-hero: #090F1E; 
+            --card-bg: #111A2E;
             --brand-primary: #00D6C0; 
-            --brand-suit: #10B981; /* Dark modeda yorqinroq zumrad rang */
+            --brand-suit: #10B981; 
             --brand-hover: #059669;
-            --brand-light: rgba(0, 214, 192, 0.15);
-            --text-main: #F8FAFC; /* Dark modeda aniq oq matn */
+            --brand-light: rgba(0, 214, 192, 0.12);
+            --brand-accent: #FFC72C;
+            --text-main: #F8FAFC; 
             --text-muted: #94A3B8;
             --border-clean: #1E293B;
-            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.25);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.4);
-            --btn-radius: 10px;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 30px rgba(0, 214, 192, 0.25);
+            --btn-radius: 12px;
         }
 
         body {
@@ -67,29 +71,42 @@
             color: var(--text-main) !important;
         }
 
-        /* NAVBAR STYLES (TEPADAN BO'SHLIQ BILAN PASTROQQA TUSHIRILDI) */
+        /* NAVBAR STYLES (PASTGA TUSHIRILGAN VA MOIL MOSLASHTIRILGAN) */
         .educate-nav-container {
             width: 100%;
             position: sticky;
-            top: 25px; /* Tepaga taqalmasligi uchun pastga tushirildi */
+            top: 20px;
             z-index: 1000;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .custom-nav {
             background: var(--card-bg) !important;
-            border-radius: var(--btn-radius);
+            border-radius: 16px;
             box-shadow: var(--shadow-sm);
             padding: 12px 24px !important;
             border: 1px solid var(--border-clean);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
         }
 
+        /* JONLI LOGOTIP */
         .brand-text {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: var(--text-main) !important;
+        }
+
+        .brand-logo-icon {
+            color: var(--brand-primary);
+            font-size: 1.35rem;
+            filter: drop-shadow(0 0 8px var(--brand-primary));
+            animation: pulseGlow 2.5s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); filter: drop-shadow(0 0 4px var(--brand-primary)); }
+            100% { transform: scale(1.1); filter: drop-shadow(0 0 12px var(--brand-primary)); }
         }
 
         .brand-color-text {
@@ -99,18 +116,38 @@
         .nav-link {
             font-weight: 600;
             color: var(--text-main) !important;
-            padding: 6px 14px !important;
+            padding: 8px 14px !important;
             font-size: 0.95rem;
             transition: all 0.2s ease;
+            border-radius: 8px;
         }
 
         .nav-link:hover {
             color: var(--brand-primary) !important;
+            background: var(--brand-light);
+        }
+
+        /* KIRISH TUGMASI (ANIQ RO'SHAN KO'RINADIGAN BADGE) */
+        .btn-nav-login {
+            border: 2px solid var(--brand-primary);
+            color: var(--brand-primary) !important;
+            font-weight: 700;
+            padding: 7px 18px;
+            border-radius: var(--btn-radius);
+            transition: all 0.25s ease;
+            text-decoration: none !important;
+            font-size: 0.9rem;
+        }
+
+        .btn-nav-login:hover {
+            background-color: var(--brand-primary);
+            color: #FFFFFF !important;
+            box-shadow: var(--shadow-glow);
         }
 
         .theme-nav-toggle {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: var(--btn-radius);
             background-color: var(--bg-hero);
             border: 1px solid var(--border-clean);
@@ -129,29 +166,27 @@
 
         /* HERO SECTION */
         .hero-section {
-            min-height: 80vh;
+            min-height: 82vh;
             display: flex;
             align-items: center;
-            padding: 40px 0 20px 0;
+            padding: 20px 0 40px 0;
             position: relative;
         }
 
         .hero-title {
             font-family: 'Syne', sans-serif;
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            letter-spacing: -1.2px;
-            line-height: 1.2;
-            color: var(--text-main) !important; /* Dynamic Dark/Light color */
+            letter-spacing: -1px;
+            line-height: 1.25;
+            color: var(--text-main) !important;
         }
 
-        /* O'QITUVCHI FORMASIDAGI RANG BILEN HIGHLIGHT QILINGAN MATN */
         .text-suit-color {
             color: var(--brand-suit) !important;
             font-weight: 800;
         }
 
-        /* HIGHLIGHT OVAL CHIZIQ */
         .circle-highlight {
             position: relative;
             display: inline-block;
@@ -162,34 +197,33 @@
         .circle-highlight::after {
             content: "";
             position: absolute;
-            top: -4px;
-            left: -10px;
-            right: -10px;
-            bottom: -4px;
+            top: -2px;
+            left: -8px;
+            right: -8px;
+            bottom: -2px;
             border: 3px solid var(--brand-suit);
             border-radius: 50% / 60%;
             transform: rotate(-2deg);
             pointer-events: none;
-            opacity: 0.9;
+            opacity: 0.85;
         }
 
         .hero-desc {
-            font-family: 'Outfit', sans-serif;
             font-size: 1.05rem;
             line-height: 1.65;
             color: var(--text-muted);
-            max-width: 480px;
+            max-width: 500px;
         }
 
-        /* TUGMALAR (DARK MODENI QO'LLAYDI) */
+        /* TUGMALAR VA STRELKA ANIMATSIYASI */
         .btn-educate-main {
             background-color: var(--brand-suit) !important;
             color: #FFFFFF !important;
             font-weight: 700;
             padding: 14px 28px;
-            border-radius: 8px;
+            border-radius: var(--btn-radius);
             border: none;
-            box-shadow: 0 8px 20px rgba(0, 134, 117, 0.3);
+            box-shadow: 0 8px 22px rgba(0, 134, 117, 0.35);
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
@@ -199,174 +233,160 @@
 
         .btn-educate-main:hover {
             background-color: var(--brand-hover) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 134, 117, 0.45);
+        }
+
+        .btn-demo-try {
+            background: var(--card-bg);
+            border: 2px solid var(--border-clean);
+            color: var(--text-main) !important;
+            font-weight: 700;
+            padding: 12px 22px;
+            border-radius: var(--btn-radius);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
+        }
+
+        .btn-demo-try:hover {
+            border-color: var(--brand-primary);
+            color: var(--brand-primary) !important;
             transform: translateY(-2px);
         }
 
-        .btn-play-wrapper {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none !important;
-            color: var(--text-main) !important;
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
+        /* STRELKA (BOUNCE ANIMATSIYA) */
+        .doodle-arrow-pointed {
+            position: absolute;
+            top: -35px;
+            left: 120px;
+            width: 55px;
+            animation: bounceArrow 2s infinite ease-in-out;
+            pointer-events: none;
         }
 
-        .btn-play-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-clean);
-            color: var(--brand-suit);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            padding-left: 3px;
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(-3deg); }
         }
 
-        .btn-play-wrapper:hover .btn-play-icon {
-            transform: scale(1.08);
-            background-color: var(--brand-suit);
-            color: #FFFFFF;
-        }
-
-        .btn-sq-dashboard {
-            background-color: var(--brand-primary) !important;
-            color: #FFFFFF !important;
-            font-weight: 700;
-            font-size: 0.88rem;
-            padding: 8px 18px;
-            border-radius: var(--btn-radius);
-            border: none;
-            box-shadow: 0 4px 12px rgba(0, 187, 167, 0.2);
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none !important;
-        }
-
-        /* HERO GRAPHICS */
+        /* HERO GRAPHICS (O'QITUVCHI VIZUALI - PREMIUM GLOW) */
         .hero-graphics-container {
             position: relative;
             width: 100%;
-            max-width: 520px;
+            max-width: 500px;
             margin: 0 auto;
             display: flex;
             align-items: flex-end;
             justify-content: center;
         }
 
-        .circle-shape-bg {
+        .aura-glow-bg {
             position: absolute;
-            width: 430px;
-            height: 430px;
+            width: 380px;
+            height: 380px;
             border-radius: 50%;
-            border: 40px solid var(--brand-light);
+            background: radial-gradient(circle, var(--brand-primary) 0%, rgba(0,214,192,0) 70%);
             top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            opacity: 0.22;
+            filter: blur(40px);
             z-index: 1;
-            pointer-events: none;
         }
 
-        .wave-bg-bottom {
+        .glass-frame-bg {
             position: absolute;
-            bottom: 0;
-            right: -80px;
-            width: 580px;
-            height: 270px;
-            background: var(--brand-suit);
-            border-top-left-radius: 200px;
-            border-top-right-radius: 100px;
+            width: 380px;
+            height: 380px;
+            border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+            background: var(--brand-light);
+            border: 2px dashed var(--brand-primary);
+            top: 10px;
             z-index: 1;
-            opacity: 0.85;
+            animation: morphShape 12s infinite linear;
         }
 
-        .student-img-wrapper {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
+        @keyframes morphShape {
+            0% { border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%; }
+            50% { border-radius: 55% 45% 32% 68% / 60% 35% 65% 40%; }
+            100% { border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%; }
         }
 
         .student-girl-img {
-            height: 500px;
+            height: 480px;
             width: auto;
             max-width: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.2));
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.25));
         }
 
-        /* 30K+ KARTOSHKA (DARK MODE NATIVE) */
-        .floating-students-badge {
+        /* SUZUVCHI PREMIUM STATISTIKA KARTASI */
+        .floating-stat-card {
             position: absolute;
-            bottom: 30px;
-            left: 20px;
+            bottom: 20px;
+            left: -10px;
+            z-index: 3;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 14px 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-clean);
+            backdrop-filter: blur(10px);
+        }
+
+        .floating-badge-right {
+            position: absolute;
+            top: 40px;
+            right: -10px;
             z-index: 3;
             background: var(--card-bg);
             border-radius: 14px;
-            padding: 14px 22px;
+            padding: 10px 16px;
             box-shadow: var(--shadow-md);
-            text-align: center;
             border: 1px solid var(--border-clean);
         }
 
-        .avatar-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 6px;
-        }
-
-        .avatar-group img {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 2px solid var(--card-bg);
-            margin-left: -8px;
-            object-fit: cover;
-        }
-
-        .avatar-group img:first-child {
-            margin-left: 0;
-        }
-
-        /* DOODLES */
-        .doodle-element {
-            position: absolute;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .doodle-arrow {
-            bottom: 40px;
-            left: -30px;
-            width: 60px;
-        }
-
-        .doodle-dots {
-            bottom: 30px;
-            left: -110px;
-            width: 45px;
-        }
-
-        /* CARDS & BENTO */
-        .section-space {
-            margin-top: 60px;
-            padding-top: 20px;
-        }
-
-        .interactive-cat-box, .bento-card, .about-card {
+        /* QIDIRUV PANELI (HERO SEARCH BAR) */
+        .hero-search-box {
             background: var(--card-bg);
             border: 1px solid var(--border-clean);
             border-radius: 16px;
+            padding: 8px 12px;
+            box-shadow: var(--shadow-sm);
+            max-width: 520px;
+        }
+
+        .hero-search-input {
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            outline: none;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+
+        /* STANDARTLAR BLOKI */
+        .standards-badge {
+            background: var(--card-bg);
+            border: 1px solid var(--border-clean);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* BENTO CARDS & SECTIONS */
+        .interactive-cat-box, .bento-card, .about-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-clean);
+            border-radius: 18px;
             padding: 28px 24px;
             height: 100%;
             text-decoration: none !important;
@@ -377,15 +397,15 @@
         }
 
         .interactive-cat-box:hover, .bento-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
             border-color: var(--brand-primary);
             box-shadow: var(--shadow-md);
         }
 
         .cat-icon-bg, .feature-icon-wrapper {
-            width: 50px;
-            height: 50px;
-            border-radius: var(--btn-radius);
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             background: var(--brand-light);
             color: var(--brand-primary);
             display: flex;
@@ -393,7 +413,26 @@
             justify-content: center;
             font-size: 24px;
             margin-bottom: 18px;
-            flex-shrink: 0;
+        }
+
+        .btn-sq-dashboard {
+            background-color: var(--brand-primary) !important;
+            color: #FFFFFF !important;
+            font-weight: 700;
+            font-size: 0.88rem;
+            padding: 9px 20px;
+            border-radius: var(--btn-radius);
+            border: none;
+            box-shadow: 0 4px 14px rgba(0, 187, 167, 0.3);
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none !important;
+        }
+
+        .btn-sq-dashboard:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
 
         /* BACK TO TOP */
@@ -418,18 +457,8 @@
             z-index: 999;
         }
 
-        .back-to-top.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .back-to-top.active { opacity: 1; visibility: visible; }
 
-        .back-to-top:hover {
-            background: var(--brand-hover);
-            color: #FFFFFF;
-            transform: translateY(-3px);
-        }
-
-        /* FOOTER & ALOQA TARTIBI */
         .footer-clean {
             background: var(--card-bg);
             border-top: 1px solid var(--border-clean);
@@ -453,8 +482,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
         }
 
         .social-btn {
@@ -474,76 +501,30 @@
         .social-btn:hover {
             background-color: var(--brand-primary);
             color: #FFFFFF;
-            transform: translateY(-2px);
         }
 
-        /* MOBIL ADAPTIVLIK */
+        /* MOBIL ADAPTIVLIK (100% RESPONSIVE - 3 TAYOQCHA O'NGDA) */
         @media (max-width: 991px) {
-            .educate-nav-container {
-                top: 10px;
-            }
-
-            .custom-nav {
-                padding: 8px 14px !important;
-            }
+            .educate-nav-container { top: 12px; }
+            .custom-nav { padding: 10px 18px !important; }
 
             .navbar-toggler-custom {
-                order: -1;
-                padding: 4px 8px;
-                font-size: 1.1rem;
+                order: 2; /* O'NG TOMONGA O'TKAZILDI */
+                padding: 6px 10px;
+                font-size: 1.2rem;
                 border: 1px solid var(--border-clean);
-                border-radius: 8px;
+                border-radius: 10px;
                 background-color: var(--bg-hero);
                 color: var(--text-main);
-                line-height: 1;
             }
 
-            .navbar-collapse {
-                margin-top: 12px;
-                padding-top: 10px;
-                border-top: 1px solid var(--border-clean);
-            }
-
-            .nav-link {
-                padding: 8px 0 !important;
-                font-size: 0.9rem;
-            }
-
-            .hero-section {
-                padding: 20px 0;
-                text-align: center;
-                min-height: auto;
-            }
-
-            .hero-title {
-                font-size: 2.2rem;
-                line-height: 1.25;
-            }
-
-            .hero-desc {
-                margin: 0 auto 24px;
-                font-size: 0.98rem;
-            }
-
-            .student-girl-img {
-                height: 380px;
-            }
-
-            .circle-shape-bg {
-                width: 310px;
-                height: 310px;
-                border-width: 30px;
-            }
-
-            .floating-students-badge {
-                left: 50%;
-                transform: translateX(-50%);
-                bottom: 10px;
-            }
-
-            .doodle-element {
-                display: none;
-            }
+            .hero-title { font-size: 2.1rem; text-align: center; }
+            .hero-desc { text-align: center; margin: 0 auto 20px; }
+            .doodle-arrow-pointed { display: none; }
+            .student-girl-img { height: 360px; }
+            .floating-stat-card { left: 50%; transform: translateX(-50%); bottom: -10px; }
+            .floating-badge-right { top: 10px; right: 10px; }
+            .aura-glow-bg, .glass-frame-bg { width: 300px; height: 300px; }
         }
     </style>
 </head>
@@ -553,26 +534,26 @@
     <input type="hidden" id="user-auth-status" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     <div id="page-type" data-page="home"></div>
 
-    <!-- MAIN NAVBAR (PASTROQQA TUSHIRILGAN) -->
+    <!-- MAIN NAVBAR (PASTGA TUSHIRILGAN & MOBIL TAYOQCHA O'NGDA) -->
     <div class="container px-3 px-lg-4">
         <div class="educate-nav-container">
             <nav class="navbar navbar-expand-lg custom-nav">
                 <div class="container-fluid p-0">
                     
-                    <!-- Mobil menyu toggler -->
-                    <button class="navbar-toggler navbar-toggler-custom me-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
-                        <span class="navbar-toggler-icon" style="width: 1.2em; height: 1.2em;"></span>
-                    </button>
-
                     <!-- LOGO -->
-                    <a href="#top" class="navbar-brand d-flex align-items-center me-auto me-lg-4">
+                    <a href="#top" class="navbar-brand d-flex align-items-center me-auto">
                         <h3 class="m-0 brand-text d-flex align-items-center fs-5">
-                            <i class="bi bi-journal-check me-2 brand-color-text"></i>testborbaza<span class="brand-color-text">.uz</span>
+                            <i class="bi bi-patch-check-fill me-2 brand-logo-icon"></i>testborbaza<span class="brand-color-text">.uz</span>
                         </h3>
                     </a>
 
+                    <!-- Mobil menyu toggler (O'NG TOMONDA) -->
+                    <button class="navbar-toggler navbar-toggler-custom me-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
+                        <i class="bi bi-list"></i>
+                    </button>
+
                     <div class="collapse navbar-collapse" id="educateNavbar">
-                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 pt-3 pt-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link" href="#top">Bosh sahifa</a>
                             </li>
@@ -590,8 +571,8 @@
                             </li>
                         </ul>
 
-                        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-2 pt-lg-0">
-                            <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
+                        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-3 pt-lg-0 border-top border-lg-0">
+                            <button class="theme-nav-toggle me-1" id="theme-toggle" title="Rejimni o'zgartirish">
                                 <i class="bi bi-sun-fill" id="theme-icon"></i>
                             </button>
 
@@ -600,9 +581,9 @@
                                     Kabinet <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
                                 </a>
                             {% else %}
-                                <a href="{% url 'login' %}" class="btn btn-link text-decoration-none text-dark fw-bold px-2 style-login-link fs-6">Kirish</a>
+                                <a href="{% url 'login' %}" class="btn-nav-login">Kirish</a>
                                 <a href="{% url 'register' %}" class="btn-sq-dashboard">
-                                    Ro'yxatdan o'tish <i class="bi bi-arrow-right-short ms-1 fs-6"></i>
+                                    Ro'yxatdan o'tish
                                 </a>
                             {% endif %}
                         </div>
@@ -622,7 +603,7 @@
                 <!-- CHAP TARAFI -->
                 <div class="col-lg-6 text-center text-lg-start position-relative" data-aos="fade-right" data-aos-duration="1000">
                     
-                    <h1 class="hero-title mb-4">
+                    <h1 class="hero-title mb-3">
                         <span class="text-suit-color">Intellektual testlar</span> <br>
                         va <span class="circle-highlight">yuqori mantiqiy</span> <br>
                         tahlillar platformasi
@@ -632,54 +613,68 @@
                         Xalqaro mezonlarga moslashtirilgan bilim ekotizimi. Amaliy mantiq, kazus masalalar hamda real vaqt rejimida aniq va tezkor natijalar tahlili.
                     </p>
                     
-                    <!-- TUGMALAR -->
-                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-4 position-relative">
+                    <!-- QIDIRUV PANELI (FUNKSIYA 1) -->
+                    <div class="hero-search-box mb-4 mx-auto mx-lg-0">
+                        <form action="{% url 'search_tests_page' %}" method="GET" class="d-flex align-items-center">
+                            <i class="bi bi-search text-muted fs-5 me-2 ms-1"></i>
+                            <input type="text" name="q" class="hero-search-input" placeholder="Fan, DTM, CEFR yoki mantiqiy testlarni qidiring...">
+                            <button type="submit" class="btn btn-sm btn-sq-dashboard text-nowrap ms-2">Qidirish</button>
+                        </form>
+                    </div>
+
+                    <!-- TUGMALAR (FUNKSIYA 2: STRELKA VA DEMO TEST) -->
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3 position-relative mb-4">
+                        
+                        <!-- Yo'naltiruvchi strelka -->
+                        <svg class="doodle-arrow-pointed d-none d-lg-block" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 5C25 5 45 15 50 32M50 32L40 28M50 32L46 20" stroke="var(--brand-suit)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
                         <a href="{% url 'search_tests_page' %}" class="btn-educate-main">
                             Testlarni boshlash <i class="bi bi-arrow-right ms-2"></i>
                         </a>
 
-                        <a href="{% url 'register' %}" class="btn-play-wrapper">
-                            <span class="btn-play-icon"><i class="bi bi-play-fill"></i></span>
-                            <span>Ro'yxatdan o'tish</span>
-                        </a>
-
-                        <!-- Strelka Chizmasi -->
-                        <svg class="doodle-element doodle-arrow d-none d-lg-block" viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 15C15 2 35 2 45 22M45 22L35 20M45 22L42 12" stroke="var(--brand-suit)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <button type="button" class="btn-demo-try" data-bs-toggle="modal" data-bs-target="#demoTestModal">
+                            <i class="bi bi-lightning-charge-fill text-warning"></i>
+                            <span>Demo testni sinash</span>
+                        </button>
                     </div>
 
-                    <!-- Nuqtalar Chizmasi -->
-                    <svg class="doodle-element doodle-dots d-none d-lg-block" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="5" cy="5" r="3" fill="var(--brand-suit)" opacity="0.4"/>
-                        <circle cx="20" cy="5" r="3" fill="var(--brand-suit)" opacity="0.4"/>
-                        <circle cx="35" cy="5" r="3" fill="var(--brand-suit)" opacity="0.4"/>
-                        <circle cx="5" cy="20" r="3" fill="var(--brand-suit)" opacity="0.4"/>
-                        <circle cx="20" cy="20" r="3" fill="var(--brand-suit)" opacity="0.4"/>
-                        <circle cx="35" cy="20" r="3" fill="var(--brand-suit)" opacity="0.4"/>
-                    </svg>
+                    <!-- O'QITUVCHILAR UCHUN CHAQIRIQ (FUNKSIYA 3) -->
+                    <div class="pt-2 text-muted small d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+                        <i class="bi bi-person-badge brand-color-text fs-5"></i>
+                        <span>O'qituvchimisiz? <a href="{% url 'register' %}" class="fw-bold brand-color-text text-decoration-none">Test yaratishni boshlang &rarr;</a></span>
+                    </div>
+
                 </div>
 
-                <!-- O'NG TARAFI -->
+                <!-- O'NG TARAFI (PREMIUM O'QITUVCHI VIZUALI) -->
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
                     <div class="hero-graphics-container">
                         
-                        <div class="circle-shape-bg"></div>
-                        <div class="wave-bg-bottom d-none d-md-block"></div>
+                        <div class="aura-glow-bg"></div>
+                        <div class="glass-frame-bg"></div>
 
                         <div class="student-img-wrapper">
                             <img src="{% static 'img/teacher.png' %}" alt="Ustoz / Talaba" class="student-girl-img">
                         </div>
                         
-                        <div class="floating-students-badge">
-                            <h5 class="fw-bold m-0 fs-5">30k+</h5>
-                            <small class="text-muted fw-semibold" style="font-size: 0.75rem;">Jami O'quvchilar</small>
-                            <div class="avatar-group">
-                                <img src="https://i.pravatar.cc/100?img=33" alt="user">
-                                <img src="https://i.pravatar.cc/100?img=12" alt="user">
-                                <img src="https://i.pravatar.cc/100?img=47" alt="user">
-                                <img src="https://i.pravatar.cc/100?img=68" alt="user">
+                        <!-- SUZUVCHI STATISTIKA KARTASI (FUNKSIYA 4) -->
+                        <div class="floating-stat-card">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="cat-icon-bg mb-0" style="width:42px; height:42px; font-size:18px;">
+                                    <i class="bi bi-cpu-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold m-0 fs-6">100% Avtomat tahlil</h6>
+                                    <small class="text-muted" style="font-size: 0.75rem;">Real-vaqt reytingi va statistikasi</small>
+                                </div>
                             </div>
+                        </div>
+
+                        <!-- O'NG YUQORI BADGE -->
+                        <div class="floating-badge-right d-none d-sm-block">
+                            <span class="badge bg-success-subtle text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Baza to'ldirilmoqda</span>
                         </div>
 
                     </div>
@@ -689,8 +684,18 @@
         </div>
     </div>
 
+    <!-- STANDARTLAR VA FORMATLAR BLOKI (FUNKSIYA 5 - HAMKORLAR O'RNIGA) -->
+    <div class="container px-3 px-lg-4 my-4" data-aos="fade-up">
+        <div class="d-flex flex-wrap justify-content-center align-items-center gap-3 py-3 border-top border-bottom border-clean">
+            <span class="text-muted small fw-bold text-uppercase me-2">Testlar moslashtirilgan formatlar:</span>
+            <div class="standards-badge"><i class="bi bi-award brand-color-text"></i> BMBA (DTM) Standarti</div>
+            <div class="standards-badge"><i class="bi bi-translate brand-color-text"></i> CEFR / National Format</div>
+            <div class="standards-badge"><i class="bi bi-building-check brand-color-text"></i> Prezident Maktablari</div>
+        </div>
+    </div>
+
     <!-- 1. MAVJUD O'QUV VA IMTIHON TURLARI -->
-    <div id="exam-types" class="container px-3 px-lg-4 section-space">
+    <div id="exam-types" class="container px-3 px-lg-4 pt-5">
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="fw-bold fs-2">Mavjud o‘quv va imtihon turlari</h2>
             <p class="text-muted">O'zingizga mos yo'nalishni tanlang va bilimingizni sinab ko'ring</p>
@@ -788,6 +793,32 @@
             </div>
         </div>
     </div>
+
+    <!-- INTERAKTIV DEMO TEST MODALI (FUNKSIYA 6) -->
+    <div class="modal fade" id="demoTestModal" tabindex="-1" aria-labelledby="demoTestModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-clean);">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-header-title fw-bold m-0" id="demoTestModalLabel">
+                        <i class="bi bi-lightning-charge-fill text-warning me-1"></i> Demo Mantiqiy Test (1/3)
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="fw-semibold mb-3">Savol: Keyingi ketma-ketlikni to'ldiring: 2, 4, 8, 16, ?</p>
+                    <div class="d-flex flex-column gap-2">
+                        <button class="btn btn-outline-secondary text-start p-2 demo-opt-btn" onclick="checkDemoAnswer(this, false)">A) 24</button>
+                        <button class="btn btn-outline-secondary text-start p-2 demo-opt-btn" onclick="checkDemoAnswer(this, true)">B) 32</button>
+                        <button class="btn btn-outline-secondary text-start p-2 demo-opt-btn" onclick="checkDemoAnswer(this, false)">C) 30</button>
+                    </div>
+                    <div id="demoResult" class="mt-3 d-none p-3 rounded-3"></div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <a href="{% url 'register' %}" class="btn btn-sq-dashboard w-100 justify-content-center">Barcha testlarni yechish uchun ro'yxatdan o'ting &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endblock %}
 
     <!-- YUQORIGA QAYTISH TUGMASI -->
@@ -845,7 +876,6 @@
 
             <hr class="my-4 border-clean">
 
-            <!-- COPYRIGHT YOZUG'I -->
             <div class="text-start small text-muted">
                 © 2026 TestBorBaza. Barcha huquqlar himoyalangan.
             </div>
@@ -863,7 +893,7 @@
             easing: 'ease-out-cubic'
         });
 
-        // Theme Toggle
+        // Dynamic Dark/Light Theme Switcher
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const htmlElement = document.documentElement;
@@ -893,6 +923,24 @@
                 backToTopBtn.classList.remove('active');
             }
         });
+
+        // Demo test tekshirish skripti
+        function checkDemoAnswer(btn, isCorrect) {
+            const resDiv = document.getElementById('demoResult');
+            const allBtns = document.querySelectorAll('.demo-opt-btn');
+            allBtns.forEach(b => b.classList.disabled = true);
+
+            resDiv.classList.remove('d-none', 'bg-success-subtle', 'bg-danger-subtle', 'text-success', 'text-danger');
+            if(isCorrect) {
+                btn.classList.add('btn-success');
+                resDiv.classList.add('bg-success-subtle', 'text-success');
+                resDiv.innerHTML = "<strong>Barakalla, to'g'ri javob!</strong> Platformada javoblar real-vaqt rejimida shunday tezkor tahlil qilinadi.";
+            } else {
+                btn.classList.add('btn-danger');
+                resDiv.classList.add('bg-danger-subtle', 'text-danger');
+                resDiv.innerHTML = "<strong>Afsus, noto'g'ri.</strong> To'g'ri javob: B) 32 (Har bir son 2 ga ko'paytirib borilgan).";
+            }
+        }
     </script>
 </body>
 </html>
