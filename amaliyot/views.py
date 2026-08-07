@@ -34,6 +34,7 @@ from amaliyot.models import Question, Olympiad
 from accounts.models import User
 from .serializers import DashboardStatsSerializer
 from django.contrib.auth.forms import PasswordResetForm
+from rest_framework import permissions
 
 
 
