@@ -14,7 +14,7 @@
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
     <!-- BOOTSTRAP & ICONS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
 
     <style>
         :root, [data-bs-theme="light"] {
-            --bg-hero: #F4FBF7; 
+            --bg-hero: #F2FAF6; 
             --card-bg: #FFFFFF;
             --brand-primary: #00CBA9; 
             --brand-suit: #008675; 
@@ -34,14 +34,15 @@
             --text-main: #0F172A; 
             --text-muted: #475569;
             --border-clean: #E2E8F0;
-            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 15px 30px rgba(0, 203, 169, 0.12);
+            --shadow-sm: 0 8px 25px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 15px 35px rgba(0, 203, 169, 0.15);
+            --shadow-glow: 0 0 35px rgba(0, 203, 169, 0.3);
             --btn-radius: 10px;
         }
 
         [data-bs-theme="dark"] {
-            --bg-hero: #0B1329; 
-            --card-bg: #131C35;
+            --bg-hero: #090F1E; 
+            --card-bg: #111A2E;
             --brand-primary: #00E6C0; 
             --brand-suit: #10B981; 
             --brand-hover: #059669;
@@ -49,16 +50,21 @@
             --text-main: #F8FAFC; 
             --text-muted: #94A3B8;
             --border-clean: #1E293B;
-            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.25);
-            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.4);
+            --shadow-sm: 0 8px 25px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 35px rgba(0, 230, 192, 0.2);
             --btn-radius: 10px;
+        }
+
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden !important;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-hero);
             color: var(--text-main);
-            overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
@@ -67,18 +73,18 @@
             color: var(--text-main) !important;
         }
 
-        /* NAVBAR (TEPAGA TAQALMAYDI, SHINAM MASOFA) */
+        /* NAVBAR - TEPADAN PASTROQQA TUSHIRILGAN FLOATING DESIGN */
         .educate-nav-container {
             width: 100%;
             position: sticky;
-            top: 25px;
+            top: 32px;
             z-index: 1000;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .custom-nav {
             background: var(--card-bg) !important;
-            border-radius: var(--btn-radius);
+            border-radius: 14px;
             box-shadow: var(--shadow-sm);
             padding: 12px 24px !important;
             border: 1px solid var(--border-clean);
@@ -94,8 +100,8 @@
 
         .brand-color-icon {
             color: var(--brand-primary) !important;
-            font-size: 1.3rem;
-            filter: drop-shadow(0 0 4px rgba(0, 203, 169, 0.4));
+            font-size: 1.35rem;
+            filter: drop-shadow(0 0 6px rgba(0, 203, 169, 0.45));
         }
 
         .brand-color-text {
@@ -105,13 +111,15 @@
         .nav-link {
             font-weight: 600;
             color: var(--text-main) !important;
-            padding: 6px 14px !important;
+            padding: 8px 16px !important;
             font-size: 0.95rem;
             transition: all 0.2s ease;
+            border-radius: 8px;
         }
 
         .nav-link:hover {
             color: var(--brand-primary) !important;
+            background-color: var(--brand-light);
         }
 
         .theme-nav-toggle {
@@ -126,6 +134,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
         .theme-nav-toggle:hover {
@@ -133,12 +142,30 @@
             color: #FFFFFF;
         }
 
+        /* MOBIL MENYU TOGGLER */
+        .navbar-toggler-custom {
+            border: 1px solid var(--border-clean) !important;
+            border-radius: 8px;
+            background-color: var(--bg-hero) !important;
+            color: var(--text-main) !important;
+            padding: 6px 12px;
+            font-size: 1.2rem;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .navbar-toggler-custom:active, .navbar-toggler-custom:focus {
+            background-color: var(--brand-light) !important;
+            color: var(--brand-primary) !important;
+            border-color: var(--brand-primary) !important;
+        }
+
         /* HERO SECTION */
         .hero-section {
-            min-height: 80vh;
+            min-height: 78vh;
             display: flex;
             align-items: center;
-            padding: 30px 0 20px 0;
+            padding: 20px 0;
             position: relative;
         }
 
@@ -238,7 +265,7 @@
             text-decoration: none !important;
         }
 
-        /* HERO GRAPHICS (SODDA VA SAMIMIY) */
+        /* O'QITUVCHI FONI (EMERALD GLOW & RETRO CIRCLE) */
         .hero-graphics-container {
             position: relative;
             width: 100%;
@@ -249,17 +276,36 @@
             justify-content: center;
         }
 
+        .glow-aura-bg {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--brand-primary) 0%, rgba(0, 203, 169, 0.02) 75%);
+            top: 30px;
+            filter: blur(35px);
+            opacity: 0.35;
+            z-index: 1;
+        }
+
         .circle-shape-bg {
             position: absolute;
             width: 420px;
             height: 420px;
             border-radius: 50%;
-            border: 35px solid var(--brand-light);
+            border: 2px dashed var(--brand-primary);
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1;
             pointer-events: none;
+            opacity: 0.6;
+            animation: rotateCircle 35s linear infinite;
+        }
+
+        @keyframes rotateCircle {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(360deg); }
         }
 
         .wave-bg-bottom {
@@ -282,7 +328,7 @@
             object-fit: contain;
             position: relative;
             z-index: 2;
-            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.18));
         }
 
         .floating-status-badge {
@@ -291,13 +337,14 @@
             left: 10px;
             z-index: 3;
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 10px 18px;
+            border-radius: 14px;
+            padding: 12px 20px;
             box-shadow: var(--shadow-md);
             border: 1px solid var(--border-clean);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            backdrop-filter: blur(10px);
         }
 
         /* BENTO CARDS */
@@ -402,27 +449,24 @@
             color: #FFFFFF;
         }
 
-        /* MOBIL ADAPTIVLIK (MOBILDA 3 TAYOQCHA O'NGDA) */
+        /* 100% MOBIL MOSLASHUVCHANLIK */
         @media (max-width: 991px) {
-            .educate-nav-container { top: 10px; }
+            .educate-nav-container { top: 15px; margin-bottom: 15px; }
             .custom-nav { padding: 10px 16px !important; }
 
-            .navbar-toggler-custom {
-                order: 2; /* O'NG TARAFI */
-                padding: 6px 10px;
-                font-size: 1.1rem;
-                border: 1px solid var(--border-clean);
-                border-radius: 8px;
-                background-color: var(--bg-hero);
-                color: var(--text-main);
+            .navbar-collapse {
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid var(--border-clean);
             }
 
-            .hero-section { padding: 20px 0; text-align: center; }
+            .hero-section { padding: 10px 0; text-align: center; }
             .hero-title { font-size: 2.1rem; line-height: 1.25; }
-            .hero-desc { margin: 0 auto 24px; font-size: 0.98rem; }
-            .student-girl-img { height: 360px; }
-            .circle-shape-bg { width: 300px; height: 300px; border-width: 25px; }
-            .floating-status-badge { left: 50%; transform: translateX(-50%); bottom: 5px; text-align: center; }
+            .hero-desc { margin: 0 auto 24px; font-size: 0.95rem; }
+            .student-girl-img { height: 350px; }
+            .circle-shape-bg { width: 280px; height: 280px; }
+            .glow-aura-bg { width: 260px; height: 260px; }
+            .floating-status-badge { left: 50%; transform: translateX(-50%); bottom: 0px; text-align: center; }
         }
     </style>
 </head>
@@ -445,13 +489,19 @@
                         </h3>
                     </a>
 
-                    <!-- Mobil menyu toggler (O'NG TARAFI) -->
-                    <button class="navbar-toggler navbar-toggler-custom ms-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
-                        <i class="bi bi-list"></i>
-                    </button>
+                    <!-- DARK/LIGHT VA MOBIL MENYU TOGGLER -->
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="theme-nav-toggle d-lg-none" id="theme-toggle-mobile" title="Rejimni o'zgartirish">
+                            <i class="bi bi-sun-fill theme-icon-mobile"></i>
+                        </button>
+
+                        <button class="navbar-toggler navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar" aria-controls="educateNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="bi bi-list"></i>
+                        </button>
+                    </div>
 
                     <div class="collapse navbar-collapse" id="educateNavbar">
-                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 pt-2 pt-lg-0">
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link" href="#top">Bosh sahifa</a>
                             </li>
@@ -469,8 +519,8 @@
                             </li>
                         </ul>
 
-                        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-2 pt-lg-0">
-                            <button class="theme-nav-toggle" id="theme-toggle" title="Rejimni o'zgartirish">
+                        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-3 pt-lg-0 border-top border-lg-0">
+                            <button class="theme-nav-toggle d-none d-lg-flex" id="theme-toggle" title="Rejimni o'zgartirish">
                                 <i class="bi bi-sun-fill" id="theme-icon"></i>
                             </button>
 
@@ -496,7 +546,7 @@
     <!-- HERO SECTION -->
     <div class="hero-section">
         <div class="container px-3 px-lg-4">
-            <div class="row align-items-center g-5">
+            <div class="row align-items-center g-4 g-lg-5">
                 
                 <!-- CHAP TARAFI -->
                 <div class="col-lg-6 text-center text-lg-start position-relative" data-aos="fade-right" data-aos-duration="1000">
@@ -511,7 +561,7 @@
                         Xalqaro mezonlarga moslashtirilgan bilim ekotizimi. Amaliy mantiq, kazus masalalar hamda real vaqt rejimida aniq va tezkor natijalar tahlili.
                     </p>
                     
-                    <!-- DUAL TUGMALAR (O'QUVCHILAR VA O'QITUVCHILAR UCHUN) -->
+                    <!-- DUAL TUGMALAR -->
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3 position-relative">
                         <a href="{% url 'search_tests_page' %}" class="btn-educate-main">
                             Testlar bazasi <i class="bi bi-arrow-right ms-2"></i>
@@ -524,10 +574,11 @@
 
                 </div>
 
-                <!-- O'NG TARAFI (O'QITUVCHI FONI VA SAMIMIY BADGE) -->
+                <!-- O'NG TARAFI (PREMIUM EMERALD GLOW & USTOL VIZUALI) -->
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
                     <div class="hero-graphics-container">
                         
+                        <div class="glow-aura-bg"></div>
                         <div class="circle-shape-bg"></div>
                         <div class="wave-bg-bottom d-none d-md-block"></div>
 
@@ -535,12 +586,12 @@
                             <img src="{% static 'img/teacher.png' %}" alt="Ustoz / Talaba" class="student-girl-img">
                         </div>
                         
-                        <!-- SAMIMIY VA REAL BETA BADGE -->
+                        <!-- HALOL VA ISHONCHLI STANDART BADGE -->
                         <div class="floating-status-badge">
-                            <i class="bi bi-arrow-repeat text-success fs-5"></i>
+                            <i class="bi bi-patch-check-fill brand-color-text fs-4"></i>
                             <div class="text-start">
-                                <span class="fw-bold d-block small">Beta bosqichda</span>
-                                <small class="text-muted" style="font-size:0.72rem;">Baza har kuni to'ldirilmoqda</small>
+                                <span class="fw-bold d-block small">Rasmiy Imtihon Standartlari</span>
+                                <small class="text-muted" style="font-size:0.75rem;">DTM, CEFR va mantiqiy testlar bazasi</small>
                             </div>
                         </div>
 
@@ -724,25 +775,33 @@
             easing: 'ease-out-cubic'
         });
 
-        // Theme Switcher
+        // Theme Switcher Logic
         const themeToggleBtn = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
+        const themeToggleBtnMobile = document.getElementById('theme-toggle-mobile');
         const htmlElement = document.documentElement;
 
         const currentTheme = localStorage.getItem('theme') || 'light';
         htmlElement.setAttribute('data-bs-theme', currentTheme);
-        updateIcon(currentTheme);
+        updateAllIcons(currentTheme);
 
-        themeToggleBtn.addEventListener('click', () => {
+        function toggleTheme() {
             let theme = htmlElement.getAttribute('data-bs-theme');
             theme = (theme === 'light') ? 'dark' : 'light';
             htmlElement.setAttribute('data-bs-theme', theme);
             localStorage.setItem('theme', theme);
-            updateIcon(theme);
-        });
+            updateAllIcons(theme);
+        }
 
-        function updateIcon(theme) {
-            themeIcon.className = (theme === 'dark') ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
+        if(themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+        if(themeToggleBtnMobile) themeToggleBtnMobile.addEventListener('click', toggleTheme);
+
+        function updateAllIcons(theme) {
+            const iconClass = (theme === 'dark') ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
+            const desktopIcon = document.getElementById('theme-icon');
+            const mobileIcon = document.querySelector('.theme-icon-mobile');
+            
+            if(desktopIcon) desktopIcon.className = iconClass;
+            if(mobileIcon) mobileIcon.className = iconClass;
         }
 
         // Back to top button logic
