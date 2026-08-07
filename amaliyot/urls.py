@@ -25,7 +25,7 @@ from .views import (
     CompleteTestView, SubmitAnswerView, FinishTestView, ClosedTestViewSet, CaseTestViewSet, ClosedTestSessionViewSet,  OlympiadGroupListCreateView, ChangePasswordViewSet, CheckTestAPIView, UnifiedTestListAPIView,
     OlympiadParticipantViewSet,
     JoinOlympiadGroupView,
-    RestoreTestView, TestQueueListView, KazusTestCreateAPIView, OlympiadGroupRetrieveView, MyTestsListAPIView, CaseTestsListAPIView, ClosedTestsListAPIView, DashboardStatsAPIView,
+    RestoreTestView, TestQueueListView, KazusTestCreateAPIView, OlympiadGroupRetrieveView, MyTestsListAPIView, CaseTestsListAPIView, ClosedTestsListAPIView, DashboardStatsAPIView, PasswordResetAPIView,
     test_create_page, payment_page, api_change_password, 
     olympiad_page, group_page,  current_user,finish_olympiad, group_participants_view,  profile_page, logout_view, get_test_json
 )
@@ -82,6 +82,7 @@ urlpatterns = [
 
 
     path('api/dashboard/stats/', DashboardStatsAPIView.as_view(), name='dashboard-stats'),
+    path('api/password-reset/', PasswordResetAPIView.as_view(), name='password_reset_api'),
 
 
 

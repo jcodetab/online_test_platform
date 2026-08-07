@@ -33,6 +33,7 @@ from datetime import timedelta
 from amaliyot.models import Question, Olympiad  
 from accounts.models import User
 from .serializers import DashboardStatsSerializer
+from django.contrib.auth.forms import PasswordResetForm
 
 
 
@@ -103,6 +104,29 @@ class LoginAPIView(APIView):
             return Response({"token": token.key}, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordResetAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = []
+
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response({"error": "Email kiritilishi shart"}, status=status.HTTP_400_BAD_REQUEST)
+
+        form = PasswordResetForm(data={'email': email})
+        if form.is_valid():
+            form.save(
+                request=request,
+                use_https=request.is_secure(),
+                email_template_name='registration/password_reset_email.html'
+            )
+            return Response(
+                {"detail": "Parolni tiklash havolasi emailingizga yuborildi."}, 
+                status=status.HTTP_200_OK
+            )
+        return Response({"error": "Ushbu email bo'yicha foydalanuvchi topilmadi"}, status=status.HTTP_400_BAD_REQUEST)
     
 
 def logout_view(request):
