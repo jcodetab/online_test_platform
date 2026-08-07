@@ -25,7 +25,7 @@
 
     <style>
         :root, [data-bs-theme="light"] {
-            --bg-hero: #F2FAF6; 
+            --bg-hero: #F4FBF7; 
             --card-bg: #FFFFFF;
             --brand-primary: #00CBA9; 
             --brand-suit: #008675; 
@@ -34,15 +34,14 @@
             --text-main: #0F172A; 
             --text-muted: #475569;
             --border-clean: #E2E8F0;
-            --shadow-sm: 0 8px 25px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 15px 35px rgba(0, 203, 169, 0.15);
-            --shadow-glow: 0 0 35px rgba(0, 203, 169, 0.3);
+            --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 20px 40px rgba(0, 134, 117, 0.15);
             --btn-radius: 10px;
         }
 
         [data-bs-theme="dark"] {
-            --bg-hero: #090F1E; 
-            --card-bg: #111A2E;
+            --bg-hero: #0B1329; 
+            --card-bg: #131C35;
             --brand-primary: #00E6C0; 
             --brand-suit: #10B981; 
             --brand-hover: #059669;
@@ -50,9 +49,8 @@
             --text-main: #F8FAFC; 
             --text-muted: #94A3B8;
             --border-clean: #1E293B;
-            --shadow-sm: 0 8px 25px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.5);
-            --shadow-glow: 0 0 35px rgba(0, 230, 192, 0.2);
+            --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 20px 40px rgba(0, 0, 0, 0.5);
             --btn-radius: 10px;
         }
 
@@ -73,21 +71,21 @@
             color: var(--text-main) !important;
         }
 
-        /* NAVBAR - TEPADAN PASTROQQA TUSHIRILGAN FLOATING DESIGN */
-        .educate-nav-container {
-            width: 100%;
+        /* FLOATING NAVBAR (SUZIB TURUVCHI, TEPADAN VA YONLARDAN OCHILGAN) */
+        .educate-nav-wrapper {
             position: sticky;
-            top: 32px;
+            top: 0;
             z-index: 1000;
-            margin-bottom: 25px;
+            padding-top: 24px; /* Tepadan aniq masofa */
+            padding-bottom: 10px;
         }
 
         .custom-nav {
             background: var(--card-bg) !important;
-            border-radius: 14px;
+            border-radius: 16px !important;
             box-shadow: var(--shadow-sm);
-            padding: 12px 24px !important;
-            border: 1px solid var(--border-clean);
+            padding: 10px 24px !important;
+            border: 1px solid var(--border-clean) !important;
             backdrop-filter: blur(12px);
         }
 
@@ -101,7 +99,7 @@
         .brand-color-icon {
             color: var(--brand-primary) !important;
             font-size: 1.35rem;
-            filter: drop-shadow(0 0 6px rgba(0, 203, 169, 0.45));
+            filter: drop-shadow(0 0 5px rgba(0, 203, 169, 0.4));
         }
 
         .brand-color-text {
@@ -142,7 +140,6 @@
             color: #FFFFFF;
         }
 
-        /* MOBIL MENYU TOGGLER */
         .navbar-toggler-custom {
             border: 1px solid var(--border-clean) !important;
             border-radius: 8px;
@@ -154,18 +151,12 @@
             box-shadow: none !important;
         }
 
-        .navbar-toggler-custom:active, .navbar-toggler-custom:focus {
-            background-color: var(--brand-light) !important;
-            color: var(--brand-primary) !important;
-            border-color: var(--brand-primary) !important;
-        }
-
         /* HERO SECTION */
         .hero-section {
             min-height: 78vh;
             display: flex;
             align-items: center;
-            padding: 20px 0;
+            padding: 15px 0 30px 0;
             position: relative;
         }
 
@@ -255,7 +246,7 @@
             color: #FFFFFF !important;
             font-weight: 700;
             font-size: 0.88rem;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: var(--btn-radius);
             border: none;
             box-shadow: 0 4px 12px rgba(0, 203, 169, 0.2);
@@ -265,7 +256,7 @@
             text-decoration: none !important;
         }
 
-        /* O'QITUVCHI FONI (EMERALD GLOW & RETRO CIRCLE) */
+        /* PREMIUM & JOZIBADOR TEACHER.PNG BACKGROUND (GRADIENT & AURA EFFECTS) */
         .hero-graphics-container {
             position: relative;
             width: 100%;
@@ -276,75 +267,85 @@
             justify-content: center;
         }
 
-        .glow-aura-bg {
+        /* Yumshoq Emerald Aura va chuqurlik */
+        .emerald-glow-aura {
             position: absolute;
             width: 380px;
             height: 380px;
             border-radius: 50%;
-            background: radial-gradient(circle, var(--brand-primary) 0%, rgba(0, 203, 169, 0.02) 75%);
-            top: 30px;
-            filter: blur(35px);
-            opacity: 0.35;
+            background: radial-gradient(circle, var(--brand-primary) 0%, rgba(0, 203, 169, 0.05) 70%);
+            top: 10px;
+            filter: blur(40px);
+            opacity: 0.45;
             z-index: 1;
         }
 
-        .circle-shape-bg {
+        /* Orqa fondagi zamonaviy interaktiv 3D uslubdagi arka/figura */
+        .modern-backdrop-shape {
             position: absolute;
-            width: 420px;
-            height: 420px;
+            bottom: 0;
+            right: 0;
+            width: 88%;
+            height: 82%;
+            background: linear-gradient(145deg, var(--brand-suit) 0%, #005F53 100%);
+            border-top-left-radius: 220px;
+            border-top-right-radius: 120px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            z-index: 1;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Orqa fondagi suzib turuvchi nozik aylana xalqa */
+        .floating-pulse-ring {
+            position: absolute;
+            width: 440px;
+            height: 440px;
             border-radius: 50%;
-            border: 2px dashed var(--brand-primary);
-            top: 20px;
+            border: 2px dashed rgba(0, 203, 169, 0.5);
+            top: 0px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1;
             pointer-events: none;
-            opacity: 0.6;
-            animation: rotateCircle 35s linear infinite;
+            animation: ringRotate 40s linear infinite;
         }
 
-        @keyframes rotateCircle {
+        @keyframes ringRotate {
             from { transform: translateX(-50%) rotate(0deg); }
             to { transform: translateX(-50%) rotate(360deg); }
         }
 
-        .wave-bg-bottom {
-            position: absolute;
-            bottom: 0;
-            right: -60px;
-            width: 540px;
-            height: 250px;
-            background: var(--brand-suit);
-            border-top-left-radius: 200px;
-            border-top-right-radius: 100px;
-            z-index: 1;
-            opacity: 0.85;
-        }
-
         .student-girl-img {
-            height: 480px;
+            height: 490px;
             width: auto;
             max-width: 100%;
             object-fit: contain;
             position: relative;
             z-index: 2;
-            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.18));
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.22));
         }
 
+        /* GLASSMORPHISM FLOATING BADGE (SHAFFAF VA NURLI KARTOCHKA) */
         .floating-status-badge {
             position: absolute;
             bottom: 25px;
-            left: 10px;
+            left: 5px;
             z-index: 3;
-            background: var(--card-bg);
-            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.88);
+            border-radius: 16px;
             padding: 12px 20px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-clean);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.6);
             display: flex;
             align-items: center;
             gap: 12px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(16px);
+        }
+
+        [data-bs-theme="dark"] .floating-status-badge {
+            background: rgba(19, 28, 53, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* BENTO CARDS */
@@ -449,9 +450,9 @@
             color: #FFFFFF;
         }
 
-        /* 100% MOBIL MOSLASHUVCHANLIK */
+        /* MOBIL EKRAANGA 100% ADAPTIV */
         @media (max-width: 991px) {
-            .educate-nav-container { top: 15px; margin-bottom: 15px; }
+            .educate-nav-wrapper { padding-top: 12px; }
             .custom-nav { padding: 10px 16px !important; }
 
             .navbar-collapse {
@@ -463,10 +464,10 @@
             .hero-section { padding: 10px 0; text-align: center; }
             .hero-title { font-size: 2.1rem; line-height: 1.25; }
             .hero-desc { margin: 0 auto 24px; font-size: 0.95rem; }
-            .student-girl-img { height: 350px; }
-            .circle-shape-bg { width: 280px; height: 280px; }
-            .glow-aura-bg { width: 260px; height: 260px; }
-            .floating-status-badge { left: 50%; transform: translateX(-50%); bottom: 0px; text-align: center; }
+            .student-girl-img { height: 360px; }
+            .floating-pulse-ring { width: 300px; height: 300px; }
+            .emerald-glow-aura { width: 280px; height: 280px; }
+            .floating-status-badge { left: 50%; transform: translateX(-50%); bottom: -5px; text-align: center; }
         }
     </style>
 </head>
@@ -476,9 +477,9 @@
     <input type="hidden" id="user-auth-status" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     <div id="page-type" data-page="home"></div>
 
-    <!-- MAIN NAVBAR -->
-    <div class="container px-3 px-lg-4">
-        <div class="educate-nav-container">
+    <!-- MAIN NAVBAR (SUZIB TURUVCHI, TEPADAN TUSHIRILGAN FLOATING ISLAND) -->
+    <div class="educate-nav-wrapper">
+        <div class="container px-3 px-lg-4">
             <nav class="navbar navbar-expand-lg custom-nav">
                 <div class="container-fluid p-0">
                     
@@ -495,7 +496,7 @@
                             <i class="bi bi-sun-fill theme-icon-mobile"></i>
                         </button>
 
-                        <button class="navbar-toggler navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar" aria-controls="educateNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="navbar-toggler navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#educateNavbar">
                             <i class="bi bi-list"></i>
                         </button>
                     </div>
@@ -519,7 +520,7 @@
                             </li>
                         </ul>
 
-                        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-3 pt-lg-0 border-top border-lg-0">
+                        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end pt-3 pt-lg-0">
                             <button class="theme-nav-toggle d-none d-lg-flex" id="theme-toggle" title="Rejimni o'zgartirish">
                                 <i class="bi bi-sun-fill" id="theme-icon"></i>
                             </button>
@@ -574,19 +575,25 @@
 
                 </div>
 
-                <!-- O'NG TARAFI (PREMIUM EMERALD GLOW & USTOL VIZUALI) -->
+                <!-- O'NG TARAFI (JOZIBADOR EMERALD AURA & GLASSMORPHISM VIZUALI) -->
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
                     <div class="hero-graphics-container">
                         
-                        <div class="glow-aura-bg"></div>
-                        <div class="circle-shape-bg"></div>
-                        <div class="wave-bg-bottom d-none d-md-block"></div>
+                        <!-- 1. Yumshoq nur aura -->
+                        <div class="emerald-glow-aura"></div>
+                        
+                        <!-- 2. Suzuvchi aylanma xalqa -->
+                        <div class="floating-pulse-ring"></div>
+                        
+                        <!-- 3. Zamonaviy gradient arka forma -->
+                        <div class="modern-backdrop-shape d-none d-md-block"></div>
 
+                        <!-- 4. Rasm -->
                         <div class="student-img-wrapper">
                             <img src="{% static 'img/teacher.png' %}" alt="Ustoz / Talaba" class="student-girl-img">
                         </div>
                         
-                        <!-- HALOL VA ISHONCHLI STANDART BADGE -->
+                        <!-- 5. Glassmorphism status kartasi -->
                         <div class="floating-status-badge">
                             <i class="bi bi-patch-check-fill brand-color-text fs-4"></i>
                             <div class="text-start">
