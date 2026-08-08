@@ -283,29 +283,21 @@
             z-index: 1;
         }
 
-        /* 3-KONSEPTSiYA: Split Geometric Hexagon / Octagon (Ko'p burchakli Texno-Prizma) */
+        /* 4-KONSEPTSiYA: Layered Portal Rings (Doiraviy Portal) */
 .modern-backdrop-shape {
     position: absolute;
-    bottom: 15px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 84%;
-    height: 82%;
-    background: linear-gradient(145deg, #10B981 0%, #008675 50%, #004D38 100%);
-    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 100%, 0% 100%, 0% 30%); /* Geometric Octagon/Prizma shakli */
+    width: 440px;
+    height: 440px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #10B981 0%, #008675 45%, #004D38 85%, transparent 100%);
     z-index: 1;
-    box-shadow: 0 25px 50px rgba(0, 77, 56, 0.35);
-    position: absolute;
-}
-
-/* Prizma chetiga o'tkir neon nur berish uchun qo'shimcha qatlam */
-.modern-backdrop-shape::before {
-    content: "";
-    position: absolute;
-    inset: 2px;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
-    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 100%, 0% 100%, 0% 30%);
-    pointer-events: none;
+    box-shadow: 
+        0 0 0 16px rgba(0, 203, 169, 0.12),
+        0 0 0 32px rgba(0, 203, 169, 0.06),
+        0 25px 50px rgba(0, 77, 56, 0.3);
 }
 
         .modern-backdrop-shape::before {
