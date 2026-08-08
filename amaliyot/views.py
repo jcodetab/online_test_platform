@@ -96,11 +96,11 @@ class LoginAPIView(APIView):
             if not user.check_password(password):
                 return Response({"error": "Noto‘g‘ri parol"}, status=status.HTTP_400_BAD_REQUEST)
             
-            # Django session logini (HTML templatingiz uchun kerak)
-            auth_login(request, user)
+            # MULTIPLE BACKENDS XATOLIGINI BUKIMCHA YECHIMI:
+            # backend parametri aniq ko'rsatildi
+            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             # TOKEN MUAMMOSI SHU YERDA YECHILDI:
-            # Eski tokenni o'chirmasdan, borini oladi, yo'q bo'lsa yangi yaratadi.
             token, _ = Token.objects.get_or_create(user=user)
 
             return Response({"token": token.key}, status=status.HTTP_200_OK)
