@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="uz" class="scroll-smooth">
 
@@ -20,30 +21,69 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
 
+    <!-- SCRIPT FOR PREVENTING THEME FLASH -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        })();
+    </script>
+
     <style>
-        :root {
+        /* DYNAMIC THEMES (TUN / KUN) */
+        :root, [data-bs-theme="dark"] {
             --bg-canvas: #090D16;
-            --card-bg: rgba(15, 23, 42, 0.75);
+            --card-bg: rgba(15, 23, 42, 0.85);
             --card-border: rgba(255, 255, 255, 0.1);
             --brand-primary: #00E6C0;
-            --brand-glow: rgba(0, 230, 192, 0.4);
+            --brand-glow: rgba(0, 230, 192, 0.35);
             --brand-hover: #00B395;
             --text-main: #F8FAFC;
             --text-muted: #94A3B8;
-            --input-bg: rgba(255, 255, 255, 0.04);
+            --input-bg: rgba(255, 255, 255, 0.05);
             --input-border: rgba(255, 255, 255, 0.12);
+            --btn-google-bg: rgba(255, 255, 255, 0.06);
+            --btn-google-hover: rgba(255, 255, 255, 0.12);
+            --nav-toggle-bg: rgba(255, 255, 255, 0.08);
+            --blob-opacity: 0.35;
+        }
+
+        [data-bs-theme="light"] {
+            --bg-canvas: #F4FBF7;
+            --card-bg: #FFFFFF;
+            --card-border: #E2E8F0;
+            --brand-primary: #008675;
+            --brand-glow: rgba(0, 134, 117, 0.2);
+            --brand-hover: #007063;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --input-bg: #F8FAFC;
+            --input-border: #CBD5E1;
+            --btn-google-bg: #F1F5F9;
+            --btn-google-hover: #E2E8F0;
+            --nav-toggle-bg: #E2E8F0;
+            --blob-opacity: 0.15;
         }
 
         html, body {
-            max-width: 100%;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
             overflow-x: hidden !important;
             background-color: var(--bg-canvas);
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
         }
 
-        /* 2026 DYNAMIC ANIMATED MESH BACKGROUND */
+        /* DYNAMIC MESH BACKGROUND */
         .mesh-background {
             position: fixed;
             top: 0;
@@ -58,16 +98,17 @@
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.45;
+            filter: blur(80px);
+            opacity: var(--blob-opacity);
             animation: floatBlob 18s infinite alternate ease-in-out;
+            transition: opacity 0.3s ease;
         }
 
         .blob-1 {
             top: -10%;
             left: -10%;
-            width: 500px;
-            height: 500px;
+            width: 450px;
+            height: 450px;
             background: radial-gradient(circle, #00CBA9 0%, rgba(0,0,0,0) 70%);
             animation-duration: 14s;
         }
@@ -75,33 +116,25 @@
         .blob-2 {
             bottom: -15%;
             right: -10%;
-            width: 600px;
-            height: 600px;
+            width: 500px;
+            height: 500px;
             background: radial-gradient(circle, #6366F1 0%, rgba(0,0,0,0) 70%);
             animation-duration: 20s;
         }
 
-        .blob-3 {
-            top: 40%;
-            left: 35%;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, #00E6C0 0%, rgba(0,0,0,0) 70%);
-            animation-duration: 16s;
-        }
-
         @keyframes floatBlob {
             0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(60px, -40px) scale(1.15); }
-            100% { transform: translate(-40px, 50px) scale(0.95); }
+            50% { transform: translate(40px, -30px) scale(1.1); }
+            100% { transform: translate(-30px, 40px) scale(0.95); }
         }
 
-        /* HEADER */
+        /* HEADER / NAV */
         .auth-header-nav {
             position: absolute;
-            top: 24px;
+            top: 0;
             left: 0;
             width: 100%;
+            padding: 20px 0;
             z-index: 10;
         }
 
@@ -111,38 +144,70 @@
             color: var(--text-main) !important;
             text-decoration: none !important;
             letter-spacing: -0.5px;
+            font-size: 1.15rem;
         }
 
         .brand-color-icon {
             color: var(--brand-primary);
-            filter: drop-shadow(0 0 8px var(--brand-glow));
+            filter: drop-shadow(0 0 6px var(--brand-glow));
         }
 
         .brand-color-text {
             color: var(--brand-primary);
         }
 
-        /* GLASS CARD WITH ENTRANCE ANIMATION */
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background-color: var(--nav-toggle-bg);
+            border: 1px solid var(--card-border);
+            color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-size: 1.1rem;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
+            color: var(--text-main);
+        }
+
+        /* CENTERED CONTAINER */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 85px 16px 25px 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* COMPACT GLASS CARD */
         .register-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 40px 36px;
-            max-width: 480px;
+            border-radius: 20px;
+            padding: 28px 24px;
+            max-width: 420px; /* Ixchamroq o'lcham */
             width: 100%;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            position: relative;
-            z-index: 2;
-            margin: auto;
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px) scale(0.98);
+                transform: translateY(20px) scale(0.98);
             }
             to {
                 opacity: 1;
@@ -152,54 +217,54 @@
 
         .register-header {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .register-header h3 {
-            font-size: 1.65rem;
+            font-size: 1.45rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            color: var(--text-main);
         }
 
         .register-header p {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             margin: 0;
         }
 
         /* GOOGLE SSO BUTTON */
         .btn-google {
-            background: rgba(255, 255, 255, 0.06);
+            background: var(--btn-google-bg);
             border: 1px solid var(--card-border);
             color: var(--text-main);
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 10px;
+            padding: 10px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             text-decoration: none;
         }
 
         .btn-google:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.25);
+            background: var(--btn-google-hover);
             color: var(--text-main);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .divider-line {
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 20px 0;
+            margin: 16px 0;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -212,15 +277,15 @@
         }
 
         .divider-line span {
-            padding: 0 12px;
+            padding: 0 10px;
         }
 
         /* FORM CONTROLS */
         .form-label {
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-main);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .input-group-custom {
@@ -230,28 +295,28 @@
         .form-control {
             background-color: var(--input-bg);
             border: 1px solid var(--input-border);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 0.95rem;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.9rem;
             color: var(--text-main);
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
         }
 
         .form-control:focus {
-            background-color: rgba(255, 255, 255, 0.08);
+            background-color: var(--input-bg);
             border-color: var(--brand-primary);
-            box-shadow: 0 0 0 4px rgba(0, 230, 192, 0.15);
+            box-shadow: 0 0 0 3px var(--brand-glow);
             color: var(--text-main);
         }
 
         .form-control::placeholder {
             color: var(--text-muted);
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
         .pwd-toggle-btn {
             position: absolute;
-            right: 14px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
@@ -259,45 +324,49 @@
             color: var(--text-muted);
             cursor: pointer;
             z-index: 5;
-            font-size: 1.1rem;
-            transition: color 0.2s ease;
+            font-size: 1rem;
+            padding: 0;
+            display: flex;
+            align-items: center;
         }
 
         .pwd-toggle-btn:hover {
             color: var(--brand-primary);
         }
 
-        /* ANIMATED SUBMIT BUTTON */
+        /* SUBMIT BUTTON */
         .btn-register {
-            background: linear-gradient(135deg, var(--brand-primary) 0%, #00B395 100%);
-            color: #090D16 !important;
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-hover) 100%);
+            color: #FFFFFF !important;
             border: none;
-            border-radius: 12px;
-            padding: 13px;
+            border-radius: 10px;
+            padding: 11px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             width: 100%;
-            margin-top: 12px;
-            box-shadow: 0 10px 25px var(--brand-glow);
-            transition: all 0.3s ease;
+            margin-top: 8px;
+            box-shadow: 0 8px 20px var(--brand-glow);
+            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
+            gap: 6px;
+        }
+
+        [data-bs-theme="dark"] .btn-register {
+            color: #090D16 !important;
         }
 
         .btn-register:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(0, 230, 192, 0.5);
-            background: linear-gradient(135deg, #00FFD5 0%, #00CBA9 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px var(--brand-glow);
+            opacity: 0.95;
         }
 
         .footer-text {
             text-align: center;
-            margin-top: 24px;
-            font-size: 0.9rem;
+            margin-top: 18px;
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
@@ -309,22 +378,61 @@
         }
 
         .footer-text a:hover {
-            color: #00FFD5;
             text-decoration: underline;
         }
 
         .invalid-feedback {
             display: block;
-            font-size: 0.8rem;
-            margin-top: 4px;
+            font-size: 0.78rem;
+            margin-top: 3px;
             color: #FF5252;
             font-weight: 500;
         }
 
+        /* FULL MOBILE ADAPTIVITY (COMPACT TO LARGE SCREENS) */
         @media (max-width: 576px) {
+            main {
+                padding: 75px 12px 20px 12px;
+            }
+
             .register-card {
-                padding: 28px 20px;
-                border-radius: 20px;
+                padding: 22px 18px;
+                border-radius: 16px;
+            }
+
+            .register-header h3 {
+                font-size: 1.3rem;
+            }
+
+            .register-header p {
+                font-size: 0.8rem;
+            }
+
+            .form-control {
+                padding: 9px 12px;
+                font-size: 0.88rem;
+            }
+
+            .btn-google {
+                padding: 9px;
+                font-size: 0.85rem;
+            }
+
+            .btn-register {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* VERY SMALL MOBILE SCREENS (320px - 360px) */
+        @media (max-width: 360px) {
+            .register-card {
+                padding: 18px 14px;
+            }
+
+            .row.g-2 > div {
+                width: 100%;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -332,24 +440,28 @@
 
 <body>
 
-    <!-- ANIMATED MESH BACKGROUND -->
+    <!-- MESH BACKGROUND -->
     <div class="mesh-background">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
     </div>
 
     <!-- HEADER / NAVIGATION -->
     <header class="auth-header-nav">
-        <div class="container px-3 px-lg-4 d-flex align-items-center justify-content-between">
-            <a href="/" class="brand-text d-flex align-items-center fs-5">
+        <div class="container px-3 d-flex align-items-center justify-content-between">
+            <a href="/" class="brand-text d-flex align-items-center">
                 <i class="bi bi-journal-check me-2 brand-color-icon"></i>testborbaza<span class="brand-color-text">.uz</span>
             </a>
+
+            <!-- KUN / TUN REJIM TUGMASI -->
+            <button class="theme-toggle-btn" id="theme-toggle" title="Rejimni o'zgartirish">
+                <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
+            </button>
         </div>
     </header>
 
-    <!-- MAIN REGISTER FORM CARD -->
-    <main class="w-100 d-flex align-items-center justify-content-center py-5 my-auto">
+    <!-- MAIN CENTERED CONTENT -->
+    <main>
         <div class="register-card">
             
             <div class="register-header">
@@ -358,7 +470,7 @@
             </div>
 
             <!-- GOOGLE OAUTH BUTTON -->
-            <a href="/accounts/google/login/" class="btn-google">
+            <a href="{% provider_login_url 'google' %}" class="btn-google">
                 <svg width="18" height="18" viewBox="0 0 24 24">
                     <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.3 9 5 12 5z"/>
                     <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/>
@@ -376,26 +488,26 @@
                 {% csrf_token %}
                 
                 <div class="row g-2">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-6 mb-2">
                         <label for="id_first_name" class="form-label">Ism</label>
                         <input type="text" id="id_first_name" class="form-control" placeholder="Ismingiz" required>
                         <div class="invalid-feedback" id="error_first_name"></div>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-6 mb-2">
                         <label for="id_last_name" class="form-label">Familiya</label>
                         <input type="text" id="id_last_name" class="form-control" placeholder="Familiyangiz" required>
                         <div class="invalid-feedback" id="error_last_name"></div>
                     </div>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-2">
                     <label for="id_email" class="form-label">Email manzilingiz</label>
                     <input type="email" id="id_email" class="form-control" placeholder="example@gmail.com" required>
                     <div class="invalid-feedback" id="error_email"></div>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-3">
                     <label for="id_password" class="form-label">Maxfiy parol</label>
                     <div class="input-group-custom">
                         <input type="password" id="id_password" class="form-control" placeholder="••••••••" required>
@@ -413,7 +525,7 @@
             </form>
 
             <p class="footer-text">
-                Allaqachon ro'yxatdan o me'yordami? <a href="{% url 'login' %}">Tizimga kirish</a>
+                Allaqachon ro'yxatdan o'tganmisiz? <a href="{% url 'login' %}">Tizimga kirish</a>
             </p>
         </div>
     </main>
@@ -422,6 +534,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        // --- DYNAMIC DARK/LIGHT THEME SYNCHRONIZATION ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        // Sync with localStorage across pages (home, register, etc.)
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-bs-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                let currentTheme = htmlElement.getAttribute('data-bs-theme');
+                let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
+                htmlElement.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateIcon(newTheme);
+            });
+        }
+
+        function updateIcon(theme) {
+            if (themeIcon) {
+                themeIcon.className = (theme === 'dark') ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
+            }
+        }
+
         // --- PASSWORD VISIBILITY TOGGLE ---
         const togglePasswordBtn = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('id_password');
