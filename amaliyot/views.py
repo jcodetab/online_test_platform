@@ -39,7 +39,7 @@ from rest_framework.throttling import AnonRateThrottle
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from google import genai
-from .models import Test, Question, Option, Category
+from .models import Test, Question, Option
 
 
 
@@ -47,32 +47,20 @@ from .models import Test, Question, Option, Category
 
 @login_required
 def ai_test_generator_view(request):
-    categories = Category.objects.all()
-
     if request.method == 'POST':
         title = request.POST.get('title')
-        category_id = request.POST.get('category')
-        test_type = request.POST.get('test_type')  # 'standard', 'kazus', 'closed'
+        test_type = request.POST.get('test_type')  
         topic = request.POST.get('topic')
         q_count = int(request.POST.get('q_count', 5))
         duration = int(request.POST.get('duration', 10))
-        secret_code = request.POST.get('secret_code', '')
 
-        if not title or not category_id or not topic:
+        if not title or not topic:
             messages.error(request, "Iltimos, barcha majburiy maydonlarni to'ldiring!")
-            return render(request, 'ai_generator.html', {'categories': categories})
+            return render(request, 'ai_generator.html')
 
-        try:
-            category = Category.objects.get(id=category_id)
-        except Category.DoesNotExist:
-            messages.error(request, "Tanlangan kategoriya topilmadi.")
-            return render(request, 'ai_generator.html', {'categories': categories})
-
-        # Gemini API Klientini ishga tushirish (API kalit belgilangan bo'lishi kerak)
         api_key = os.environ.get("GEMINI_API_KEY", "YOUR_GEMINI_API_KEY_HERE")
         client = genai.Client(api_key=api_key)
 
-        # AI uchun maxsus ko'rsatmalardan iborat Prompt
         kazus_instruction = ""
         if test_type == 'kazus':
             kazus_instruction = (
@@ -90,16 +78,15 @@ def ai_test_generator_view(request):
         Savollar soni: {q_count}
         {kazus_instruction}
 
-        Javobni FAQAT va FAQAT toza JSON formatida qaytaring (hech qanday qo'shimcha tushuntirish, prefiks va suffikslarsiz).
-        Struktura aniq quyidagicha bo'lishi SHART:
+        Javobni FAQAT toza JSON formatida qaytaring:
         [
           {{
-            "question": "Savol yoki Kazus matni...",
+            "question": "Savol matni...",
             "options": [
-              {{"text": "A variant matni", "is_correct": false}},
-              {{"text": "B variant matni (To'g'ri javob)", "is_correct": true}},
-              {{"text": "C variant matni", "is_correct": false}},
-              {{"text": "D variant matni", "is_correct": false}}
+              {{"text": "A variant", "is_correct": false}},
+              {{"text": "B variant (To'g'ri)", "is_correct": true}},
+              {{"text": "C variant", "is_correct": false}},
+              {{"text": "D variant", "is_correct": false}}
             ]
           }}
         ]
@@ -111,31 +98,17 @@ def ai_test_generator_view(request):
                 contents=prompt,
             )
 
-            # JSON matnini tozalash
             clean_json = response.text.replace('```json', '').replace('```', '').strip()
             questions_data = json.loads(clean_json)
 
-            # Kartochkada ko'rinadigan yaratish manbasi/toifasi
-            creation_source_map = {
-                'standard': "ODDIY TEST (AI GENERATOR)",
-                'kazus': "KAZUS TEST (AI GENERATOR)",
-                'closed': "YOPIQ TEST (AI GENERATOR)"
-            }
-            source_tag = creation_source_map.get(test_type, "AI GENERATOR")
-
-            # 1. Yangi Test obyektini yaratish
+            # Yangi Test obyektini yaratish (Category siz)
             new_test = Test.objects.create(
                 title=title,
-                category=category,
                 author=request.user,
                 duration=duration,
-                is_active=True,
-                # Modellaringizdagi mos maydonlarga biriktiring:
-                # creation_type=source_tag,
-                # secret_code=secret_code if test_type == 'closed' else None
+                is_active=True
             )
 
-            # 2. Savollar va variantlarni bazaga saqlash
             for q_item in questions_data:
                 question = Question.objects.create(
                     test=new_test,
@@ -148,14 +121,14 @@ def ai_test_generator_view(request):
                         is_correct=opt['is_correct']
                     )
 
-            messages.success(request, f"✨ '{title}' testi ({len(questions_data)} ta savol) AI orqali muvaffaqiyatli yaratildi!")
+            messages.success(request, f"✨ '{title}' testi ({len(questions_data)} ta savol) muvaffaqiyatli yaratildi!")
             return redirect('tests')
 
         except Exception as e:
             messages.error(request, f"AI test yaratishda xatolik yuz berdi: {str(e)}")
-            return render(request, 'ai_generator.html', {'categories': categories})
+            return render(request, 'ai_generator.html')
 
-    return render(request, 'ai_generator.html', {'categories': categories})
+    return render(request, 'registration/ai_generator.html')
 
 
 User = get_user_model()

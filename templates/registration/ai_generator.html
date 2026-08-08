@@ -88,17 +88,7 @@
           </div>
 
           <div class="row g-3 mb-3">
-            <div class="col-md-6">
-              <label class="form-label fw-bold small">Kategoriya <span class="text-danger">*</span></label>
-              <select name="category" class="form-select" required>
-                <option value="" selected disabled>Kategoriyani tanlang...</option>
-                {% for cat in categories %}
-                  <option value="{{ cat.id }}">{{ cat.name }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <div class="col-md-6">
+            <div class="col-12">
               <label class="form-label fw-bold small">Test Turi / Toifasi <span class="text-danger">*</span></label>
               <select name="test_type" id="testTypeSelect" class="form-select" required onchange="toggleSecretCode()">
                 <option value="standard">Oddiy Test (A, B, C, D)</option>
