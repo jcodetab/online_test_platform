@@ -76,6 +76,9 @@ groups_router.register(r'participants', OlympiadParticipantViewSet, basename='gr
 
 urlpatterns = [
 
+
+    path('accounts/', include('allauth.urls')),
+
     path('api/start-test/', views.start_test, name='api_start_test'),
     path('api/save-answer/', views.api_save_answer, name='api_save_answer'),
     path('api/test/finish/', FinishTestView.as_view(), name='finish-test'),

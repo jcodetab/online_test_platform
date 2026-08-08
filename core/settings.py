@@ -70,7 +70,14 @@ SESSION_COOKIE_HTTPONLY = True
 INSTALLED_APPS = [
 
     'unfold',
+    'unfold.contrib.filters',  # (ixtiyoriy) saralash va filtrlar uchun
+    'unfold.contrib.forms',
     'jazzmin',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
 
     'daphne',
@@ -80,12 +87,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     
 
     'myapp_messages',  
     'accounts',
     'amaliyot',
-    'fastapi',
+    # 'fastapi',
     'widget_tweaks',
     'openpyxl',
     'rest_framework',
@@ -102,11 +110,32 @@ INSTALLED_APPS = [
     'xlrd',
     'pandas',
     
-
-    
-    
-    
 ]
+
+SITE_ID = 1
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Google orqali kirgandan keyin qaerga yo'naltirilsin:
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+# Email va profil ma'lumotlarini olish uchun scope:
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 
 ASGI_APPLICATION = "core.asgi.application"
@@ -123,13 +152,14 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware', # 1. Sessiya boshida
-    'corsheaders.middleware.CorsMiddleware',                 # 🔥 CORS endi shu yerda bo'lishi shart!
-    'django.middleware.common.CommonMiddleware',             # 3. Common middleware
+    'django.contrib.sessions.middleware.SessionMiddleware', 
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware', 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 
