@@ -283,19 +283,19 @@
             z-index: 1;
         }
 
-        /* 1. Cyber Dot-Matrix Grid */
+        /* 2-Uslub: Ultra-Minimal Neon Stroke */
 .modern-backdrop-shape {
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 85%;
+    width: 80%;
     height: 85%;
-    background-image: radial-gradient(#10b981 1.5px, transparent 1.5px);
-    background-size: 20px 20px;
+    background: transparent;
+    border: 2px solid #10b981;
+    border-radius: 180px 180px 30px 30px;
     z-index: 1;
-    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), inset 0 0 20px rgba(16, 185, 129, 0.2);
 }
 
         .modern-backdrop-shape::before {
