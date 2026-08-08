@@ -283,18 +283,19 @@
             z-index: 1;
         }
 
-        /* 4-Uslub: Glowing Neon Polygon (Ko'p Burchakli IT-Prizma) */
+        /* 1. Cyber Dot-Matrix Grid */
 .modern-backdrop-shape {
     position: absolute;
-    bottom: 15px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 85%;
     height: 85%;
-    background: linear-gradient(135deg, #059669 0%, #008675 50%, #022C22 100%);
-    clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 100%, 0% 100%, 0% 25%);
+    background-image: radial-gradient(#10b981 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
     z-index: 1;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
 }
 
         .modern-backdrop-shape::before {
