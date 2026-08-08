@@ -27,7 +27,7 @@
   </script>
 
   <style>
-    /* DYNAMIC THEMES (TUN / KUN) - REGISTER.HTML BILAN BIRXIL */
+    /* DYNAMIC THEMES (TUN / KUN) */
     :root, [data-bs-theme="dark"] {
       --bg-canvas: #090D16;
       --card-bg: rgba(15, 23, 42, 0.85);
@@ -39,7 +39,11 @@
       --text-muted: #94A3B8;
       --input-bg: rgba(255, 255, 255, 0.05);
       --nav-toggle-bg: rgba(255, 255, 255, 0.08);
-      --sidebar-bg: rgba(15, 23, 42, 0.95);
+      
+      /* TO'Q ZUMRAD SIDEBAR */
+      --sidebar-bg: linear-gradient(180deg, #004D43 0%, #002B25 100%);
+      --sidebar-text: #E6F8F5;
+      --sidebar-active-bg: rgba(0, 230, 192, 0.18);
       --blob-opacity: 0.35;
     }
 
@@ -48,13 +52,16 @@
       --card-bg: #FFFFFF;
       --card-border: #E2E8F0;
       --brand-primary: #008675;
-      --brand-glow: rgba(0, 134, 117, 0.2);
+      --brand-glow: rgba(0, 134, 117, 0.25);
       --brand-hover: #007063;
       --text-main: #0F172A;
       --text-muted: #64748B;
       --input-bg: #F8FAFC;
       --nav-toggle-bg: #E2E8F0;
-      --sidebar-bg: #FFFFFF;
+      
+      --sidebar-bg: linear-gradient(180deg, #00685B 0%, #00443B 100%);
+      --sidebar-text: #FFFFFF;
+      --sidebar-active-bg: rgba(255, 255, 255, 0.2);
       --blob-opacity: 0.15;
     }
 
@@ -115,18 +122,18 @@
       100% { transform: translate(-30px, 40px) scale(0.95); }
     }
 
-    /* SIDEBAR */
+    /* PREMIUM TO'Q ZUMRAD SIDEBAR */
     .sidebar {
       width: 260px;
       background: var(--sidebar-bg);
-      backdrop-filter: blur(20px);
-      border-right: 1px solid var(--card-border);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
       min-height: 100vh;
       transition: all 0.3s ease-in-out;
       position: fixed;
       z-index: 1050;
       left: -260px;
       padding: 20px 15px;
+      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
     }
 
     .sidebar.show { left: 0; }
@@ -134,44 +141,51 @@
     .brand-logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 1.2rem;
-      color: var(--text-main);
+      font-size: 1.25rem;
+      color: #FFFFFF !important;
       text-decoration: none;
+      letter-spacing: -0.5px;
     }
 
     .brand-icon-box {
       width: 42px;
       height: 42px;
       border-radius: 12px;
-      background: var(--nav-toggle-bg);
-      color: var(--brand-primary);
+      background: rgba(255, 255, 255, 0.15);
+      color: #00FFD5;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       font-size: 1.1rem;
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .sidebar .nav-link, .sidebar .dash-card {
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.8) !important;
       text-decoration: none;
       padding: 10px 14px;
-      margin: 3px 0;
+      margin: 4px 0;
       border-radius: 12px;
       display: flex;
       align-items: center;
       gap: 12px;
       font-size: 0.9rem;
       font-weight: 600;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
-    .sidebar .nav-link:hover, .sidebar .dash-card:hover,
-    .sidebar .nav-link.active {
-      background: var(--nav-toggle-bg);
-      color: var(--brand-primary);
+    .sidebar .nav-link:hover, .sidebar .dash-card:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF !important;
       transform: translateX(4px);
+    }
+
+    .sidebar .nav-link.active {
+      background: var(--sidebar-active-bg) !important;
+      color: #00FFD5 !important;
+      border: 1px solid rgba(0, 255, 213, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 230, 192, 0.2);
     }
 
     /* MAIN CONTENT */
@@ -192,18 +206,18 @@
       .sidebar-overlay { display: none !important; }
     }
 
-    /* HEADER ACTIONS & THEME TOGGLE */
+    /* HEADER ACTIONS */
     .header-actions {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .theme-toggle-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background-color: var(--nav-toggle-bg);
+    .theme-toggle-btn, .notification-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background-color: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--brand-primary);
       display: flex;
@@ -211,42 +225,55 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.25s ease;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
+      position: relative;
     }
 
-    .theme-toggle-btn:hover {
+    .theme-toggle-btn:hover, .notification-btn:hover {
       transform: scale(1.05);
-      color: var(--text-main);
+      border-color: var(--brand-primary);
     }
 
-    /* USER AVATAR & DROPDOWN */
+    .notification-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background-color: #FF5252;
+      border-radius: 50%;
+    }
+
+    /* USER PROFILE */
     .user-avatar-circle {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-hover) 100%);
       color: #FFFFFF;
-      border-radius: 10px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
+      border: 1px solid var(--card-border);
     }
 
     [data-bs-theme="dark"] .user-avatar-circle {
       color: #090D16;
     }
 
-    .dropdown-menu {
+    .dropdown-menu-custom {
       background: var(--card-bg) !important;
       border: 1px solid var(--card-border) !important;
       backdrop-filter: blur(20px);
       border-radius: 14px !important;
       padding: 8px !important;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+      min-width: 220px;
     }
 
-    .dropdown-item {
+    .dropdown-menu-custom .dropdown-item {
       color: var(--text-main) !important;
       border-radius: 8px !important;
       padding: 8px 12px !important;
@@ -255,38 +282,118 @@
       transition: all 0.2s ease;
     }
 
-    .dropdown-item:hover {
+    .dropdown-menu-custom .dropdown-item:hover {
       background: var(--nav-toggle-bg) !important;
       color: var(--brand-primary) !important;
     }
 
-    /* GLASS CARDS */
+    /* QUICK ACTIONS BANNER & PROGRESS BAR */
+    .welcome-banner {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 26px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.25);
+    }
+
+    .progress-emerald {
+      height: 8px;
+      border-radius: 10px;
+      background: var(--nav-toggle-bg);
+      overflow: hidden;
+    }
+
+    .progress-bar-emerald {
+      background: linear-gradient(90deg, var(--brand-primary) 0%, #00FFD5 100%);
+      border-radius: 10px;
+      transition: width 1s ease-in-out;
+    }
+
+    .btn-quick-primary {
+      background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-hover) 100%);
+      color: #FFFFFF !important;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 6px 20px var(--brand-glow);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    [data-bs-theme="dark"] .btn-quick-primary {
+      color: #090D16 !important;
+    }
+
+    .btn-quick-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px var(--brand-glow);
+    }
+
+    .btn-quick-outline {
+      background: var(--nav-toggle-bg);
+      color: var(--text-main) !important;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-quick-outline:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary) !important;
+      transform: translateY(-2px);
+    }
+
+    /* CARD HOVER GLASS EFFECT & DYNAMIC GLOW */
     .card-stats, .card {
       background: var(--card-bg) !important;
       border: 1px solid var(--card-border) !important;
       border-radius: 18px !important;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.3) !important;
+      box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.2) !important;
       color: var(--text-main) !important;
-      transition: transform 0.25s ease, border-color 0.25s ease;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
 
     .card-stats:hover {
-      transform: translateY(-3px);
-      border-color: var(--brand-glow) !important;
+      transform: translateY(-4px) scale(1.01);
+      border-color: var(--brand-primary) !important;
+      box-shadow: 0 15px 30px -5px var(--brand-glow) !important;
     }
 
     .stat-icon {
       width: 48px;
       height: 48px;
-      border-radius: 12px;
+      border-radius: 14px;
       background: var(--nav-toggle-bg);
       color: var(--brand-primary);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 22px;
+      transition: all 0.3s ease;
+    }
+
+    .card-stats:hover .stat-icon {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+    }
+
+    [data-bs-theme="dark"] .card-stats:hover .stat-icon {
+      color: #090D16;
     }
 
     .small-muted {
@@ -341,11 +448,11 @@
     }
     .sidebar-overlay.show { display: block; }
 
-    /* MOBILE ADAPTIVITY */
     @media (max-width: 576px) {
       main { padding: 12px; }
       .stat-icon { width: 40px; height: 40px; font-size: 18px; }
       .user-details { display: none; }
+      .welcome-banner { padding: 18px; }
     }
   </style>
 </head>
@@ -359,12 +466,12 @@
 
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- SIDEBAR -->
+  <!-- PREMIUM TO'Q ZUMRAD SIDEBAR -->
   <aside class="sidebar p-3">
-    <div class="d-flex align-items-center mb-4 pb-2 border-bottom border-secondary border-opacity-25">
+    <div class="d-flex align-items-center mb-4 pb-2 border-bottom border-white border-opacity-10">
       <div class="brand-icon-box me-2">TP</div>
       <div>
-        <a href="/" class="brand-logo">Test Platforma</a>
+        <a href="/" class="brand-logo">testborbaza<span style="color: #00FFD5;">.uz</span></a>
       </div>
     </div>
 
@@ -384,7 +491,7 @@
   <!-- MAIN CONTENT -->
   <main class="flex-grow-1">
     
-    <!-- TOPBAR WITH USER PROFILE & KUN/TUN TOGGLE -->
+    <!-- TOPBAR WITH NOTIFICATION, THEME & USER PROFILE -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div class="d-flex align-items-center">
         <button class="btn theme-toggle-btn d-lg-none me-2" id="btnToggleSidebar">
@@ -395,6 +502,33 @@
 
       <!-- RIGHT HEADER ACTIONS -->
       <div class="header-actions">
+        
+        <!-- NOTIFICATION BELL WITH BADGE & DROPDOWN -->
+        <div class="dropdown">
+          <button class="notification-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Xabarnomalar">
+            <i class="bi bi-bell-fill"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-custom shadow border-0 mt-2 p-2" aria-labelledby="notifDropdown">
+            <li class="p-2 fw-bold border-bottom border-secondary border-opacity-25 fs-6 d-flex align-items-center justify-content-between">
+              <span>Xabarnomalar</span>
+              <span class="badge bg-success rounded-pill" style="font-size: 10px;">2 yangi</span>
+            </li>
+            <li>
+              <a class="dropdown-item py-2 border-bottom border-secondary border-opacity-10 mt-1" href="#">
+                <div class="fw-bold text-success fs-6"><i class="bi bi-trophy me-1"></i> Yangi Olimpiada!</div>
+                <div class="small text-muted" style="font-size: 11px;">Matematika olimpiadasi ro'yxatdan o'tish boshlandi.</div>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item py-2" href="#">
+                <div class="fw-bold text-info fs-6"><i class="bi bi-people me-1"></i> Guruhga taklif</div>
+                <div class="small text-muted" style="font-size: 11px;">Siz "B2 Ingliz tili" guruhiga taklif qilindingiz.</div>
+              </a>
+            </li>
+          </ul>
+        </div>
+
         <!-- KUN / TUN REJIM TUGMASI -->
         <button class="theme-toggle-btn" id="theme-toggle" title="Rejimni o'zgartirish">
           <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
@@ -415,7 +549,7 @@
             </div>
           </a>
 
-          <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="userMenu">
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-custom shadow border-0 mt-2" aria-labelledby="userMenu">
             <li>
               <a class="dropdown-item py-2" href="{% url 'profile-page' %}">
                 <i class="bi bi-person me-2" style="color: var(--brand-primary);"></i> Profil
@@ -432,7 +566,44 @@
       </div>
     </div>
 
-    <!-- STATS GRID -->
+    <!-- WELCOME BANNER WITH QUICK ACTIONS & PROGRESS BAR -->
+    <div class="welcome-banner mb-4">
+      <div class="row align-items-center g-3">
+        <div class="col-lg-7">
+          <h3 class="fw-extrabold mb-1 fs-3" style="color: var(--text-main);">Xush kelibsiz, {{ user.first_name|default:user.username }}! 👋</h3>
+          <p class="text-muted mb-3 fs-6">Bilimingizni oshirishda davom eting. So'nggi ko'rsatkichlaringiz yuqori!</p>
+
+          <!-- PROGRESS BAR (O'SISH GRAFIGI) -->
+          <div class="mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="small-muted fw-bold"><i class="bi bi-graph-up-arrow me-1" style="color: var(--brand-primary);"></i> O'rtacha o'zlashtirish foizi</span>
+              <span class="fw-bold fs-6" style="color: var(--brand-primary);">85%</span>
+            </div>
+            <div class="progress-emerald">
+              <div class="progress-bar-emerald h-100" style="width: 85%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK ACTIONS BUTTONS -->
+        <div class="col-lg-5 text-lg-end d-flex flex-wrap gap-2 justify-content-lg-end">
+          <a href="{% url 'tests' %}" class="btn-quick-primary">
+            <i class="bi bi-play-circle-fill"></i>
+            <span>Yangi test yechish</span>
+          </a>
+          <button class="btn-quick-outline" data-bs-toggle="modal" data-bs-target="#joinCodeModal">
+            <i class="bi bi-key-fill"></i>
+            <span>Kod orqali birikish</span>
+          </button>
+          <a href="{% url 'ranking' %}" class="btn-quick-outline">
+            <i class="bi bi-trophy-fill"></i>
+            <span>Reyting</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS GRID WITH HOVER GLOW EFFECT -->
     <div class="row g-3 mb-4">
       <div class="col-6 col-md-3">
         <div class="card card-stats p-3">
@@ -555,6 +726,23 @@
       </div>
     </div>
   </main>
+
+  <!-- MODAL: KOD ORQALI BIRIKISH -->
+  <div class="modal fade" id="joinCodeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 20px;">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold"><i class="bi bi-key-fill me-2" style="color: var(--brand-primary);"></i> Yopiq testga birikish</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <p class="text-muted small mb-3">Sizga berilgan maxsus kirish kodini kiriting:</p>
+          <input type="text" class="form-control mb-3" placeholder="Masalan: TEST-12345" style="background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 12px; padding: 12px;">
+          <button type="button" class="btn-quick-primary w-100 justify-content-center">Birikish va Boshlash</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
