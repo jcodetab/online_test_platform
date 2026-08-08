@@ -279,15 +279,7 @@
     <nav class="nav flex-column gap-1">
       <a class="nav-link active" href="#"><i class="bi bi-speedometer2"></i> Dashboard  </a>
   
-<!-- AI Test Generator Tugmasi (Yangi va ajralib turadigan uslubda) -->
-<a class="nav-link text-info fw-bold d-flex align-items-center justify-content-between mb-2" 
-   href="{% url 'ai-generator-page' %}" 
-   style="background: rgba(13, 202, 240, 0.12); border: 1px solid rgba(13, 202, 240, 0.3); border-radius: 10px; padding: 10px 14px;">
-  <span><i class="bi bi-cpu-fill me-2"></i> AI Test Generator</span>
-  <span class="badge bg-info text-dark" style="font-size: 9px; padding: 3px 6px;">YANGI ✨</span>
-</a>
-
-<a class="nav-link" href="{% url 'tests' %}">
+    <a class="nav-link" href="{% url 'tests' %}">
   <i class="bi bi-list-task"></i> Testlar
 </a>
 <a class="nav-link" href="{% url 'kazus_tests' %}">
@@ -305,16 +297,17 @@
 <a class="nav-link" href="{% url 'ranking' %}">
   <i class="bi bi-bar-chart"></i> Reyting
 </a>
-<a class="nav-link" href="{% url 'group-page' %}">
-  <i class="bi bi-people"></i> Guruhlar
+  <a class="nav-link" href="{% url 'group-page' %}">
+    <i class="bi bi-people"></i> Guruhlar
 </a>
-<a class="nav-link" href="{% url 'olympiad-page' %}">
-  <i class="bi bi-trophy"></i> Olimpiadalar
+
+    <a class="nav-link" href="{% url 'olympiad-page' %}">
+    <i class="bi bi-trophy"></i> Olimpiadalar
 </a>
-<!-- <a class="nav-link" href="#users"><i class="bi bi-person"></i> Foydalanuvchilar</a>
-<a class="nav-link" href="#payments"><i class="bi bi-credit-card"></i> To‘lovlar</a> -->
-<a class="nav-link" href="{% url 'profile-page' %}">
-  <i class="bi bi-person-circle"></i> Profil
+      <!-- <a class="nav-link" href="#users"><i class="bi bi-person"></i> Foydalanuvchilar</a>
+      <a class="nav-link" href="#payments"><i class="bi bi-credit-card"></i> To‘lovlar</a> -->
+      <a class="nav-link" href="{% url 'profile-page' %}">
+    <i class="bi bi-person-circle"></i> Profil
 </a>
       <hr class="text-light">
      
