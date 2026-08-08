@@ -283,19 +283,20 @@
             z-index: 1;
         }
 
-        /* 2-Uslub: Ultra-Minimal Neon Stroke */
+        /* 3-Uslub: Multi-Layer Floating Glass Badges */
 .modern-backdrop-shape {
     position: absolute;
-    bottom: 10px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%;
-    height: 85%;
-    background: transparent;
-    border: 2px solid #10b981;
-    border-radius: 180px 180px 30px 30px;
+    width: 85%;
+    height: 80%;
+    background: rgba(16, 185, 129, 0.08);
+    backdrop-filter: blur(16px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 1;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), inset 0 0 20px rgba(16, 185, 129, 0.2);
+    box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.1);
 }
 
         .modern-backdrop-shape::before {
