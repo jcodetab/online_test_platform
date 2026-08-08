@@ -82,7 +82,7 @@ urlpatterns = [
 
 
     path('api/dashboard/stats/', DashboardStatsAPIView.as_view(), name='dashboard-stats'),
-    path('api/password-reset/', PasswordResetAPIView.as_view(), name='password_reset_api'),
+    path('api/password-reset/', PasswordResetAPIView.as_view(), name='password_reset'),
 
 
 

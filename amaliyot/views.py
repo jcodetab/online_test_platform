@@ -35,6 +35,7 @@ from accounts.models import User
 from .serializers import DashboardStatsSerializer
 from django.contrib.auth.forms import PasswordResetForm
 from rest_framework import permissions
+from rest_framework.throttling import AnonRateThrottle
 
 
 
@@ -110,6 +111,7 @@ class LoginAPIView(APIView):
 class PasswordResetAPIView(APIView):
     permission_classes = [permissions.AllowAny]
     authentication_classes = []
+    throttle_classes = [AnonRateThrottle]  # Spam/Brute-force hujumlarining oldini olish uchun (Rate limit)
 
     def post(self, request):
         email = request.data.get('email')
@@ -123,11 +125,12 @@ class PasswordResetAPIView(APIView):
                 use_https=request.is_secure(),
                 email_template_name='registration/password_reset_email.html'
             )
-            return Response(
-                {"detail": "Parolni tiklash havolasi emailingizga yuborildi."}, 
-                status=status.HTTP_200_OK
-            )
-        return Response({"error": "Ushbu email bo'yicha foydalanuvchi topilmadi"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Xavfsizlik standarti: Email topilsa ham, topilmasa ham bir xil javob qaytariladi
+        return Response(
+            {"detail": "Agar ushbu email tizimda mavjud bo'lsa, parolni tiklash havolasi yuborildi."}, 
+            status=status.HTTP_200_OK
+        )
     
 
 def logout_view(request):
