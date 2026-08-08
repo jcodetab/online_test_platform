@@ -36,10 +36,126 @@ from .serializers import DashboardStatsSerializer
 from django.contrib.auth.forms import PasswordResetForm
 from rest_framework import permissions
 from rest_framework.throttling import AnonRateThrottle
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from google import genai
+from .models import Test, Question, Option, Category
 
 
 
 
+
+@login_required
+def ai_test_generator_view(request):
+    categories = Category.objects.all()
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        category_id = request.POST.get('category')
+        test_type = request.POST.get('test_type')  # 'standard', 'kazus', 'closed'
+        topic = request.POST.get('topic')
+        q_count = int(request.POST.get('q_count', 5))
+        duration = int(request.POST.get('duration', 10))
+        secret_code = request.POST.get('secret_code', '')
+
+        if not title or not category_id or not topic:
+            messages.error(request, "Iltimos, barcha majburiy maydonlarni to'ldiring!")
+            return render(request, 'ai_generator.html', {'categories': categories})
+
+        try:
+            category = Category.objects.get(id=category_id)
+        except Category.DoesNotExist:
+            messages.error(request, "Tanlangan kategoriya topilmadi.")
+            return render(request, 'ai_generator.html', {'categories': categories})
+
+        # Gemini API Klientini ishga tushirish (API kalit belgilangan bo'lishi kerak)
+        api_key = os.environ.get("GEMINI_API_KEY", "YOUR_GEMINI_API_KEY_HERE")
+        client = genai.Client(api_key=api_key)
+
+        # AI uchun maxsus ko'rsatmalardan iborat Prompt
+        kazus_instruction = ""
+        if test_type == 'kazus':
+            kazus_instruction = (
+                "Har bir savol alohida vaziyatli yuridik yoki amaliy KAZUS shaklida bo'lsin. "
+                "Savolda aniq holat (kazus) keltirilib, uning huquqiy va mantiqiy yechimi so'ralsin."
+            )
+
+        prompt = f"""
+        Siz professional ta'lim va imtihon testlari mutaxassisisiz.
+        Menga quyidagi parametrlar bo'yicha sifatli va aniq testlar tuzib bering:
+
+        Test Nomi: {title}
+        Mavzu / Yo'nalish: {topic}
+        Test Turi: {test_type}
+        Savollar soni: {q_count}
+        {kazus_instruction}
+
+        Javobni FAQAT va FAQAT toza JSON formatida qaytaring (hech qanday qo'shimcha tushuntirish, prefiks va suffikslarsiz).
+        Struktura aniq quyidagicha bo'lishi SHART:
+        [
+          {{
+            "question": "Savol yoki Kazus matni...",
+            "options": [
+              {{"text": "A variant matni", "is_correct": false}},
+              {{"text": "B variant matni (To'g'ri javob)", "is_correct": true}},
+              {{"text": "C variant matni", "is_correct": false}},
+              {{"text": "D variant matni", "is_correct": false}}
+            ]
+          }}
+        ]
+        """
+
+        try:
+            response = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=prompt,
+            )
+
+            # JSON matnini tozalash
+            clean_json = response.text.replace('```json', '').replace('```', '').strip()
+            questions_data = json.loads(clean_json)
+
+            # Kartochkada ko'rinadigan yaratish manbasi/toifasi
+            creation_source_map = {
+                'standard': "ODDIY TEST (AI GENERATOR)",
+                'kazus': "KAZUS TEST (AI GENERATOR)",
+                'closed': "YOPIQ TEST (AI GENERATOR)"
+            }
+            source_tag = creation_source_map.get(test_type, "AI GENERATOR")
+
+            # 1. Yangi Test obyektini yaratish
+            new_test = Test.objects.create(
+                title=title,
+                category=category,
+                author=request.user,
+                duration=duration,
+                is_active=True,
+                # Modellaringizdagi mos maydonlarga biriktiring:
+                # creation_type=source_tag,
+                # secret_code=secret_code if test_type == 'closed' else None
+            )
+
+            # 2. Savollar va variantlarni bazaga saqlash
+            for q_item in questions_data:
+                question = Question.objects.create(
+                    test=new_test,
+                    text=q_item['question']
+                )
+                for opt in q_item['options']:
+                    Option.objects.create(
+                        question=question,
+                        text=opt['text'],
+                        is_correct=opt['is_correct']
+                    )
+
+            messages.success(request, f"✨ '{title}' testi ({len(questions_data)} ta savol) AI orqali muvaffaqiyatli yaratildi!")
+            return redirect('tests')
+
+        except Exception as e:
+            messages.error(request, f"AI test yaratishda xatolik yuz berdi: {str(e)}")
+            return render(request, 'ai_generator.html', {'categories': categories})
+
+    return render(request, 'ai_generator.html', {'categories': categories})
 
 
 User = get_user_model()

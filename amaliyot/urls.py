@@ -86,6 +86,7 @@ urlpatterns = [
 
     path('api/dashboard/stats/', DashboardStatsAPIView.as_view(), name='dashboard-stats'),
     path('api/password-reset/', PasswordResetAPIView.as_view(), name='password_reset'),
+    path('dashboard/ai-generator/', views.ai_test_generator_view, name='ai-generator-page'),
 
 
 

@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Test Generator — TestBorBaza</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f7fe;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #2b3674;
+    }
+    .card-ai {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #e9edf7;
+      box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+      padding: 30px;
+    }
+    .btn-ai-generate {
+      background: linear-gradient(135deg, #868CFF 0%, #4318FF 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 24px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    .btn-ai-generate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0px 10px 20px rgba(67, 24, 255, 0.3);
+      color: #fff;
+    }
+    .form-control, .form-select {
+      border-radius: 12px;
+      padding: 10px 14px;
+      border: 1px solid #e0e5f2;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #4318FF;
+      box-shadow: 0 0 0 0.25rem rgba(67, 24, 255, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+          <i class="bi bi-arrow-left me-1"></i> Dashboardga qaytish
+        </a>
+        <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="bi bi-stars me-1"></i> AI Powered</span>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show rounded-4 mb-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="card-ai">
+        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+          <div class="rounded-circle bg-primary bg-opacity-10 p-3 text-primary">
+            <i class="bi bi-cpu-fill fs-3"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0">Sun'iy Intellekt Bilan Test Yaratish</h4>
+            <p class="text-muted small mb-0">Mavzu va shartlarni kiriting, AI soniyalar ichida test yaratib bazangizga saqlaydi.</p>
+          </div>
+        </div>
+
+        <form method="POST" id="aiForm">
+          {% csrf_token %}
+          
+          <div class="mb-3">
+            <label class="form-label fw-bold small">Test Nomlanishi <span class="text-danger">*</span></label>
+            <input type="text" name="title" class="form-control" placeholder="Masalan: Fuqarolik huquqidan umumiy kazus imtihoni" required>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-bold small">Kategoriya <span class="text-danger">*</span></label>
+              <select name="category" class="form-select" required>
+                <option value="" selected disabled>Kategoriyani tanlang...</option>
+                {% for cat in categories %}
+                  <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-bold small">Test Turi / Toifasi <span class="text-danger">*</span></label>
+              <select name="test_type" id="testTypeSelect" class="form-select" required onchange="toggleSecretCode()">
+                <option value="standard">Oddiy Test (A, B, C, D)</option>
+                <option value="kazus">Kazus Test (Vaziyatli huquqiy testlar)</option>
+                <option value="closed">Yopiq Test (Maxsus kodli)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3 d-none" id="secretCodeBox">
+            <label class="form-label fw-bold small">Yopiq Test Uchun Kirish Kodi</label>
+            <input type="text" name="secret_code" class="form-control" placeholder="Masalan: KOD-9981">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold small">Mavzu yoki Manba Matni <span class="text-danger">*</span></label>
+            <textarea name="topic" class="form-control" rows="3" placeholder="AI qaysi mavzudan savollar tuzishi kerak? (Masalan: Shartnoma majburiyatlarini buzganlik uchun javobgarlik va moddiy zarar qoplami)" required></textarea>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label fw-bold small">Savollar Soni</label>
+              <select name="q_count" class="form-select">
+                <option value="5" selected>5 ta savol</option>
+                <option value="10">10 ta savol</option>
+                <option value="15">15 ta savol</option>
+                <option value="20">20 ta savol</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold small">Vaqt Chegarasi (daqiqa)</label>
+              <input type="number" name="duration" class="form-control" value="10" min="1" max="180">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-ai-generate w-100 d-flex align-items-center justify-content-center gap-2" id="btnSubmit">
+            <i class="bi bi-magic"></i>
+            <span id="btnText">Testni Yaratish va Bazaga Saqlash</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleSecretCode() {
+    const typeSelect = document.getElementById('testTypeSelect');
+    const secretBox = document.getElementById('secretCodeBox');
+    if (typeSelect.value === 'closed') {
+      secretBox.classList.remove('d-none');
+    } else {
+      secretBox.classList.add('d-none');
+    }
+  }
+
+  document.getElementById('aiForm').addEventListener('submit', function() {
+    const btn = document.getElementById('btnSubmit');
+    const btnText = document.getElementById('btnText');
+    btn.disabled = true;
+    btnText.innerText = "AI testlarni generatsiya qilmoqda, iltimos kuting...";
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> ' + btnText.innerText;
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
